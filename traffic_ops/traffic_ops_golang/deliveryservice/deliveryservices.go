@@ -270,7 +270,6 @@ func createV30(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS t
 	resultRows, err := tx.Query(insertQuery(),
 		&ds.Active,
 		&ds.AnonymousBlockingEnabled,
-		&ds.CacheURL,
 		&ds.CCRDNSTTL,
 		&ds.CDNID,
 		&ds.CheckPath,
@@ -390,7 +389,7 @@ func createV30(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS t
 
 	ds.ExampleURLs = MakeExampleURLs(ds.Protocol, *ds.Type, *ds.RoutingName, *ds.MatchList, cdnDomain)
 
-	if err := EnsureParams(tx, *ds.ID, *ds.XMLID, ds.EdgeHeaderRewrite, ds.MidHeaderRewrite, ds.RegexRemap, ds.CacheURL, ds.SigningAlgorithm, dsType, ds.MaxOriginConnections); err != nil {
+	if err := EnsureParams(tx, *ds.ID, *ds.XMLID, ds.EdgeHeaderRewrite, ds.MidHeaderRewrite, ds.RegexRemap, ds.SigningAlgorithm, dsType, ds.MaxOriginConnections); err != nil {
 		return nil, http.StatusInternalServerError, nil, errors.New("ensuring ds parameters:: " + err.Error())
 	}
 
@@ -781,7 +780,6 @@ func updateV30(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS *
 
 	resultRows, err := tx.Query(updateDSQuery(),
 		&ds.Active,
-		&ds.CacheURL,
 		&ds.CCRDNSTTL,
 		&ds.CDNID,
 		&ds.CheckPath,
@@ -908,7 +906,7 @@ func updateV30(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS *
 		}
 	}
 
-	if err := EnsureParams(tx, *ds.ID, *ds.XMLID, ds.EdgeHeaderRewrite, ds.MidHeaderRewrite, ds.RegexRemap, ds.CacheURL, ds.SigningAlgorithm, newDSType, ds.MaxOriginConnections); err != nil {
+	if err := EnsureParams(tx, *ds.ID, *ds.XMLID, ds.EdgeHeaderRewrite, ds.MidHeaderRewrite, ds.RegexRemap, ds.SigningAlgorithm, newDSType, ds.MaxOriginConnections); err != nil {
 		return nil, http.StatusInternalServerError, nil, errors.New("ensuring ds parameters:: " + err.Error())
 	}
 
@@ -1202,7 +1200,6 @@ func GetDeliveryServices(query string, queryValues map[string]interface{}, tx *s
 		cdnDomain := ""
 		err := rows.Scan(&ds.Active,
 			&ds.AnonymousBlockingEnabled,
-			&ds.CacheURL,
 			&ds.CCRDNSTTL,
 			&ds.CDNID,
 			&ds.CDNName,
@@ -1473,7 +1470,7 @@ const (
 
 // EnsureParams ensures the given delivery service's necessary parameters exist on profiles of servers assigned to the delivery service.
 // Note the edgeHeaderRewrite, midHeaderRewrite, regexRemap, and cacheURL may be nil, if the delivery service does not have those values.
-func EnsureParams(tx *sql.Tx, dsID int, xmlID string, edgeHeaderRewrite *string, midHeaderRewrite *string, regexRemap *string, cacheURL *string, signingAlgorithm *string, dsType tc.DSType, maxOriginConns *int) error {
+func EnsureParams(tx *sql.Tx, dsID int, xmlID string, edgeHeaderRewrite *string, midHeaderRewrite *string, regexRemap *string, signingAlgorithm *string, dsType tc.DSType, maxOriginConns *int) error {
 	if err := ensureHeaderRewriteParams(tx, dsID, xmlID, edgeHeaderRewrite, edgeTier, dsType, maxOriginConns); err != nil {
 		return errors.New("creating edge header rewrite parameters: " + err.Error())
 	}
@@ -1482,9 +1479,6 @@ func EnsureParams(tx *sql.Tx, dsID int, xmlID string, edgeHeaderRewrite *string,
 	}
 	if err := ensureRegexRemapParams(tx, dsID, xmlID, regexRemap); err != nil {
 		return errors.New("creating mid regex remap parameters: " + err.Error())
-	}
-	if err := ensureCacheURLParams(tx, dsID, xmlID, cacheURL); err != nil {
-		return errors.New("creating mid cacheurl parameters: " + err.Error())
 	}
 	if err := ensureURLSigParams(tx, dsID, xmlID, signingAlgorithm); err != nil {
 		return errors.New("creating urlsig parameters: " + err.Error())

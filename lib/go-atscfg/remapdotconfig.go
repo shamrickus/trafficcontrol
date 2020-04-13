@@ -39,7 +39,6 @@ type RemapConfigDSData struct {
 	Type                     tc.DSType
 	OriginFQDN               *string
 	MidHeaderRewrite         *string
-	CacheURL                 *string
 	RangeRequestHandling     *int
 	CacheKeyConfigParams     map[string]string
 	RemapText                *string
@@ -107,9 +106,8 @@ func GetServerConfigRemapDotConfigForMid(
 			continue // skip remap rules from extra HOST_REGEXP entries
 		}
 
-		// multiple uses of cacheurl and cachekey plugins don't work right in ATS, but Perl has always done it.
+		// multiple uses of cachekey plugins don't work right in ATS, but Perl has always done it.
 		// So for now, keep track of it, so we can log an error when it happens.
-		hasCacheURL := false
 		hasCacheKey := false
 
 		midRemap := ""
@@ -117,20 +115,11 @@ func GetServerConfigRemapDotConfigForMid(
 			midRemap += ` @plugin=header_rewrite.so @pparam=` + MidHeaderRewriteConfigFileName(ds.Name)
 		}
 		if ds.QStringIgnore != nil && *ds.QStringIgnore == tc.QueryStringIgnoreIgnoreInCacheKeyAndPassUp {
-			qstr, addedCacheURL, addedCacheKey := GetQStringIgnoreRemap(atsMajorVersion)
-			if addedCacheURL {
-				hasCacheURL = true
-			}
+			qstr, _, addedCacheKey := GetQStringIgnoreRemap(atsMajorVersion)
 			if addedCacheKey {
 				hasCacheKey = true
 			}
 			midRemap += qstr
-		}
-		if ds.CacheURL != nil && *ds.CacheURL != "" {
-			if hasCacheURL {
-				log.Errorln("Making remap.config for Delivery Service '" + ds.Name + "': qstring_ignore and cacheurl both add cacheurl, but ATS cacheurl doesn't work correctly with multiple entries! Adding anyway!")
-			}
-			midRemap += ` @plugin=cacheurl.so @pparam=` + CacheURLConfigFileName(ds.Name)
 		}
 
 		if ds.ProfileID != nil && len(profilesCacheKeyConfigParams[*ds.ProfileID]) > 0 {
@@ -234,9 +223,8 @@ func BuildRemapLine(cacheURLConfigParams map[string]string, atsMajorVersion int,
 		}
 	}
 
-	// multiple uses of cacheurl and cachekey plugins don't work right in ATS, but Perl has always done it.
+	// multiple uses of cachekey plugins don't work right in ATS, but Perl has always done it.
 	// So for now, keep track of it, so we can log an error when it happens.
-	hasCacheURL := false
 	hasCacheKey := false
 
 	if ds.QStringIgnore != nil {
@@ -247,23 +235,13 @@ func BuildRemapLine(cacheURLConfigParams map[string]string, atsMajorVersion int,
 			if _, globalExists := cacheURLConfigParams["location"]; globalExists {
 				log.Warnln("Making remap.config for Delivery Service '" + ds.Name + "': qstring_ignore == 1, but global cacheurl.config param exists, so skipping remap rename config_file=cacheurl.config parameter")
 			} else {
-				qstr, addedCacheURL, addedCacheKey := GetQStringIgnoreRemap(atsMajorVersion)
-				if addedCacheURL {
-					hasCacheURL = true
-				}
+				qstr, _, addedCacheKey := GetQStringIgnoreRemap(atsMajorVersion)
 				if addedCacheKey {
 					hasCacheKey = true
 				}
 				text += qstr
 			}
 		}
-	}
-
-	if ds.CacheURL != nil && *ds.CacheURL != "" {
-		if hasCacheURL {
-			log.Errorln("Making remap.config for Delivery Service '" + ds.Name + "': qstring_ignore and cacheurl both add cacheurl, but ATS cacheurl doesn't work correctly with multiple entries! Adding anyway!")
-		}
-		text += ` @plugin=cacheurl.so @pparam=` + CacheURLConfigFileName(ds.Name)
 	}
 
 	if len(cacheKeyConfigParams) > 0 {

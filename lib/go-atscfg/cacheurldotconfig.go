@@ -46,9 +46,6 @@ func DeliveryServicesToCacheURLDSes(dses []tc.DeliveryServiceNullable) map[tc.De
 			continue
 		}
 		sds := CacheURLDS{OrgServerFQDN: *ds.OrgServerFQDN, QStringIgnore: *ds.QStringIgnore}
-		if ds.CacheURL != nil {
-			sds.CacheURL = *ds.CacheURL
-		}
 		sDSes[tc.DeliveryServiceName(*ds.XMLID)] = sds
 	}
 	return sDSes

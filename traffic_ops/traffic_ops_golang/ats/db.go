@@ -523,7 +523,7 @@ func GetRemapDSDataForMid(tx *sql.Tx, serverInfo *atscfg.ServerInfo) ([]atscfg.R
 	dses := []atscfg.RemapConfigDSData{}
 	for rows.Next() {
 		d := atscfg.RemapConfigDSData{}
-		if err := rows.Scan(&d.Name, &d.ID, &d.DSCP, &d.RoutingName, &d.SigningAlgorithm, &d.QStringIgnore, &d.OriginFQDN, &d.MultiSiteOrigin, &d.RangeRequestHandling, &d.FQPacingRate, &d.OriginShield, &d.Pattern, &d.RegexType, &d.Type, &d.Domain, &d.RegexSetNumber, &d.EdgeHeaderRewrite, &d.MidHeaderRewrite, &d.RegexRemap, &d.CacheURL, &d.RemapText, &d.Protocol, &d.ProfileID, &d.AnonymousBlockingEnabled, &d.Active); err != nil {
+		if err := rows.Scan(&d.Name, &d.ID, &d.DSCP, &d.RoutingName, &d.SigningAlgorithm, &d.QStringIgnore, &d.OriginFQDN, &d.MultiSiteOrigin, &d.RangeRequestHandling, &d.FQPacingRate, &d.OriginShield, &d.Pattern, &d.RegexType, &d.Type, &d.Domain, &d.RegexSetNumber, &d.EdgeHeaderRewrite, &d.MidHeaderRewrite, &d.RegexRemap, &d.RemapText, &d.Protocol, &d.ProfileID, &d.AnonymousBlockingEnabled, &d.Active); err != nil {
 			return nil, errors.New("scanning: " + err.Error())
 		}
 		if !RemapDotConfigIncludeInactiveDeliveryServices && !d.Active {
@@ -546,7 +546,7 @@ func GetRemapDSDataForEdge(tx *sql.Tx, server *atscfg.ServerInfo) ([]atscfg.Rema
 	dses := []atscfg.RemapConfigDSData{}
 	for rows.Next() {
 		d := atscfg.RemapConfigDSData{}
-		if err := rows.Scan(&d.Name, &d.ID, &d.DSCP, &d.RoutingName, &d.SigningAlgorithm, &d.QStringIgnore, &d.OriginFQDN, &d.MultiSiteOrigin, &d.RangeRequestHandling, &d.FQPacingRate, &d.OriginShield, &d.Pattern, &d.RegexType, &d.Type, &d.Domain, &d.RegexSetNumber, &d.EdgeHeaderRewrite, &d.MidHeaderRewrite, &d.RegexRemap, &d.CacheURL, &d.RemapText, &d.Protocol, &d.ProfileID, &d.AnonymousBlockingEnabled, &d.Active); err != nil {
+		if err := rows.Scan(&d.Name, &d.ID, &d.DSCP, &d.RoutingName, &d.SigningAlgorithm, &d.QStringIgnore, &d.OriginFQDN, &d.MultiSiteOrigin, &d.RangeRequestHandling, &d.FQPacingRate, &d.OriginShield, &d.Pattern, &d.RegexType, &d.Type, &d.Domain, &d.RegexSetNumber, &d.EdgeHeaderRewrite, &d.MidHeaderRewrite, &d.RegexRemap, &d.RemapText, &d.Protocol, &d.ProfileID, &d.AnonymousBlockingEnabled, &d.Active); err != nil {
 			return nil, errors.New("scanning: " + err.Error())
 		}
 		if !RemapDotConfigIncludeInactiveDeliveryServices && !d.Active {

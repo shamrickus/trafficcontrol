@@ -124,7 +124,6 @@ func GetConfigFileServerRemapDotConfig(toData *config.TOData) (string, string, s
 				Type:                     *ds.Type,
 				OriginFQDN:               ds.OrgServerFQDN,
 				MidHeaderRewrite:         ds.MidHeaderRewrite,
-				CacheURL:                 ds.CacheURL,
 				RangeRequestHandling:     ds.RangeRequestHandling,
 				RemapText:                ds.RemapText,
 				EdgeHeaderRewrite:        ds.EdgeHeaderRewrite,
