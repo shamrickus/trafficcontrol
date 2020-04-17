@@ -37,7 +37,6 @@ func TestMakeCacheURLDotConfigWithDS(t *testing.T) {
 		"myds": CacheURLDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://mycacheurl.net",
 		},
 	}
 
@@ -56,10 +55,6 @@ func TestMakeCacheURLDotConfigWithDS(t *testing.T) {
 	if !strings.HasPrefix(strings.TrimSpace(txt), "#") {
 		t.Errorf("expected: header comment, actual: missing")
 	}
-
-	if !strings.Contains(txt, "mycacheurl") {
-		t.Errorf("expected: contains cacheurl, actual: missing")
-	}
 }
 
 func TestMakeCacheURLDotConfigGlobalFile(t *testing.T) {
@@ -73,7 +68,6 @@ func TestMakeCacheURLDotConfigGlobalFile(t *testing.T) {
 		"myds": CacheURLDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 1,
-			CacheURL:      "https://mycacheurl.net",
 		},
 	}
 
@@ -96,10 +90,6 @@ func TestMakeCacheURLDotConfigGlobalFile(t *testing.T) {
 	if !strings.Contains(txt, "myorigin") {
 		t.Errorf("expected: contains origin, actual: missing")
 	}
-
-	if strings.Contains(txt, "mycacheurl") {
-		t.Errorf("expected: global file to NOT contain cacheurl, actual: contains cacheurl")
-	}
 }
 
 func TestMakeCacheURLDotConfigGlobalFileNoQStringIgnore(t *testing.T) {
@@ -113,7 +103,6 @@ func TestMakeCacheURLDotConfigGlobalFileNoQStringIgnore(t *testing.T) {
 		"myds": CacheURLDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://mycacheurl.net",
 		},
 	}
 
@@ -136,10 +125,6 @@ func TestMakeCacheURLDotConfigGlobalFileNoQStringIgnore(t *testing.T) {
 	if strings.Contains(txt, "myorigin") {
 		t.Errorf("expected: qstring ignore 0 to omit DS, actual: '%v'", txt)
 	}
-
-	if strings.Contains(txt, "mycacheurl") {
-		t.Errorf("expected: global file to NOT contain cacheurl, actual: contains cacheurl")
-	}
 }
 
 func TestMakeCacheURLDotConfigQStringFile(t *testing.T) {
@@ -153,7 +138,6 @@ func TestMakeCacheURLDotConfigQStringFile(t *testing.T) {
 		"myds": CacheURLDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://mycacheurl.net",
 		},
 	}
 
@@ -175,9 +159,5 @@ func TestMakeCacheURLDotConfigQStringFile(t *testing.T) {
 
 	if strings.Contains(txt, "myorigin") {
 		t.Errorf("expected: qstring file to NOT contain origin, actual: '%v'", txt)
-	}
-
-	if strings.Contains(txt, "mycacheurl") {
-		t.Errorf("expected: qstring file to NOT contain cacheurl, actual: '%v'", txt)
 	}
 }

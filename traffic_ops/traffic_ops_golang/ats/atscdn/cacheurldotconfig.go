@@ -79,8 +79,7 @@ SELECT
   COALESCE((SELECT o.protocol::text || '://' || o.fqdn || rtrim(concat(':', o.port::text), ':')
     FROM origin o
     WHERE o.deliveryservice = ds.id
-    AND o.is_primary), '') as org_server_fqdn,
-  COALESCE(ds.cacheurl, '')
+    AND o.is_primary), '') as org_server_fqdn
 FROM
   deliveryservice ds
   JOIN deliveryservice_server dss on ds.id = dss.deliveryservice
@@ -98,7 +97,7 @@ WHERE
 	for rows.Next() {
 		dsName := tc.DeliveryServiceName("")
 		ds := atscfg.CacheURLDS{}
-		if err := rows.Scan(&dsName, &ds.QStringIgnore, &ds.OrgServerFQDN, &ds.CacheURL); err != nil {
+		if err := rows.Scan(&dsName, &ds.QStringIgnore, &ds.OrgServerFQDN); err != nil {
 			return nil, errors.New("scanning: " + err.Error())
 		}
 		dses[dsName] = ds

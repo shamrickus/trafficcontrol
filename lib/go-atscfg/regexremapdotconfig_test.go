@@ -37,7 +37,6 @@ func TestMakeRegexRemapDotConfig(t *testing.T) {
 		"myds": CDNDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://mycacheurl.net",
 			RegexRemap:    "myregexremap",
 		},
 	}
@@ -79,13 +78,11 @@ func TestMakeRegexRemapDotConfigUnusedDS(t *testing.T) {
 		"myds": CDNDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://mycacheurl.net",
 			RegexRemap:    "myregexremap",
 		},
 		"otherds": CDNDS{
 			OrgServerFQDN: "https://otherorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://othercacheurl.net",
 			RegexRemap:    "otherregexremap",
 		},
 	}
@@ -137,7 +134,6 @@ func TestMakeRegexRemapDotConfigReplaceReturns(t *testing.T) {
 		"myds": CDNDS{
 			OrgServerFQDN: "https://myorigin.example.net", // DS "origin_server_fqdn" is actually a URL including the scheme, the name is wrong.
 			QStringIgnore: 0,
-			CacheURL:      "https://mycacheurl.net",
 			RegexRemap:    "myregexremap__RETURN__mypostnewline",
 		},
 	}

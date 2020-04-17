@@ -76,7 +76,6 @@ func GetCDNDSes(tx *sql.Tx, cdn tc.CDNName) (map[tc.DeliveryServiceName]atscfg.C
 SELECT
   ds.xml_id,
   COALESCE(ds.qstring_ignore, 0),
-  COALESCE(ds.cacheurl, ''),
   COALESCE((SELECT o.protocol::text || '://' || o.fqdn || rtrim(concat(':', o.port::text), ':')
     FROM origin o
     WHERE o.deliveryservice = ds.id
@@ -96,7 +95,7 @@ WHERE
 	for rows.Next() {
 		dsName := tc.DeliveryServiceName("")
 		ds := atscfg.CDNDS{}
-		if err := rows.Scan(&dsName, &ds.QStringIgnore, &ds.CacheURL, &ds.OrgServerFQDN, &ds.RegexRemap); err != nil {
+		if err := rows.Scan(&dsName, &ds.QStringIgnore, &ds.OrgServerFQDN, &ds.RegexRemap); err != nil {
 			return nil, errors.New("scanning: " + err.Error())
 		}
 		dses[dsName] = ds

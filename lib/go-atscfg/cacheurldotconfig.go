@@ -32,7 +32,6 @@ const LineCommentCacheURLDotConfig = LineCommentHash
 type CacheURLDS struct {
 	OrgServerFQDN string
 	QStringIgnore int
-	CacheURL      string
 }
 
 func DeliveryServicesToCacheURLDSes(dses []tc.DeliveryServiceNullable) map[tc.DeliveryServiceName]CacheURLDS {
@@ -99,11 +98,10 @@ func MakeCacheURLDotConfig(
 	// TODO verify prefix and suffix exist, and warn if they don't? Perl doesn't
 	dsName := tc.DeliveryServiceName(strings.TrimSuffix(strings.TrimPrefix(fileName, "cacheurl_"), ".config"))
 
-	ds, ok := dses[dsName]
+	_, ok := dses[dsName]
 	if !ok {
 		return text // TODO warn? Perl doesn't
 	}
-	text += ds.CacheURL + "\n"
 	text = strings.Replace(text, `__RETURN__`, "\n", -1)
 	return text
 }

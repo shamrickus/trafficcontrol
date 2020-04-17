@@ -32,7 +32,6 @@ const LineCommentRegexRemapDotConfig = LineCommentHash
 type CDNDS struct {
 	OrgServerFQDN string
 	QStringIgnore int
-	CacheURL      string
 	RegexRemap    string
 }
 

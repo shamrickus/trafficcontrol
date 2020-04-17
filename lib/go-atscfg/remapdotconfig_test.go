@@ -172,7 +172,6 @@ func TestMakeRemapDotConfigMidLiveLocalExcluded(t *testing.T) {
 			Type:                     "HTTP_LIVE",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -255,7 +254,6 @@ func TestMakeRemapDotConfigMid(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -352,7 +350,6 @@ func TestMakeRemapDotConfigNilOrigin(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr(""),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -435,7 +432,6 @@ func TestMakeRemapDotConfigEmptyOrigin(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               nil,
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -518,7 +514,6 @@ func TestMakeRemapDotConfigDuplicateOrigins(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -546,7 +541,6 @@ func TestMakeRemapDotConfigDuplicateOrigins(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite2"),
-			CacheURL:                 util.StrPtr("mycacheurl2"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname2": "cachekeyparamval2"},
 			RemapText:                util.StrPtr("myremaptext2"),
@@ -581,209 +575,6 @@ func TestMakeRemapDotConfigDuplicateOrigins(t *testing.T) {
 
 	if len(txtLines) != 2 {
 		t.Fatalf("expected 1 remap lines for multiple DSes with the same Origin (ATS can't handle multiple remaps with the same origin FQDN), actual: '%v' count %v", txt, len(txtLines))
-	}
-}
-
-func TestMakeRemapDotConfigNilMidRewrite(t *testing.T) {
-	serverName := tc.CacheName("server0")
-	toToolName := "to0"
-	toURL := "trafficops.example.net"
-	atsMajorVersion := 7
-
-	cacheURLConfigParams := map[string]string{
-		"not_location": "notinconfig",
-	}
-
-	dsProfilesCacheKeyConfigParams := map[int]map[string]string{
-		46: map[string]string{
-			"cachekeykey": "cachekeyval",
-		},
-	}
-
-	serverPackageParamData := map[string]string{
-		"serverpkgval": "serverpkgval __HOSTNAME__ foo",
-	}
-
-	serverInfo := &ServerInfo{
-		CacheGroupID:                  42,
-		CDN:                           "mycdn",
-		CDNID:                         43,
-		DomainName:                    "mydomain",
-		HostName:                      "myhost",
-		HTTPSPort:                     12443,
-		ID:                            44,
-		IP:                            "192.168.2.4",
-		ParentCacheGroupID:            45,
-		ParentCacheGroupType:          "CGType4",
-		ProfileID:                     46,
-		ProfileName:                   "MyProfile",
-		Port:                          12080,
-		SecondaryParentCacheGroupID:   47,
-		SecondaryParentCacheGroupType: "MySecondaryParentCG",
-		Type:                          "MID",
-	}
-
-	remapDSData := []RemapConfigDSData{
-		RemapConfigDSData{
-			ID:                       48,
-			Type:                     "HTTP_LIVE_NATNL",
-			OriginFQDN:               util.StrPtr("origin.example.test"),
-			MidHeaderRewrite:         nil,
-			CacheURL:                 util.StrPtr("mycacheurl"),
-			RangeRequestHandling:     util.IntPtr(0),
-			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
-			RemapText:                util.StrPtr("myremaptext"),
-			EdgeHeaderRewrite:        util.StrPtr("myedgeheaderrewrite"),
-			SigningAlgorithm:         util.StrPtr("url_sig"),
-			Name:                     "mydsname",
-			QStringIgnore:            util.IntPtr(0),
-			RegexRemap:               util.StrPtr("myregexremap"),
-			FQPacingRate:             util.IntPtr(0),
-			DSCP:                     0,
-			RoutingName:              util.StrPtr("myroutingname"),
-			MultiSiteOrigin:          util.StrPtr("mymso"),
-			Pattern:                  util.StrPtr("myregexpattern"),
-			RegexType:                util.StrPtr(string(tc.DSMatchTypeHostRegex)),
-			Domain:                   util.StrPtr("mydomain"),
-			RegexSetNumber:           util.StrPtr("myregexsetnum"),
-			OriginShield:             util.StrPtr("myoriginshield"),
-			ProfileID:                util.IntPtr(49),
-			Protocol:                 util.IntPtr(0),
-			AnonymousBlockingEnabled: util.BoolPtr(false),
-			Active:                   true,
-		},
-	}
-
-	txt := MakeRemapDotConfig(serverName, toToolName, toURL, atsMajorVersion, cacheURLConfigParams, dsProfilesCacheKeyConfigParams, serverPackageParamData, serverInfo, remapDSData)
-
-	txt = strings.TrimSpace(txt)
-
-	testComment(t, txt, string(serverName), toToolName, toURL)
-
-	txtLines := strings.Split(txt, "\n")
-
-	if len(txtLines) != 2 {
-		t.Errorf("expected one line for each remap plus a comment, actual: '%v' count %v", txt, len(txtLines))
-	}
-
-	remapLine := txtLines[1]
-
-	if !strings.HasPrefix(remapLine, "map") {
-		t.Errorf("expected to start with 'map', actual '%v'", txt)
-	}
-
-	if strings.Count(remapLine, "origin.example.test") != 2 {
-		t.Errorf("expected to contain origin FQDN twice (Mids remap origins to themselves, as a forward proxy), actual '%v'", txt)
-	}
-
-	if strings.Contains(remapLine, "hdr_rw_mid_") {
-		t.Errorf("expected no 'hdr_rw_mid_' for nil mid header rewrite on DS, actual '%v'", txt)
-	}
-
-	if strings.Contains(remapLine, "myedgeheaderrewrite") {
-		t.Errorf("expected no edge header rewrite text for mid server, actual '%v'", txt)
-	}
-
-	if strings.Contains(remapLine, "hdr_rw_") {
-		t.Errorf("expected no edge header rewrite for mid server, actual '%v'", txt)
-	}
-
-}
-
-func TestMakeRemapDotConfigMidHasNoEdgeRewrite(t *testing.T) {
-	serverName := tc.CacheName("server0")
-	toToolName := "to0"
-	toURL := "trafficops.example.net"
-	atsMajorVersion := 7
-
-	cacheURLConfigParams := map[string]string{
-		"not_location": "notinconfig",
-	}
-
-	dsProfilesCacheKeyConfigParams := map[int]map[string]string{
-		46: map[string]string{
-			"cachekeykey": "cachekeyval",
-		},
-	}
-
-	serverPackageParamData := map[string]string{
-		"serverpkgval": "serverpkgval __HOSTNAME__ foo",
-	}
-
-	serverInfo := &ServerInfo{
-		CacheGroupID:                  42,
-		CDN:                           "mycdn",
-		CDNID:                         43,
-		DomainName:                    "mydomain",
-		HostName:                      "myhost",
-		HTTPSPort:                     12443,
-		ID:                            44,
-		IP:                            "192.168.2.4",
-		ParentCacheGroupID:            45,
-		ParentCacheGroupType:          "CGType4",
-		ProfileID:                     46,
-		ProfileName:                   "MyProfile",
-		Port:                          12080,
-		SecondaryParentCacheGroupID:   47,
-		SecondaryParentCacheGroupType: "MySecondaryParentCG",
-		Type:                          "MID",
-	}
-
-	remapDSData := []RemapConfigDSData{
-		RemapConfigDSData{
-			ID:                       48,
-			Type:                     "HTTP_LIVE_NATNL",
-			OriginFQDN:               util.StrPtr("origin.example.test"),
-			MidHeaderRewrite:         util.StrPtr(""),
-			CacheURL:                 util.StrPtr("mycacheurl"),
-			RangeRequestHandling:     util.IntPtr(0),
-			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
-			RemapText:                util.StrPtr("myremaptext"),
-			EdgeHeaderRewrite:        util.StrPtr("myedgeheaderrewrite"),
-			SigningAlgorithm:         util.StrPtr("url_sig"),
-			Name:                     "mydsname",
-			QStringIgnore:            util.IntPtr(0),
-			RegexRemap:               util.StrPtr("myregexremap"),
-			FQPacingRate:             util.IntPtr(0),
-			DSCP:                     0,
-			RoutingName:              util.StrPtr("myroutingname"),
-			MultiSiteOrigin:          util.StrPtr("mymso"),
-			Pattern:                  util.StrPtr("myregexpattern"),
-			RegexType:                util.StrPtr(string(tc.DSMatchTypeHostRegex)),
-			Domain:                   util.StrPtr("mydomain"),
-			RegexSetNumber:           util.StrPtr("myregexsetnum"),
-			OriginShield:             util.StrPtr("myoriginshield"),
-			ProfileID:                util.IntPtr(49),
-			Protocol:                 util.IntPtr(0),
-			AnonymousBlockingEnabled: util.BoolPtr(false),
-			Active:                   true,
-		},
-	}
-
-	txt := MakeRemapDotConfig(serverName, toToolName, toURL, atsMajorVersion, cacheURLConfigParams, dsProfilesCacheKeyConfigParams, serverPackageParamData, serverInfo, remapDSData)
-
-	txt = strings.TrimSpace(txt)
-
-	testComment(t, txt, string(serverName), toToolName, toURL)
-
-	txtLines := strings.Split(txt, "\n")
-
-	if len(txtLines) != 2 {
-		t.Errorf("expected one line for each remap plus a comment, actual: '%v' count %v", txt, len(txtLines))
-	}
-
-	remapLine := txtLines[1]
-
-	if !strings.HasPrefix(remapLine, "map") {
-		t.Errorf("expected to start with 'map', actual '%v'", txt)
-	}
-
-	if strings.Count(remapLine, "origin.example.test") != 2 {
-		t.Errorf("expected to contain origin FQDN twice (Mids remap origins to themselves, as a forward proxy), actual '%v'", txt)
-	}
-
-	if strings.Contains(remapLine, "hdr_rw_mid_") {
-		t.Errorf("expected no 'hdr_rw_mid_' for nil mid header rewrite on DS, actual '%v'", txt)
 	}
 }
 
@@ -832,7 +623,6 @@ func TestMakeRemapDotConfigMidQStringPassUpATS7CacheKey(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr(""),
-			CacheURL:                 util.StrPtr(""), // no cacheurl, so we can see if the qstring puts one in
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -936,7 +726,6 @@ func TestMakeRemapDotConfigMidQStringPassUpATS5CacheURL(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr(""),
-			CacheURL:                 util.StrPtr(""), // no cacheurl, so we can see if the qstring puts one in
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1043,7 +832,6 @@ func TestMakeRemapDotConfigMidProfileCacheKey(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr(""),
-			CacheURL:                 util.StrPtr("mycacheurl"), // cacheurl, so it gets added twice, also with qstring
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1151,7 +939,6 @@ func TestMakeRemapDotConfigMidRangeRequestHandling(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr(""),
-			CacheURL:                 util.StrPtr("mycacheurl"), // cacheurl, so it gets added twice, also with qstring
 			RangeRequestHandling:     util.IntPtr(int(tc.RangeRequestHandlingCacheRangeRequest)),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1251,7 +1038,6 @@ func TestMakeRemapDotConfigMidSlicePluginRangeRequestHandling(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr(""),
-			CacheURL:                 util.StrPtr("mycacheurl"), // cacheurl, so it gets added twice, also with qstring
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingSlice),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1353,7 +1139,6 @@ func TestMakeRemapDotConfigFirstExcludedSecondIncluded(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               nil, // this DS should not be included
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1381,7 +1166,6 @@ func TestMakeRemapDotConfigFirstExcludedSecondIncluded(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"), // this DS should be included
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1464,7 +1248,6 @@ func TestMakeRemapDotConfigAnyMap(t *testing.T) {
 			Type:                     "ANY_MAP",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                nil, // this DS shouldn't be included - anymap with nil remap text
@@ -1492,7 +1275,6 @@ func TestMakeRemapDotConfigAnyMap(t *testing.T) {
 			Type:                     "ANY_MAP",
 			OriginFQDN:               util.StrPtr("myorigin"), // this DS should be included
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1586,7 +1368,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1614,7 +1395,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1642,7 +1422,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1670,7 +1449,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1698,7 +1476,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1726,7 +1503,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1754,7 +1530,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               nil, // nil origin should not be included
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1782,7 +1557,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr(""),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1810,7 +1584,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1838,7 +1611,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1866,7 +1638,6 @@ func TestMakeRemapDotConfigEdgeMissingRemapData(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -1950,7 +1721,6 @@ func TestMakeRemapDotConfigEdgeHostRegexReplacement(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2051,7 +1821,6 @@ func TestMakeRemapDotConfigEdgeHostRegexReplacementHTTP(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2152,7 +1921,6 @@ func TestMakeRemapDotConfigEdgeHostRegexReplacementHTTPS(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2253,7 +2021,6 @@ func TestMakeRemapDotConfigEdgeHostRegexReplacementHTTPToHTTPS(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2354,7 +2121,6 @@ func TestMakeRemapDotConfigEdgeRemapUnderscoreHTTPReplace(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2451,7 +2217,6 @@ func TestMakeRemapDotConfigEdgeDSCPRemap(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2548,7 +2313,6 @@ func TestMakeRemapDotConfigEdgeNoDSCPRemap(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2645,7 +2409,6 @@ func TestMakeRemapDotConfigEdgeHeaderRewrite(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2746,7 +2509,6 @@ func TestMakeRemapDotConfigEdgeHeaderRewriteEmpty(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2847,7 +2609,6 @@ func TestMakeRemapDotConfigEdgeHeaderRewriteNil(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -2948,7 +2709,6 @@ func TestMakeRemapDotConfigEdgeSigningURLSig(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3044,7 +2804,6 @@ func TestMakeRemapDotConfigEdgeSigningURISigning(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3140,7 +2899,6 @@ func TestMakeRemapDotConfigEdgeSigningNone(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3236,7 +2994,6 @@ func TestMakeRemapDotConfigEdgeSigningEmpty(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3332,7 +3089,6 @@ func TestMakeRemapDotConfigEdgeSigningWrong(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3428,7 +3184,6 @@ func TestMakeRemapDotConfigEdgeQStringDropAtEdge(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3522,7 +3277,6 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUp(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3620,7 +3374,6 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUpWithCacheKeyParameter(t *testi
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3717,7 +3470,6 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUpCacheURLParam(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3810,7 +3562,6 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUpCacheURLParamCacheURL(t *testi
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 nil,
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -3910,7 +3661,6 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUpCacheURLParamCacheURLAndDSCach
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4014,7 +3764,6 @@ func TestMakeRemapDotConfigMidQStringIgnorePassUpCacheURLParamCacheURLAndDSCache
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4115,7 +3864,6 @@ func TestMakeRemapDotConfigEdgeCacheURL(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4156,10 +3904,6 @@ func TestMakeRemapDotConfigEdgeCacheURL(t *testing.T) {
 
 	if !strings.HasPrefix(remapLine, "map") {
 		t.Errorf("expected to start with 'map', actual '%v'", txt)
-	}
-
-	if !strings.Contains(remapLine, "cacheurl_") {
-		t.Errorf("expected remap on edge server with ds cacheurl to contain cacheurl plugin, actual '%v'", txt)
 	}
 }
 
@@ -4211,7 +3955,6 @@ func TestMakeRemapDotConfigEdgeCacheKeyParams(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4319,7 +4062,6 @@ func TestMakeRemapDotConfigEdgeRegexRemap(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4419,7 +4161,6 @@ func TestMakeRemapDotConfigEdgeRegexRemapEmpty(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4515,7 +4256,6 @@ func TestMakeRemapDotConfigEdgeRangeRequestNil(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     nil,
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4615,7 +4355,6 @@ func TestMakeRemapDotConfigEdgeRangeRequestDontCache(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingDontCache),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4715,7 +4454,6 @@ func TestMakeRemapDotConfigEdgeRangeRequestBGFetch(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingBackgroundFetch),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -4815,7 +4553,6 @@ func TestMakeRemapDotConfigEdgeRangeRequestSlice(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingSlice),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5147,7 +4884,6 @@ func TestMakeRemapDotConfigEdgeRangeRequestCache(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5247,7 +4983,6 @@ func TestMakeRemapDotConfigEdgeFQPacingNil(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5343,7 +5078,6 @@ func TestMakeRemapDotConfigEdgeFQPacingNegative(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5439,7 +5173,6 @@ func TestMakeRemapDotConfigEdgeFQPacingZero(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5535,7 +5268,6 @@ func TestMakeRemapDotConfigEdgeFQPacingPositive(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5635,7 +5367,6 @@ func TestMakeRemapDotConfigEdgeDNS(t *testing.T) {
 			Type:                     "DNS_LIVE",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5731,7 +5462,6 @@ func TestMakeRemapDotConfigEdgeDNSNoRoutingName(t *testing.T) {
 			Type:                     "DNS_LIVE",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
@@ -5817,7 +5547,6 @@ func TestMakeRemapDotConfigEdgeRegexTypeNil(t *testing.T) {
 			Type:                     "DNS_LIVE",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingCacheRangeRequest),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),
