@@ -72,7 +72,6 @@ func TestMakeRemapDotConfig(t *testing.T) {
 			Type:                     "HTTP_LIVE",
 			OriginFQDN:               util.StrPtr("origin.example.test"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr("mycacheurl"),
 			RangeRequestHandling:     util.IntPtr(0),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("myremaptext"),

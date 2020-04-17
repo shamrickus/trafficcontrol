@@ -478,7 +478,6 @@ SELECT
   ds.edge_header_rewrite,
   ds.mid_header_rewrite,
   ds.regex_remap,
-  ds.cacheurl,
   ds.remap_text,
   ds.protocol,
   ds.profile,

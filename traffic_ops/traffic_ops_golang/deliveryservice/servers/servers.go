@@ -827,7 +827,6 @@ type DSInfo struct {
 	MidHeaderRewrite     *string
 	RegexRemap           *string
 	SigningAlgorithm     *string
-	CacheURL             *string
 	MaxOriginConnections *int
 	Topology             *string
 	CDNID                *int
@@ -843,10 +842,8 @@ SELECT
   ds.mid_header_rewrite,
   ds.regex_remap,
   ds.signing_algorithm,
-  ds.cacheurl,
   ds.max_origin_connections,
-  ds.topology,
-  ds.cdn_id
+  ds.topology
 FROM
   deliveryservice ds
   JOIN type tp ON ds.type = tp.id
@@ -854,7 +851,7 @@ WHERE
   ds.id = $1
 `
 	di := DSInfo{ID: id}
-	if err := tx.QueryRow(qry, id).Scan(&di.Name, &di.Type, &di.EdgeHeaderRewrite, &di.MidHeaderRewrite, &di.RegexRemap, &di.SigningAlgorithm, &di.CacheURL, &di.MaxOriginConnections, &di.Topology, &di.CDNID); err != nil {
+	if err := tx.QueryRow(qry, id).Scan(&di.Name, &di.Type, &di.EdgeHeaderRewrite, &di.MidHeaderRewrite, &di.RegexRemap, &di.SigningAlgorithm, &di.MaxOriginConnections, &di.Topology, &di.CDNID); err != nil {
 		if err == sql.ErrNoRows {
 			return DSInfo{}, false, nil
 		}
@@ -874,7 +871,6 @@ SELECT
   ds.mid_header_rewrite,
   ds.regex_remap,
   ds.signing_algorithm,
-  ds.cacheurl,
   ds.max_origin_connections,
   ds.topology,
   ds.cdn_id
@@ -885,7 +881,7 @@ WHERE
   ds.xml_id = $1
 `
 	di := DSInfo{Name: dsName}
-	if err := tx.QueryRow(qry, dsName).Scan(&di.ID, &di.Type, &di.EdgeHeaderRewrite, &di.MidHeaderRewrite, &di.RegexRemap, &di.SigningAlgorithm, &di.CacheURL, &di.MaxOriginConnections, &di.Topology, &di.CDNID); err != nil {
+	if err := tx.QueryRow(qry, dsName).Scan(&di.ID, &di.Type, &di.EdgeHeaderRewrite, &di.MidHeaderRewrite, &di.RegexRemap, &di.SigningAlgorithm, &di.MaxOriginConnections, &di.Topology, &di.CDNID); err != nil {
 		if err == sql.ErrNoRows {
 			return DSInfo{}, false, nil
 		}
