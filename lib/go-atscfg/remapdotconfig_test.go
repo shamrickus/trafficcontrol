@@ -578,6 +578,178 @@ func TestMakeRemapDotConfigDuplicateOrigins(t *testing.T) {
 	}
 }
 
+func TestMakeRemapDotConfigNilMidRewrite(t *testing.T) {
+	serverName := tc.CacheName("server0")
+	toToolName := "to0"
+	toURL := "trafficops.example.net"
+	atsMajorVersion := 7
+
+	cacheURLConfigParams := map[string]string{
+		"not_location": "notinconfig",
+	}
+
+	dsProfilesCacheKeyConfigParams := map[int]map[string]string{
+		46: map[string]string{
+			"cachekeykey": "cachekeyval",
+		},
+	}
+
+	serverPackageParamData := map[string]string{
+		"serverpkgval": "serverpkgval __HOSTNAME__ foo",
+	}
+
+	serverInfo := &ServerInfo{
+		CacheGroupID:                  42,
+		CDN:                           "mycdn",
+		CDNID:                         43,
+		DomainName:                    "mydomain",
+		HostName:                      "myhost",
+		HTTPSPort:                     12443,
+		ID:                            44,
+		IP:                            "192.168.2.4",
+		ParentCacheGroupID:            45,
+		ParentCacheGroupType:          "CGType4",
+		ProfileID:                     46,
+		ProfileName:                   "MyProfile",
+		Port:                          12080,
+		SecondaryParentCacheGroupID:   47,
+		SecondaryParentCacheGroupType: "MySecondaryParentCG",
+		Type:                          "MID",
+	}
+
+	remapDSData := []RemapConfigDSData{
+		RemapConfigDSData{
+			ID:                       48,
+			Type:                     "HTTP_LIVE_NATNL",
+			OriginFQDN:               util.StrPtr("origin.example.test"),
+			MidHeaderRewrite:         nil,
+			RangeRequestHandling:     util.IntPtr(0),
+			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
+			RemapText:                util.StrPtr("myremaptext"),
+			EdgeHeaderRewrite:        util.StrPtr("myedgeheaderrewrite"),
+			SigningAlgorithm:         util.StrPtr("url_sig"),
+			Name:                     "mydsname",
+			QStringIgnore:            util.IntPtr(0),
+			RegexRemap:               util.StrPtr("myregexremap"),
+			FQPacingRate:             util.IntPtr(0),
+			DSCP:                     0,
+			RoutingName:              util.StrPtr("myroutingname"),
+			MultiSiteOrigin:          util.StrPtr("mymso"),
+			Pattern:                  util.StrPtr("myregexpattern"),
+			RegexType:                util.StrPtr(string(tc.DSMatchTypeHostRegex)),
+			Domain:                   util.StrPtr("mydomain"),
+			RegexSetNumber:           util.StrPtr("myregexsetnum"),
+			OriginShield:             util.StrPtr("myoriginshield"),
+			ProfileID:                util.IntPtr(49),
+			Protocol:                 util.IntPtr(0),
+			AnonymousBlockingEnabled: util.BoolPtr(false),
+			Active:                   true,
+		},
+	}
+
+	txt := MakeRemapDotConfig(serverName, toToolName, toURL, atsMajorVersion, cacheURLConfigParams, dsProfilesCacheKeyConfigParams, serverPackageParamData, serverInfo, remapDSData)
+
+	txt = strings.TrimSpace(txt)
+
+	testComment(t, txt, string(serverName), toToolName, toURL)
+
+	txtLines := strings.Split(txt, "\n")
+
+	if len(txtLines) != 1 {
+		t.Fatalf("expected one line, actual: '%v' count %v", txt, len(txtLines))
+	}
+
+	if !strings.HasPrefix(txtLines[0], "# DO NOT EDIT") {
+		t.Fatalf("line returned expected to be comment, found: %v", txtLines[0])
+	}
+}
+
+func TestMakeRemapDotConfigMidHasNoEdgeRewrite(t *testing.T) {
+	serverName := tc.CacheName("server0")
+	toToolName := "to0"
+	toURL := "trafficops.example.net"
+	atsMajorVersion := 7
+
+	cacheURLConfigParams := map[string]string{
+		"not_location": "notinconfig",
+	}
+
+	dsProfilesCacheKeyConfigParams := map[int]map[string]string{
+		46: map[string]string{
+			"cachekeykey": "cachekeyval",
+		},
+	}
+
+	serverPackageParamData := map[string]string{
+		"serverpkgval": "serverpkgval __HOSTNAME__ foo",
+	}
+
+	serverInfo := &ServerInfo{
+		CacheGroupID:                  42,
+		CDN:                           "mycdn",
+		CDNID:                         43,
+		DomainName:                    "mydomain",
+		HostName:                      "myhost",
+		HTTPSPort:                     12443,
+		ID:                            44,
+		IP:                            "192.168.2.4",
+		ParentCacheGroupID:            45,
+		ParentCacheGroupType:          "CGType4",
+		ProfileID:                     46,
+		ProfileName:                   "MyProfile",
+		Port:                          12080,
+		SecondaryParentCacheGroupID:   47,
+		SecondaryParentCacheGroupType: "MySecondaryParentCG",
+		Type:                          "MID",
+	}
+
+	remapDSData := []RemapConfigDSData{
+		RemapConfigDSData{
+			ID:                       48,
+			Type:                     "HTTP_LIVE_NATNL",
+			OriginFQDN:               util.StrPtr("origin.example.test"),
+			MidHeaderRewrite:         util.StrPtr(""),
+			RangeRequestHandling:     util.IntPtr(0),
+			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
+			RemapText:                util.StrPtr("myremaptext"),
+			EdgeHeaderRewrite:        util.StrPtr("myedgeheaderrewrite"),
+			SigningAlgorithm:         util.StrPtr("url_sig"),
+			Name:                     "mydsname",
+			QStringIgnore:            util.IntPtr(0),
+			RegexRemap:               util.StrPtr("myregexremap"),
+			FQPacingRate:             util.IntPtr(0),
+			DSCP:                     0,
+			RoutingName:              util.StrPtr("myroutingname"),
+			MultiSiteOrigin:          util.StrPtr("mymso"),
+			Pattern:                  util.StrPtr("myregexpattern"),
+			RegexType:                util.StrPtr(string(tc.DSMatchTypeHostRegex)),
+			Domain:                   util.StrPtr("mydomain"),
+			RegexSetNumber:           util.StrPtr("myregexsetnum"),
+			OriginShield:             util.StrPtr("myoriginshield"),
+			ProfileID:                util.IntPtr(49),
+			Protocol:                 util.IntPtr(0),
+			AnonymousBlockingEnabled: util.BoolPtr(false),
+			Active:                   true,
+		},
+	}
+
+	txt := MakeRemapDotConfig(serverName, toToolName, toURL, atsMajorVersion, cacheURLConfigParams, dsProfilesCacheKeyConfigParams, serverPackageParamData, serverInfo, remapDSData)
+
+	txt = strings.TrimSpace(txt)
+
+	testComment(t, txt, string(serverName), toToolName, toURL)
+
+	txtLines := strings.Split(txt, "\n")
+
+	if len(txtLines) != 1 {
+		t.Fatalf("expected one line, actual: '%v' count %v", txt, len(txtLines))
+	}
+
+	if !strings.HasPrefix(txtLines[0], "# DO NOT EDIT") {
+		t.Fatalf("line returned expected to be comment, found: %v", txtLines[0])
+	}
+}
+
 func TestMakeRemapDotConfigMidQStringPassUpATS7CacheKey(t *testing.T) {
 	serverName := tc.CacheName("server0")
 	toToolName := "to0"
@@ -678,109 +850,6 @@ func TestMakeRemapDotConfigMidQStringPassUpATS7CacheKey(t *testing.T) {
 	}
 	if strings.Contains(remapLine, "cacheurl") {
 		t.Errorf("expected no 'cacheurl' for ATS 6+, actual '%v'", txt)
-	}
-}
-
-func TestMakeRemapDotConfigMidQStringPassUpATS5CacheURL(t *testing.T) {
-	serverName := tc.CacheName("server0")
-	toToolName := "to0"
-	toURL := "trafficops.example.net"
-	atsMajorVersion := 5
-
-	cacheURLConfigParams := map[string]string{
-		"not_location": "notinconfig",
-	}
-
-	dsProfilesCacheKeyConfigParams := map[int]map[string]string{
-		46: map[string]string{
-			"cachekeykey": "cachekeyval",
-		},
-	}
-
-	serverPackageParamData := map[string]string{
-		"serverpkgval": "serverpkgval __HOSTNAME__ foo",
-	}
-
-	serverInfo := &ServerInfo{
-		CacheGroupID:                  42,
-		CDN:                           "mycdn",
-		CDNID:                         43,
-		DomainName:                    "mydomain",
-		HostName:                      "myhost",
-		HTTPSPort:                     12443,
-		ID:                            44,
-		IP:                            "192.168.2.4",
-		ParentCacheGroupID:            45,
-		ParentCacheGroupType:          "CGType4",
-		ProfileID:                     46,
-		ProfileName:                   "MyProfile",
-		Port:                          12080,
-		SecondaryParentCacheGroupID:   47,
-		SecondaryParentCacheGroupType: "MySecondaryParentCG",
-		Type:                          "MID",
-	}
-
-	remapDSData := []RemapConfigDSData{
-		RemapConfigDSData{
-			ID:                       48,
-			Type:                     "HTTP_LIVE_NATNL",
-			OriginFQDN:               util.StrPtr("origin.example.test"),
-			MidHeaderRewrite:         util.StrPtr(""),
-			RangeRequestHandling:     util.IntPtr(0),
-			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
-			RemapText:                util.StrPtr("myremaptext"),
-			EdgeHeaderRewrite:        util.StrPtr("myedgeheaderrewrite"),
-			SigningAlgorithm:         util.StrPtr("url_sig"),
-			Name:                     "mydsname",
-			QStringIgnore:            util.IntPtr(int(tc.QStringIgnoreIgnoreInCacheKeyAndPassUp)),
-			RegexRemap:               util.StrPtr("myregexremap"),
-			FQPacingRate:             util.IntPtr(0),
-			DSCP:                     0,
-			RoutingName:              util.StrPtr("myroutingname"),
-			MultiSiteOrigin:          util.StrPtr("mymso"),
-			Pattern:                  util.StrPtr("myregexpattern"),
-			RegexType:                util.StrPtr(string(tc.DSMatchTypeHostRegex)),
-			Domain:                   util.StrPtr("mydomain"),
-			RegexSetNumber:           util.StrPtr("myregexsetnum"),
-			OriginShield:             util.StrPtr("myoriginshield"),
-			ProfileID:                util.IntPtr(49),
-			Protocol:                 util.IntPtr(0),
-			AnonymousBlockingEnabled: util.BoolPtr(false),
-			Active:                   true,
-		},
-	}
-
-	txt := MakeRemapDotConfig(serverName, toToolName, toURL, atsMajorVersion, cacheURLConfigParams, dsProfilesCacheKeyConfigParams, serverPackageParamData, serverInfo, remapDSData)
-
-	txt = strings.TrimSpace(txt)
-
-	testComment(t, txt, string(serverName), toToolName, toURL)
-
-	txtLines := strings.Split(txt, "\n")
-
-	if len(txtLines) != 2 {
-		t.Errorf("expected one line for each remap plus a comment, actual: '%v' count %v", txt, len(txtLines))
-	}
-
-	remapLine := txtLines[1]
-
-	if !strings.HasPrefix(remapLine, "map") {
-		t.Errorf("expected to start with 'map', actual '%v'", txt)
-	}
-
-	if strings.Count(remapLine, "origin.example.test") != 2 {
-		t.Errorf("expected to contain origin FQDN twice (Mids remap origins to themselves, as a forward proxy), actual '%v'", txt)
-	}
-
-	if strings.Contains(remapLine, "hdr_rw_mid_") {
-		t.Errorf("expected no 'hdr_rw_mid_' for nil mid header rewrite on DS, actual '%v'", txt)
-	}
-
-	if !strings.Contains(remapLine, "cacheurl") {
-		t.Errorf("expected 'cacheurl' for qstring pass up and ATS <=6, actual '%v'", txt)
-	}
-	if strings.Contains(remapLine, "cachekey") {
-		t.Errorf("expected no 'cachekey' for ATS <=6, actual '%v'", txt)
 	}
 }
 
@@ -3608,8 +3677,8 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUpCacheURLParamCacheURL(t *testi
 		t.Errorf("expected remap on edge server with ats<5 to not contain cachekey plugin, actual '%v'", txt)
 	}
 
-	if !strings.Contains(remapLine, "cacheurl.so") {
-		t.Errorf("expected remap on edge server with ats<5 to contain cacheurl  plugin, actual '%v'", txt)
+	if strings.Contains(remapLine, "cacheurl.so") {
+		t.Errorf("expected remap on edge server with ats<5 to not contain cacheurl plugin, actual '%v'", txt)
 	}
 }
 
@@ -3706,14 +3775,6 @@ func TestMakeRemapDotConfigEdgeQStringIgnorePassUpCacheURLParamCacheURLAndDSCach
 	if strings.Contains(remapLine, "cachekey.so") {
 		t.Errorf("expected remap on edge server with ats<5 to not contain cachekey plugin, actual '%v'", txt)
 	}
-
-	if !strings.Contains(remapLine, "cacheurl.so") {
-		t.Errorf("expected remap on edge server with ats<5 to contain cacheurl  plugin, actual '%v'", txt)
-	}
-
-	if !strings.Contains(remapLine, "cacheurl_") {
-		t.Errorf("expected remap on edge server with ds qstring cacheurl and ds cacheurl to generate both, actual '%v'", txt)
-	}
 }
 
 func TestMakeRemapDotConfigMidQStringIgnorePassUpCacheURLParamCacheURLAndDSCacheURL(t *testing.T) {
@@ -3808,14 +3869,6 @@ func TestMakeRemapDotConfigMidQStringIgnorePassUpCacheURLParamCacheURLAndDSCache
 
 	if strings.Contains(remapLine, "cachekey.so") {
 		t.Errorf("expected remap on edge server with ats<5 to not contain cachekey plugin, actual '%v'", txt)
-	}
-
-	if !strings.Contains(remapLine, "cacheurl.so") {
-		t.Errorf("expected remap on edge server with ats<5 to contain cacheurl  plugin, actual '%v'", txt)
-	}
-
-	if !strings.Contains(remapLine, "cacheurl_") {
-		t.Errorf("expected remap on edge server with ds qstring cacheurl and ds cacheurl to generate both, actual '%v'", txt)
 	}
 }
 
@@ -4657,7 +4710,6 @@ func TestMakeRemapDotConfigRawRemapRangeDirective(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingSlice),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("@plugin=tslua.so @pparam=my-range-manipulator.lua __RANGE_DIRECTIVE__"),
@@ -4772,7 +4824,6 @@ func TestMakeRemapDotConfigRawRemapWithoutRangeDirective(t *testing.T) {
 			Type:                     "HTTP_LIVE_NATNL",
 			OriginFQDN:               util.StrPtr("myorigin"),
 			MidHeaderRewrite:         util.StrPtr("mymidrewrite"),
-			CacheURL:                 util.StrPtr(""),
 			RangeRequestHandling:     util.IntPtr(tc.RangeRequestHandlingSlice),
 			CacheKeyConfigParams:     map[string]string{"cachekeyparamname": "cachekeyparamval"},
 			RemapText:                util.StrPtr("@plugin=tslua.so @pparam=my-range-manipulator.lua"),

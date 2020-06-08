@@ -133,14 +133,12 @@ func CDNConfigFileFuncs() map[string]func(toData *config.TOData) (string, string
 		"regex_revalidate.config": GetConfigFileCDNRegexRevalidateDotConfig,
 		"bg_fetch.config":         GetConfigFileCDNBGFetchDotConfig,
 		"ssl_multicert.config":    GetConfigFileCDNSSLMultiCertDotConfig,
-		"cacheurl.config":         GetConfigFileCDNCacheURLPlain,
 	}
 }
 
 var ConfigFileCDNPrefixSuffixFuncs = []ConfigFilePrefixSuffixFunc{
 	{"hdr_rw_mid_", ".config", GetConfigFileCDNHeaderRewriteMid},
 	{"hdr_rw_", ".config", GetConfigFileCDNHeaderRewrite},
-	{"cacheurl", ".config", GetConfigFileCDNCacheURL},
 	{"regex_remap_", ".config", GetConfigFileCDNRegexRemap},
 	{"set_dscp_", ".config", GetConfigFileCDNSetDSCP},
 }

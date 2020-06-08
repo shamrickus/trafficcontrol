@@ -376,19 +376,12 @@ func MidHeaderRewriteConfigFileName(dsName string) string {
 	return "hdr_rw_mid_" + dsName + ".config"
 }
 
-func CacheURLConfigFileName(dsName string) string {
-	return "cacheurl_" + dsName + ".config"
-}
-
 // GetQStringIgnoreRemap returns the remap, whether cacheurl was added, and whether cachekey was added.
 func GetQStringIgnoreRemap(atsMajorVersion int) (string, bool, bool) {
 	if atsMajorVersion >= 6 {
-		addingCacheURL := false
-		addingCacheKey := true
-		return ` @plugin=cachekey.so @pparam=--separator= @pparam=--remove-all-params=true @pparam=--remove-path=true @pparam=--capture-prefix-uri=/^([^?]*)/$1/`, addingCacheURL, addingCacheKey
+		return ` @plugin=cachekey.so @pparam=--separator= @pparam=--remove-all-params=true @pparam=--remove-path=true @pparam=--capture-prefix-uri=/^([^?]*)/$1/`, false, true
 	} else {
-		addingCacheURL := true
-		addingCacheKey := false
-		return ` @plugin=cacheurl.so @pparam=cacheurl_qstring.config`, addingCacheURL, addingCacheKey
+		log.Errorf("Unsupport version of ats found %v", atsMajorVersion)
+		return "", false, false
 	}
 }
