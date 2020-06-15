@@ -19,6 +19,7 @@
 
 'use strict';
 
+
 module.exports = function (grunt) {
 
     var os = require("os");
@@ -74,6 +75,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build-css-dev', [
+        'check-gems',
         'compass:dev'
     ]);
 
