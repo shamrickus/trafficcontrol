@@ -1229,7 +1229,6 @@ func Routes(d ServerData) ([]Route, []RawRoute, http.Handler, error) {
 		{api.Version{1, 1}, http.MethodGet, `cdns/{cdn-name-or-id}/configfiles/ats/hdr_rw_{xml-id}\.config/?(\.json)?$`, atscdn.GetEdgeHeaderRewriteDotConfig, auth.PrivLevelOperations, Authenticated, nil, 1894063777, perlBypass},
 
 		{api.Version{1, 1}, http.MethodGet, `cdns/{cdn-name-or-id}/configfiles/ats/bg_fetch\.config/?(\.json)?$`, atscdn.GetBGFetchDotConfig, auth.PrivLevelOperations, Authenticated, nil, 160404036, perlBypass},
-		{api.Version{1, 1}, http.MethodGet, `cdns/{cdn-name-or-id}/configfiles/ats/cacheurl{filename}\.config/?(\.json)?$`, atscdn.GetCacheURLDotConfig, auth.PrivLevelOperations, Authenticated, nil, 1373111113, perlBypass},
 		{api.Version{1, 1}, http.MethodGet, `cdns/{cdn-name-or-id}/configfiles/ats/regex_remap_{ds-name}\.config/?(\.json)?$`, atscdn.GetRegexRemapDotConfig, auth.PrivLevelOperations, Authenticated, nil, 1283602930, perlBypass},
 		{api.Version{1, 1}, http.MethodGet, `cdns/{cdn-name-or-id}/configfiles/ats/set_dscp_{dscp}\.config/?(\.json)?$`, atscdn.GetSetDSCPDotConfig, auth.PrivLevelOperations, Authenticated, nil, 1889993740, perlBypass},
 		{api.Version{1, 1}, http.MethodGet, `cdns/{cdn-name-or-id}/configfiles/ats/ssl_multicert\.config/?(\.json)?$`, atscdn.GetSSLMultiCertDotConfig, auth.PrivLevelOperations, Authenticated, nil, 1113687166, perlBypass},
