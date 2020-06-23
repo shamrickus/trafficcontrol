@@ -236,10 +236,12 @@ func createV14(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS t
 }
 
 func createV15(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS tc.DeliveryServiceNullableV15) (*tc.DeliveryServiceNullableV15, int, error, error) {
-	dsV30 := tc.DeliveryServiceNullableV30{DeliveryServiceNullableV15: reqDS}
+	dsV30 := reqDS.ToCurrentDS()
 	res, status, userErr, sysErr := createV30(w, r, inf, dsV30)
 	if res != nil {
-		return &res.DeliveryServiceNullableV15, status, userErr, sysErr
+		currentDS := res.ConvertDS()
+		legacyDS := currentDS.ConvertDSToLegacy()
+		return &legacyDS, status, userErr, sysErr
 	}
 	return nil, status, userErr, sysErr
 }
@@ -466,13 +468,13 @@ func (ds *TODeliveryService) Read(h http.Header, useIMS bool) ([]interface{}, er
 		case version.Major > 2:
 			returnable = append(returnable, ds)
 		case version.Major > 1 || version.Minor >= 5:
-			returnable = append(returnable, ds.DeliveryServiceNullableV15)
+			returnable = append(returnable, ds.ConvertDSToLegacy())
 		case version.Minor >= 4:
-			returnable = append(returnable, ds.DeliveryServiceNullableV14)
+			returnable = append(returnable, ds.ConvertDSToLegacy().DeliveryServiceNullableV14)
 		case version.Minor >= 3:
-			returnable = append(returnable, ds.DeliveryServiceNullableV13)
+			returnable = append(returnable, ds.ConvertDSToLegacy().DeliveryServiceNullableV13)
 		case version.Minor >= 1:
-			returnable = append(returnable, ds.DeliveryServiceNullableV12)
+			returnable = append(returnable, ds.ConvertDSToLegacy().DeliveryServiceNullableV12)
 		default:
 			return nil, nil, fmt.Errorf("TODeliveryService.Read called with invalid API version: %d.%d", version.Major, version.Minor), http.StatusInternalServerError, nil
 		}
@@ -701,7 +703,7 @@ WHERE
 }
 
 func updateV15(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS *tc.DeliveryServiceNullableV15) (*tc.DeliveryServiceNullableV15, int, error, error) {
-	dsV30 := tc.DeliveryServiceNullableV30{DeliveryServiceNullableV15: *reqDS}
+	dsV30 := reqDS.ToCurrentDS()
 	// query the DB for existing 3.0 fields in order to "upgrade" this 1.5 request into a 3.0 request
 	query := `
 SELECT
@@ -726,7 +728,9 @@ WHERE
 	}
 	res, status, userErr, sysErr := updateV30(w, r, inf, &dsV30)
 	if res != nil {
-		return &res.DeliveryServiceNullableV15, status, userErr, sysErr
+		currentDS := res.ConvertDS()
+		legacyDS := currentDS.ConvertDSToLegacy()
+		return &legacyDS, status, userErr, sysErr
 	}
 	return nil, status, userErr, sysErr
 }

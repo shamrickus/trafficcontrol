@@ -161,22 +161,77 @@ type DeliveryServiceV11 struct {
 
 type DeliveryServiceNullableV30 DeliveryServiceNullable // this type alias should always alias the latest minor version of the deliveryservices endpoints
 
-type DeliveryServiceNullable struct {
-	DeliveryServiceNullableV15
+type DeliveryServiceV30Fields struct {
 	Topology           *string `json:"topology" db:"topology"`
 	FirstHeaderRewrite *string `json:"firstHeaderRewrite" db:"first_header_rewrite"`
 	InnerHeaderRewrite *string `json:"innerHeaderRewrite" db:"inner_header_rewrite"`
 	LastHeaderRewrite  *string `json:"lastHeaderRewrite" db:"last_header_rewrite"`
 }
 
+type DeliveryServiceNullable struct {
+	CommonDeliveryServiceFields
+	DeliveryServiceV30Fields
+	DeliveryServiceV15Fields
+	DeliveryServiceV14Fields
+	DeliveryServiceV13Fields
+}
+
+func (ds *DeliveryServiceNullableV30) ConvertDS() DeliveryServiceNullable {
+	return DeliveryServiceNullable{
+		CommonDeliveryServiceFields: ds.CommonDeliveryServiceFields,
+		DeliveryServiceV30Fields:    ds.DeliveryServiceV30Fields,
+		DeliveryServiceV15Fields:    ds.DeliveryServiceV15Fields,
+		DeliveryServiceV14Fields:    ds.DeliveryServiceV14Fields,
+		DeliveryServiceV13Fields:    ds.DeliveryServiceV13Fields,
+	}
+}
+
+func (ds *DeliveryServiceNullable) ConvertDSToLegacy() DeliveryServiceNullableV15 {
+	return DeliveryServiceNullableV15{
+		DeliveryServiceNullableV14: DeliveryServiceNullableV14{
+			DeliveryServiceNullableV13: DeliveryServiceNullableV13{
+				DeliveryServiceNullableV12: DeliveryServiceNullableV12{
+					DeliveryServiceNullableV11: DeliveryServiceNullableV11{
+						CacheURL:                    nil,
+						CommonDeliveryServiceFields: ds.CommonDeliveryServiceFields,
+					},
+				},
+				DeliveryServiceV13Fields: ds.DeliveryServiceV13Fields,
+			},
+			DeliveryServiceV14Fields: ds.DeliveryServiceV14Fields,
+		},
+		DeliveryServiceV15Fields: ds.DeliveryServiceV15Fields,
+	}
+}
+
 type DeliveryServiceNullableV15 struct {
 	DeliveryServiceNullableV14
+	DeliveryServiceV15Fields
+}
+
+func (ds *DeliveryServiceNullableV15) ToCurrentDS() DeliveryServiceNullableV30 {
+	return DeliveryServiceNullableV30{
+		CommonDeliveryServiceFields: ds.CommonDeliveryServiceFields,
+		DeliveryServiceV15Fields:    ds.DeliveryServiceV15Fields,
+		DeliveryServiceV14Fields:    ds.DeliveryServiceV14Fields,
+		DeliveryServiceV13Fields:    ds.DeliveryServiceV13Fields,
+		DeliveryServiceV30Fields: DeliveryServiceV30Fields{
+			Topology: nil,
+		},
+	}
+}
+
+type DeliveryServiceV15Fields struct {
 	EcsEnabled          bool `json:"ecsEnabled" db:"ecs_enabled"`
 	RangeSliceBlockSize *int `json:"rangeSliceBlockSize" db:"range_slice_block_size"`
 }
 
 type DeliveryServiceNullableV14 struct {
 	DeliveryServiceNullableV13
+	DeliveryServiceV14Fields
+}
+
+type DeliveryServiceV14Fields struct {
 	ConsistentHashRegex       *string  `json:"consistentHashRegex"`
 	ConsistentHashQueryParams []string `json:"consistentHashQueryParams"`
 	MaxOriginConnections      *int     `json:"maxOriginConnections" db:"max_origin_connections"`
@@ -184,6 +239,10 @@ type DeliveryServiceNullableV14 struct {
 
 type DeliveryServiceNullableV13 struct {
 	DeliveryServiceNullableV12
+	DeliveryServiceV13Fields
+}
+
+type DeliveryServiceV13Fields struct {
 	DeepCachingType   *DeepCachingType `json:"deepCachingType" db:"deep_caching_type"`
 	FQPacingRate      *int             `json:"fqPacingRate" db:"fq_pacing_rate"`
 	SigningAlgorithm  *string          `json:"signingAlgorithm" db:"signing_algorithm"`
@@ -200,11 +259,13 @@ type DeliveryServiceNullableV12 struct {
 // for all fields to be null.
 // TODO move contents to DeliveryServiceNullableV12, fix references, and remove
 type DeliveryServiceNullableV11 struct {
-	// NOTE: the db: struct tags are used for testing to map to their equivalent database column (if there is one)
-	//
+	CacheURL *string `json:"cacheurl" db:"cacheurl"`
+	CommonDeliveryServiceFields
+}
+
+type CommonDeliveryServiceFields struct {
 	Active                   *bool                   `json:"active" db:"active"`
 	AnonymousBlockingEnabled *bool                   `json:"anonymousBlockingEnabled" db:"anonymous_blocking_enabled"`
-	CacheURL                 *string                 `json:"cacheurl" db:"cacheurl"`
 	CCRDNSTTL                *int                    `json:"ccrDnsTtl" db:"ccr_dns_ttl"`
 	CDNID                    *int                    `json:"cdnId" db:"cdn_id"`
 	CDNName                  *string                 `json:"cdnName"`

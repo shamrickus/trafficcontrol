@@ -227,7 +227,6 @@ func randDS() *tc.DeliveryServiceNullable {
 	ds.TRRequestHeaders = randStr()
 	ds.Active = randBool()
 	ds.AnonymousBlockingEnabled = randBool()
-	ds.CacheURL = randStr()
 	ds.CCRDNSTTL = randInt()
 	ds.CDNID = randInt()
 	ds.CDNName = randStr()
