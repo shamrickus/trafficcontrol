@@ -41,7 +41,7 @@ import (
 	"github.com/apache/trafficcontrol/traffic_ops/traffic_ops_golang/deliveryservice"
 	"github.com/apache/trafficcontrol/traffic_ops/traffic_ops_golang/tenant"
 
-	"github.com/go-ozzo/ozzo-validation"
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 )
@@ -843,7 +843,8 @@ SELECT
   ds.regex_remap,
   ds.signing_algorithm,
   ds.max_origin_connections,
-  ds.topology
+  ds.topology,
+  ds.cdn_id
 FROM
   deliveryservice ds
   JOIN type tp ON ds.type = tp.id

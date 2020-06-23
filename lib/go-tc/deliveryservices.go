@@ -176,7 +176,7 @@ type DeliveryServiceNullable struct {
 	DeliveryServiceV13Fields
 }
 
-func (ds *DeliveryServiceNullableV30) ConvertDS() DeliveryServiceNullable {
+func (ds *DeliveryServiceNullableV30) ToCurrentDS() DeliveryServiceNullable {
 	return DeliveryServiceNullable{
 		CommonDeliveryServiceFields: ds.CommonDeliveryServiceFields,
 		DeliveryServiceV30Fields:    ds.DeliveryServiceV30Fields,

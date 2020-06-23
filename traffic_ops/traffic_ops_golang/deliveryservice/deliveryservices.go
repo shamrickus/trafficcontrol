@@ -239,7 +239,7 @@ func createV15(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS t
 	dsV30 := reqDS.ToCurrentDS()
 	res, status, userErr, sysErr := createV30(w, r, inf, dsV30)
 	if res != nil {
-		currentDS := res.ConvertDS()
+		currentDS := res.ToCurrentDS()
 		legacyDS := currentDS.ConvertDSToLegacy()
 		return &legacyDS, status, userErr, sysErr
 	}
@@ -728,7 +728,7 @@ WHERE
 	}
 	res, status, userErr, sysErr := updateV30(w, r, inf, &dsV30)
 	if res != nil {
-		currentDS := res.ConvertDS()
+		currentDS := res.ToCurrentDS()
 		legacyDS := currentDS.ConvertDSToLegacy()
 		return &legacyDS, status, userErr, sysErr
 	}
@@ -836,6 +836,9 @@ func updateV30(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS *
 		&ds.MaxOriginConnections,
 		&ds.EcsEnabled,
 		&ds.RangeSliceBlockSize,
+		&ds.FirstHeaderRewrite,
+		&ds.InnerHeaderRewrite,
+		&ds.LastHeaderRewrite,
 		&ds.Topology,
 		&ds.ID)
 
