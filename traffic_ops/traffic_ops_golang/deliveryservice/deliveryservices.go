@@ -836,10 +836,10 @@ func updateV30(w http.ResponseWriter, r *http.Request, inf *api.APIInfo, reqDS *
 		&ds.MaxOriginConnections,
 		&ds.EcsEnabled,
 		&ds.RangeSliceBlockSize,
+		&ds.Topology,
 		&ds.FirstHeaderRewrite,
 		&ds.InnerHeaderRewrite,
 		&ds.LastHeaderRewrite,
-		&ds.Topology,
 		&ds.ID)
 
 	if err != nil {
