@@ -20,17 +20,6 @@ Traffic Ops API
 ***************
 The Traffic Ops API provides programmatic access to read and write Traffic Control data which allows for the monitoring of CDN performance and configuration of Traffic Control settings and parameters.
 
-API V1 Routes
-=============
-Documents all API version 1 routes.
-
-.. toctree::
-	:maxdepth: 4
-	:hidden:
-	:glob:
-
-	v1/*
-
 API V2 Routes
 =============
 Documents all API version 2 routes.
