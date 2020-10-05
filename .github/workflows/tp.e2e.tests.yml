@@ -13,27 +13,13 @@ on:
 jobs:
   E2E_tests:
     runs-on: ubuntu-latest
-
-    env:
-      SELENIUM_HUB_HOST: hub
-      TEST_HOST: testHost
-
-    container:
-      image: node:12.18
-      options: --network-alias testHost
-
-    services:
-      hub:
-        image: selenium/hub
-      chrome:
-        image: selenium/node-chrome
-        env:
-          HUB_HOST: hub
-          HUB_PORT: 4444
-
     steps:
       - uses: actions/checkout@master
+      - uses: action/setup-node@v1
+        with:
+          node-version: '12'
       - run: npm i -g protractor
+      - run: nohup webdriver-manager start &
       - run: protractor conf.js
         working-directory: traffic_portal/test/end_to_end
 
