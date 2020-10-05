@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SELENIUM_HUB_HOST: hub,
+      SELENIUM_HUB_HOST: hub
       TEST_HOST: testHost
 
     container:
