@@ -23,12 +23,27 @@ jobs:
         env:
           HUB_HOST: hub
           HUB_PORT: 4444
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: traffic_ops
+          POSTGRES_PASSWORD: twelve
+          POSTGRES_DB: traffic_ops
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-      - run: npm i -g protractor
-      - run: protractor conf.js
-        working-directory: traffic_portal/test/end_to_end
+      - name: todb
+        id: todb
+        uses: ./.github/actions/todb-init
+      - name: Run TP
+        uses: ./.github/actions/tp-e2e-tests
+#      - uses: actions/setup-node@v1
+#        with:
+#          node-version: '12'
+#      - run: npm i -g protractor
+#      - run: protractor conf.js
+#        working-directory: traffic_portal/test/end_to_end
 

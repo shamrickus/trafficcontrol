@@ -18,7 +18,6 @@
 FROM node:12.18
 
 RUN npm i -g protractor@^7.0.0
-RUN webdriver-manager update
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh

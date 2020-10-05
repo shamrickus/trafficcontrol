@@ -18,11 +18,13 @@
 
 set -e
 
-nohup webdriver-manager start &
-selenium_fqdn="http://localhost:4444"
+selenium_fqdn="http://hub:4444"
 while ! curl -Lvsk "${selenium_fqdn}" 2>/dev/null >/dev/null; do
    echo "waiting for selenium server to start on '${selenium_fqdn}'"
    sleep 1
 done
+
+cd traffic_portal/test/end_to_end
+protractor conf.js
 
 exit $?
