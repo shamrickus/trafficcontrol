@@ -13,13 +13,19 @@ on:
 jobs:
   E2E_tests:
     runs-on: ubuntu-latest
+    services:
+      hub:
+        image: selenium/hub
+        ports:
+          - 4444:4444
+      chrome:
+        image: selenium/node-chrome
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
       - run: npm i -g protractor
-      - run: nohup webdriver-manager start &
       - run: protractor conf.js
         working-directory: traffic_portal/test/end_to_end
 
