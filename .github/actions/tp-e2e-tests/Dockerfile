@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-FROM node:12.8.4
+FROM node:12.18
 
 RUN npm i -g protractor@^7.0.0
 RUN webdriver-manager update
