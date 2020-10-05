@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: action/setup-node@v2
+      - uses: actions/setup-node@v1
         with:
           node-version: '12'
       - run: npm i -g protractor
