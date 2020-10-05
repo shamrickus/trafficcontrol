@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SELENIUM_HUB_HOST: hub,
+      SELENIUM_HUB_HOST: hub
       TEST_HOST: testHost
 
     container:
@@ -25,8 +25,11 @@ jobs:
     services:
       hub:
         image: selenium/hub
+        container_name: hub
       chrome:
         image: selenium/node-chrome
+        depends_on:
+          - hub
         env:
           HUB_HOST: hub
           HUB_PORT: 4444
