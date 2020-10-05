@@ -14,6 +14,14 @@ jobs:
   E2E_tests:
     runs-on: ubuntu-latest
 
+    env:
+      SELENIUM_HUB_HOST: hub,
+      TEST_HOST: testHost
+
+    container:
+      image: node:12.18
+      options: --network-alias testHost
+
     services:
       hub:
         image: selenium/hub
@@ -25,9 +33,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12'
       - run: npm i -g protractor
       - run: protractor conf.js
         working-directory: traffic_portal/test/end_to_end
