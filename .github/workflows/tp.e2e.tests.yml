@@ -20,6 +20,9 @@ jobs:
           - 4444:4444
       chrome:
         image: selenium/node-chrome
+        env:
+          HUB_HOST: hub
+          HUB_PORT: 4444
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v1
