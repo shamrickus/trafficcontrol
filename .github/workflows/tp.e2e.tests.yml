@@ -1,0 +1,21 @@
+name: TP E2E Tests
+
+on:
+  push:
+    paths:
+      - traffic_portal/**
+  create:
+  pull_request:
+    paths:
+      - traffic_portal/**
+    types: [ opened, reopened, edited, synchronize ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name:
+        uses: ./.github/actions/tp-e2e-tests
