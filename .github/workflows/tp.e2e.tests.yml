@@ -29,5 +29,6 @@ jobs:
         with:
           node-version: '12'
       - run: npm i -g protractor
-      - run: protractor traffic_portal/test/end_to_end/conf.js
+      - run: protractor conf.js
+        working-directory: traffic_portal/test/end_to_end
 
