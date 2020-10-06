@@ -17,13 +17,10 @@
 
 FROM golang:1.14.2-alpine
 
-RUN apk add --no-cache git gcc gettext postgresql-client musl-dev &&\
-	go get -v bitbucket.org/liamstask/goose/cmd/goose &&\
-	mv $GOPATH/bin/goose /bin/ &&\
-	apk del git gcc musl-dev
+ENV CGO_ENABLED=0
+RUN apk add --no-cache gettext git
 
-
-COPY entrypoint.sh dbconf.yml /
+COPY entrypoint.sh database.json cdn.json /
 RUN chmod a+x /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh
