@@ -16,7 +16,7 @@
 # under the License.
 
 FROM golang:1.14.2-alpine
-RUN apk add --no-cache gettext git nodejs
+RUN apk add --no-cache gettext git nodejs npm
 
 RUN npm i -g protractor@^7.0.0
 
