@@ -94,7 +94,7 @@ mv /database.json ./database.conf
 #   sleep 1
 #done
 
-cd traffic_portal/test/end_to_end
+cd "$SRCDIR/trafficcontrol/traffic_portal/test/end_to_end"
 protractor conf.js
 
 exit $?
