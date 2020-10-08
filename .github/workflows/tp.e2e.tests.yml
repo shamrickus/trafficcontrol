@@ -40,9 +40,6 @@ jobs:
         uses: ./.github/actions/todb-init
       - name: Run TP
         uses: ./.github/actions/tp-e2e-tests
-#      - uses: actions/setup-node@v1
-#        with:
-#          node-version: '12'
 #      - run: npm i -g protractor
 #      - run: protractor conf.js
 #        working-directory: traffic_portal/test/end_to_end

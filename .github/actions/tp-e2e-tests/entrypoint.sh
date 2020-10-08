@@ -88,11 +88,11 @@ mv /database.json ./database.conf
 
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
-selenium_fqdn="http://hub:4444"
-while ! curl -Lvsk "${selenium_fqdn}" 2>/dev/null >/dev/null; do
-   echo "waiting for selenium server to start on '${selenium_fqdn}'"
-   sleep 1
-done
+#selenium_fqdn="http://hub:4444"
+#while ! curl -Lvsk "${selenium_fqdn}" 2>/dev/null >/dev/null; do
+#   echo "waiting for selenium server to start on '${selenium_fqdn}'"
+#   sleep 1
+#done
 
 cd traffic_portal/test/end_to_end
 protractor conf.js
