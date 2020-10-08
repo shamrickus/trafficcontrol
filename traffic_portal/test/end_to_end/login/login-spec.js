@@ -37,7 +37,7 @@ describe('Traffic Portal Login Test Suite', function() {
 	it('should fail login to Traffic Portal with bad user', function() {
 		console.log('Negative login test');
 		browser.sleep(10000);
-		browser.driver.findElement(by.name('loginUsername')).sendKeys('badUser');
+		element(by.name('loginUsername')).sendKeys('badUser');
 		browser.driver.findElement(by.name('loginPass')).sendKeys('badPassword');
 		browser.driver.findElement(by.name('loginSubmit')).click();
 		browser.sleep(250);
