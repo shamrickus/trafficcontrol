@@ -25,3 +25,7 @@ exports.config = JSON.parse(
     path.join(process.cwd(), 'conf.json')
   ).toString()
 );
+
+exports.config.beforeLaunch = function() {
+  browser.manage().timeouts().implicitlyWait(20000);
+};

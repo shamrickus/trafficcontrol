@@ -10,12 +10,13 @@
   "framework": "jasmine",
   "getPageTimeout": 30000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 600000
+    "defaultTimeoutInterval": 900000
   },
   "params": {
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
+  "logLevel": "DEBUG",
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
     "allTests": [
