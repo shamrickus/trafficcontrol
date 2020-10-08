@@ -25,6 +25,8 @@ ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
+echo $GOPATH > "gopath.txt"
+
 
 /usr/local/go/bin/go get ./...
 /usr/local/go/bin/go build .
