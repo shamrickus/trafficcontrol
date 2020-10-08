@@ -2,7 +2,10 @@
   "baseUrl": "https://localhost:6443",
   "capabilities": {
     "acceptInsecureCerts": true,
-    "browserName": "chrome"
+    "browserName": "chrome",
+    "chromeOptions": {
+      "args": ["--headless"]
+    }
   },
   "framework": "jasmine",
   "getPageTimeout": 30000,
