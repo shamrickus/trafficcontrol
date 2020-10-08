@@ -19,7 +19,7 @@ FROM node:12.18
 
 RUN npm i -g protractor@^7.0.0
 
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh database.json cdn.json /
 RUN chmod a+x /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh
