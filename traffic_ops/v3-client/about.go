@@ -27,7 +27,7 @@ import (
 
 const (
 	API_ABOUT = apiBase + "/about"
-	ASDF      = "6"
+	ASDF      = "7"
 )
 
 // GetAbout gets data about the TO instance.
