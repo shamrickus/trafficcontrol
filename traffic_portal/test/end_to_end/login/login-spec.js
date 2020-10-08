@@ -23,22 +23,20 @@ describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
 	beforeEach(function() {
-		console.log(browser.baseUrl);
 		browser.get(browser.baseUrl + '/#!/cdns');
 		browser.wait(function() {
 			return element(by.name('loginUsername')).isPresent();
 		}, 15000);
-		console.log("im done");
 	});
 
 	it('should not show environment banner in prod mode', function() {
-		console.log('Verifying environment banner does not have the prod class');
+		console.log('\nVerifying environment banner does not have the prod class');
 		expect(element(by.css('.enviro-banner.prod')).isPresent()).toBe(false);
 	});
 
 	it('should fail login to Traffic Portal with bad user', function() {
 		console.log('Negative login test');
-		console.log(element(by.css('body')).isPresent());
+		browser.sleep(10000);
 		browser.driver.findElement(by.name('loginUsername')).sendKeys('badUser');
 		browser.driver.findElement(by.name('loginPass')).sendKeys('badPassword');
 		browser.driver.findElement(by.name('loginSubmit')).click();
