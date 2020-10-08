@@ -15,7 +15,8 @@
 # specific language governing permissions and limitations
 # under the License.
 
-FROM node:12.18
+FROM golang:1.14.2-alpine
+RUN apk add --no-cache gettext git nodejs
 
 RUN npm i -g protractor@^7.0.0
 
