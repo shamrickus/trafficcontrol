@@ -20,7 +20,7 @@ RUN apk add --no-cache gettext git nodejs npm
 
 RUN npm i -g protractor@^7.0.0
 
-COPY entrypoint.sh database.json cdn.json /
+COPY entrypoint.sh database.json cdn.json conf.json /
 RUN chmod a+x /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh
