@@ -16,11 +16,11 @@
 # under the License.
 
 FROM golang:1.14.2-alpine
-RUN apk add --no-cache gettext git nodejs npm
+RUN apk add --no-cache gettext git nodejs npm ruby
 
-RUN npm i -g protractor@^7.0.0
+RUN npm i -g protractor@^7.0.0 forever bower grunt
 
-COPY entrypoint.sh database.json cdn.json conf.json /
+COPY entrypoint.sh database.json cdn.json conf.json config.js /
 RUN chmod a+x /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh

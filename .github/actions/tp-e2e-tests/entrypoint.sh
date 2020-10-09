@@ -94,7 +94,17 @@ mv /database.json ./database.conf
 #   sleep 1
 #done
 
-cd "$SRCDIR/trafficcontrol/traffic_portal/test/end_to_end"
+cd "$SRCDIR/traffic_control/traffic_portal"
+gem update --system
+gem install sass compass
+npm i --save-dev
+grunt dist
+
+mv /config.js ./conf
+
+forever start ./server.js &
+
+cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
 
