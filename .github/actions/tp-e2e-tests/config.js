@@ -36,12 +36,12 @@ module.exports = {
     // default static files location (this is where the traffic portal html, css and javascript was installed. rpm installs these files at /opt/traffic_portal/public
     // change this to ./app/dist/public/ if you are running locally for development
     files: {
-        static: './app/dist/public'
+        static: './app/dist/public/'
     },
     // default log location (this is where traffic_portal logs are written)
     // change this to ./server/log/access.log if you are running traffic portal locally for development
     log: {
-        stream: './server/log/access.log'
+        stream: './access.log'
     },
     reject_unauthorized: 0 // 0 if using self-signed certs, 1 if trusted certs
 };

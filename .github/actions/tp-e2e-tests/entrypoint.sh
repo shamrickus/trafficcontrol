@@ -113,6 +113,8 @@ cd ../..
 echo "||||"
 cat tp.log
 echo "|||||"
-cat server/log/access.log
+cat access.log
+echo "||||||"
+cat ../traffic_ops/traffic_ops_golang/err.log
 
 exit $?
