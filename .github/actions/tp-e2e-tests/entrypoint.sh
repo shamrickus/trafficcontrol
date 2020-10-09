@@ -102,14 +102,15 @@ bower install --allow-root
 grunt dist
 
 mv /config.js ./conf
-
+touch tp.log
+touch access.log
 forever --minUptime 5000 --spinSleepTime 2500 -l ./tp.log start ./server.js &
 
-cd "test/end_to_end"
-mv /conf.json .
+#cd "test/end_to_end"
+#mv /conf.json .
 #protractor conf.js 2> /dev/null
 
-cd ../..
+#cd ../..
 echo "||||"
 cat tp.log
 echo "|||||"
