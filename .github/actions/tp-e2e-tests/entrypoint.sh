@@ -109,8 +109,8 @@ chmod +x server.js
 node server.js &
 
 #curl -Lvsk "http://hub:4444/wd/hub/status"
-curl -Lsk https://localhost:8443/
-curl -Lsk https://chrome:8443/
+curl -Lvsk https://localhost:8443/
+curl -Lvsk https://chrome:8443/
 
 #cd "test/end_to_end"
 #mv /conf.json .
