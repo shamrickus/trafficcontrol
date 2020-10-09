@@ -17,7 +17,7 @@
 
 FROM golang:1.14.2-alpine
 RUN apk add --no-cache gettext git nodejs npm ruby ruby-dev \
-    build-base libc-dev linux-headers \
+    build-base libc-dev linux-headers ruby-doc \
     openssl-dev postgresql-dev libxml2-dev libxslt-dev
 
 RUN npm i -g protractor@^7.0.0 forever bower grunt
