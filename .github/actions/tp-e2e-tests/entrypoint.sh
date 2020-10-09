@@ -107,8 +107,8 @@ touch access.log
 chmod +x server.js
 forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
 
-
-curl -k https://localhost:8443/api
+curl -Lvsk "http://hub:4444/wd/hub"
+curl -Lvsk https://localhost:8443/api
 
 #cd "test/end_to_end"
 #mv /conf.json .
