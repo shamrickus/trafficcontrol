@@ -105,7 +105,7 @@ mv /config.js ./conf
 touch tp.log
 touch access.log
 chmod +x server.js
-forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start node server.js &
+forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
 
 
 cd "test/end_to_end"
