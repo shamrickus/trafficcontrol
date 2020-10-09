@@ -104,6 +104,7 @@ grunt dist
 mv /config.js ./conf
 touch tp.log
 touch access.log
+chmod +x server.js
 #forever --minUptime 5000 --spinSleepTime 2500 -l ./tp.log start ./server.js &
 ./server.js 2> tp.log &
 
