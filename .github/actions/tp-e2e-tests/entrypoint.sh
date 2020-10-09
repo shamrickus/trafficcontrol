@@ -105,7 +105,7 @@ mv /config.js ./conf
 touch tp.log
 touch access.log
 #forever --minUptime 5000 --spinSleepTime 2500 -l ./tp.log start ./server.js &
-./server.js 2> tp.log
+./server.js 2> tp.log &
 
 
 cd "test/end_to_end"
