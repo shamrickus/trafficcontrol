@@ -29,6 +29,7 @@ var constants = require('constants'),
 
 var config;
 
+console.log("yo");
 try {
     config = require('/etc/traffic_portal/conf/config');
 }

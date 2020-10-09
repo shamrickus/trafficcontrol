@@ -106,11 +106,11 @@ touch tp.log
 touch access.log
 chmod +x server.js
 #forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
-node server.js 2> tp.log &
+node server.js &
 
-curl -Lvsk "http://hub:4444/wd/hub/status"
-curl -Lvsk https://localhost:8443/
-curl -Lvsk https://chrome:8443/
+#curl -Lvsk "http://hub:4444/wd/hub/status"
+curl -Lsk https://localhost:8443/
+curl -Lsk https://chrome:8443/
 
 #cd "test/end_to_end"
 #mv /conf.json .
