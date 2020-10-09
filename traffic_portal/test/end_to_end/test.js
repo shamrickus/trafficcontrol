@@ -17,7 +17,7 @@
  * under the License.
  */
 
-var cfunc = require('../common/commonFunctions.js');
+var cfunc = require('common/commonFunctions.js');
 
 describe("POC Test", function() {
     const commonfunctions = new cfunc();
