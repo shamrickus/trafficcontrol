@@ -14,7 +14,7 @@ on:
 
 jobs:
   E2E_tests:
-    runs-on: alpine-latest
+    runs-on: alpine_latest
     services:
       hub:
         image: selenium/hub
