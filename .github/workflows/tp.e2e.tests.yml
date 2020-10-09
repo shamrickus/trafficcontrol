@@ -14,11 +14,9 @@ on:
 
 jobs:
   E2E_tests:
-    runs-on: ubuntu-latest
     services:
       hub:
         image: selenium/hub
-        privileged: true
         ports:
           - "4444:4444"
         options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
@@ -27,7 +25,6 @@ jobs:
         env:
           HUB_HOST: hub
           HUB_PORT: 4444
-        privileged: true
         volumes:
           - /dev/shm:/dev/shm
 #      chrome:

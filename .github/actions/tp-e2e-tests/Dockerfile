@@ -20,7 +20,7 @@ RUN apk add --no-cache gettext git nodejs npm ruby ruby-dev \
     build-base libc-dev linux-headers ruby-doc curl \
     openssl-dev postgresql-dev libxml2-dev libxslt-dev
 
-RUN npm i -g protractor@^7.0.0 forever bower grunt
+RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 
 COPY entrypoint.sh database.json cdn.json conf.json config.js /
 RUN chmod a+x /entrypoint.sh
