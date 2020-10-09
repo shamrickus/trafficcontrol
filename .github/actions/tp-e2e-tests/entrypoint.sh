@@ -98,6 +98,7 @@ cd "$SRCDIR/trafficcontrol/traffic_portal"
 gem update --system
 gem install sass compass
 npm i --save-dev
+bower install
 grunt dist
 
 mv /config.js ./conf
