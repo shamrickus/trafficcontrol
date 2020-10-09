@@ -94,7 +94,7 @@ mv /database.json ./database.conf
 #   sleep 1
 #done
 
-cd "$SRCDIR/traffic_control/traffic_portal"
+cd "$SRCDIR/trafficcontrol/traffic_portal"
 gem update --system
 gem install sass compass
 npm i --save-dev
