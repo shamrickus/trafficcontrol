@@ -21,17 +21,8 @@
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
     "allTests": [
-      "login/login-spec.js",
-      "CDNs/cdns-spec.js",
-      "cacheGroups/cache-groups-spec.js",
-      "topologies/topologies-spec.js",
-      "profiles/profiles-spec.js",
-      "divisions/divisions-spec.js",
-      "regions/regions-spec.js",
-      "physLocations/phys-locations-spec.js",
-      "serverCapabilities/server-capabilities-spec.js",
-      "servers/servers-spec.js",
-      "deliveryServices/delivery-services-spec.js"
+      "test.js",
+      "login/login-spec.js"
     ]
   }
 }

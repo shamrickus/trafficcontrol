@@ -111,7 +111,6 @@ touch access.log
 cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
-echo "done"
 
 #cd ../..
 echo "||||"
