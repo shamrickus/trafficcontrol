@@ -108,11 +108,13 @@ chmod +x server.js
 forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
 
 
-cd "test/end_to_end"
-mv /conf.json .
-protractor conf.js
+curl -k https://localhost:8443/api
 
-cd ../..
+#cd "test/end_to_end"
+#mv /conf.json .
+#protractor conf.js
+#cd ../..
+
 echo "||||"
 cat tp.log
 echo "|||||"
