@@ -35,6 +35,7 @@ try {
 catch(e) {
     config = require('./conf/config');
 }
+console.log(config);
 
 var logStream = fs.createWriteStream(config.log.stream, { flags: 'a' }),
     useSSL = config.useSSL;

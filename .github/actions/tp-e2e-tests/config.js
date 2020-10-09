@@ -21,7 +21,7 @@
 module.exports = {
     timeout: '120s',
     useSSL: true, // set to true if you plan to use https (self-signed or trusted certs).
-    port: 880, // set to http port
+    port: 8880, // set to http port
     sslPort: 8443, // set to https port
     // if useSSL is true, generate ssl certs and provide the proper locations.
     ssl: {

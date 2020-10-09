@@ -109,7 +109,8 @@ chmod +x server.js
 node server.js 2> tp.log &
 
 curl -Lvsk "http://hub:4444/wd/hub/status"
-curl -Lvsk https://localhost:8443/api
+curl -Lvsk https://localhost:8443/
+curl -Lvsk https://chrome:8443/
 
 #cd "test/end_to_end"
 #mv /conf.json .
