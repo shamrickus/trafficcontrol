@@ -105,8 +105,8 @@ mv /config.js ./conf
 touch tp.log
 touch access.log
 chmod +x server.js
-forever --minUptime 2000 --spinSleepTime 1500 -l ./tp.log start ./server.js 2> tp2.log &
-#./server.js 2> tp.log &
+#forever --minUptime 2000 --spinSleepTime 1500 -l ./tp.log start ./server.js 2> tp2.log &
+node server.js 2> tp.log &
 
 
 cd "test/end_to_end"
@@ -115,7 +115,6 @@ protractor conf.js
 
 cd ../..
 echo "||||"
-cat tp2.log >> tp.log
 cat tp.log
 echo "|||||"
 cat access.log
