@@ -3,11 +3,13 @@ name: TP E2E Tests
 on:
   push:
     paths:
-      - /**
+      - traffic_portal/**
+      - .github/**
   create:
   pull_request:
     paths:
-      - /**
+      - traffic_portal/**
+      - .github/**
     types: [ opened, reopened, edited, synchronize ]
 
 jobs:
