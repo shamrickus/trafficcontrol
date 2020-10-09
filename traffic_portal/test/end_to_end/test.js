@@ -22,7 +22,7 @@ describe("POC Test", function() {
 
     it("should work pls", function() {
         console.log("no angular test");
-        //console.log(browser.getCurrentUrl());
+        console.log(browser.getCurrentUrl());
         expect(true).toBe(true);
     });
 });
