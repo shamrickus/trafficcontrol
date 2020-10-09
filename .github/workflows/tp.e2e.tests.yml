@@ -18,19 +18,17 @@ jobs:
     services:
       hub:
         image: selenium/hub
-        network_mode: bridge
         privileged: true
         ports:
-          - 4444
+          - "4444:4444"
       chrome:
         image: selenium/node-chrome
         env:
           HUB_HOST: hub
           HUB_PORT: 4444
-        network_mode: bridge
         privileged: true
-        links:
-          - hub
+        volumes:
+          - /dev/shm:/dev/shm
 #      chrome:
 #        image: selenium/standalone-chrome
 #        ports:
