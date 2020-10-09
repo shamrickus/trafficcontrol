@@ -3,9 +3,8 @@
   "capabilities": {
     "acceptInsecureCerts": true,
     "browserName": "chrome",
-    "directConnect": true,
     "chromeOptions": {
-      "args": ["--headless", "--disable-gpu", "--window-size=800,600"]
+      "args": ["--headless"]
     }
   },
   "framework": "jasmine",

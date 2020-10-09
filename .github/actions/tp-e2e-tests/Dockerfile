@@ -25,4 +25,6 @@ RUN npm i -g protractor@^7.0.0 forever bower grunt
 COPY entrypoint.sh database.json cdn.json conf.json config.js /
 RUN chmod a+x /entrypoint.sh
 
+EXPOSE 8443 6443
+
 ENTRYPOINT /entrypoint.sh
