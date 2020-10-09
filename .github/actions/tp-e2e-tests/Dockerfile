@@ -17,11 +17,8 @@
 
 FROM golang:1.14.2-alpine
 RUN apk add --no-cache gettext git nodejs npm ruby ruby-dev \
-	build_deps \
     build-base libc-dev linux-headers \
-    openssl-dev postgresql-dev libxml2-dev libxslt-dev && \
-    sudo -iu app bundle install --path vendor/bundle && \
-    apk del  build_deps
+    openssl-dev postgresql-dev libxml2-dev libxslt-dev
 
 RUN npm i -g protractor@^7.0.0 forever bower grunt
 
