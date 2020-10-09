@@ -103,10 +103,16 @@ grunt dist
 
 mv /config.js ./conf
 
-forever start ./server.js &
+forever --minUptime 5000 --spinSleepTime 2500 -l ./tp.log start ./server.js &
 
 cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
+
+cd ../..
+echo "||||"
+cat tp.log
+echo "|||||"
+cat server/log/access.log
 
 exit $?
