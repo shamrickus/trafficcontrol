@@ -84,7 +84,28 @@ module.exports = {
         },
         options: {
             alias: {
-                'app-templates': './<%= globalConfig.tmpdir %>/app-templates.js'
+                'app-templates': './<%= globalConfig.tmpdir %>/app-templates.js',
+                "angular": "./<%= globalConfig.app %>/bower_components/angular/angular.min.js",
+                "angular-animate": './<%= globalConfig.app %>/bower_components/angular-animate/angular-animate.min.js',
+                "contextMenu": './<%= globalConfig.app %>/bower_components/angular-bootstrap-contextmenu/contextMenu.js',
+                "ui-bootstrap": './<%= globalConfig.app %>/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+                "ui-bootstrap-tpls": './<%= globalConfig.app %>/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+                "angular-jwt": './<%= globalConfig.app %>/bower_components/angular-jwt/dist/angular-jwt.min.js',
+                "loading-bar": './<%= globalConfig.app %>/bower_components/angular-loading-bar/build/loading-bar.min.js',
+                "angular-resource": './<%= globalConfig.app %>/bower_components/angular-resource/angular-resource.min.js',
+                "angular-route": './<%= globalConfig.app %>/bower_components/angular-route/angular-route.min.js',
+                "angular-sanitize": './<%= globalConfig.app %>/bower_components/angular-sanitize/angular-sanitize.min.js',
+                "angular-ui-router": './<%= globalConfig.app %>/bower_components/angular-ui-router/release/angular-ui-router.min.js',
+                "bootstrap": './<%= globalConfig.app %>/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.min.js',
+                "es5-shim": './<%= globalConfig.app %>/bower_components/es5-shim/es5-shim.min.js',
+                "jquery": './<%= globalConfig.app %>/bower_components/jquery/jquery.min.js',
+                "json3": './<%= globalConfig.app %>/bower_components/json3/lib/json3.min.js',
+                'jquery-flot': './<%= globalConfig.app %>/bower_components/flot/jquery.flot.js',
+                'jquery-flot-pie': './<%= globalConfig.app %>/bower_components/flot/jquery.flot.pie.js',
+                'jquery-flot-stack': './<%= globalConfig.app %>/bower_components/flot/jquery.flot.stack.js',
+                'jquery-flot-time': './<%= globalConfig.app %>/bower_components/flot/jquery.flot.time.js',
+                'jquery-flot-tooltip': './<%= globalConfig.app %>/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js',
+                'jquery-flot-axislabels': './<%= globalConfig.app %>/bower_components/flot-axislabels/jquery.flot.axislabels.js',
             }
         }
     },

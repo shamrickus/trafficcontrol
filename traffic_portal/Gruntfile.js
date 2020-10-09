@@ -55,6 +55,7 @@ module.exports = function (grunt) {
         'copy:dist',
         'string-replace',
         'build-css',
+        'ts',
         'build-js',
         'build-shared-libs'
     ]);
