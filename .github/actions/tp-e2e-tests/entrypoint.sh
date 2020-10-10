@@ -99,7 +99,7 @@ mv /config.js ./conf
 touch tp.log
 touch access.log
 chmod +x server.js
-forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
+forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
 #node server.js &
 
 fqdn="https://localhost:8443/"
@@ -118,5 +118,7 @@ cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
 
-curl -Lvsk "${fqdn}"
+curl -Lvsk "${fqdn}resources/assets/js/shared-libs.js"
+
+cat ../../tp.log
 exit $?
