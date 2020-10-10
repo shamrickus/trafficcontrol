@@ -88,12 +88,6 @@ mv /database.json ./database.conf
 
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
-#selenium_fqdn="http://hub:4444"
-#while ! curl -Lvsk "${selenium_fqdn}" 2>/dev/null >/dev/null; do
-#   echo "waiting for selenium server to start on '${selenium_fqdn}'"
-#   sleep 1
-#done
-
 cd "$SRCDIR/trafficcontrol/traffic_portal"
 gem update --system
 gem install sass compass
@@ -108,18 +102,22 @@ chmod +x server.js
 #forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
 node server.js &
 
-sleep 5s
+fqdn="https://localhost:8443/"
+while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
+  echo "waiting for TP server to start on '${fqdn}'"
+  sleep 2
+done
+  ss -ptl
 
-ss -ptl
 
 #curl -Lvsk "http://hub:4444/wd/hub/status"
-curl -Lvsk https://localhost:8443/
-curl -Lvsk https://chrome:8443/
+#curl -Lvsk https://localhost:8443/
+#curl -Lvsk https://chrome:8443/
 
-#cd "test/end_to_end"
-#mv /conf.json .
-#protractor conf.js
-#cd ../..
+cd "test/end_to_end"
+mv /conf.json .
+protractor conf.js
+cd ../..
 
 echo "||||"
 cat tp.log
