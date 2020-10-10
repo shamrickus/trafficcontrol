@@ -117,13 +117,5 @@ ss -ptl
 cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
-cd ../..
-
-echo "||||"
-cat tp.log
-echo "|||||"
-cat access.log
-echo "||||||"
-cat ../traffic_ops/traffic_ops_golang/err.log
 
 exit $?
