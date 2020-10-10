@@ -113,9 +113,10 @@ ss -ptl
 #curl -Lvsk "http://hub:4444/wd/hub/status"
 #curl -Lvsk https://localhost:8443/
 #curl -Lvsk https://chrome:8443/
-
+curl -Lvsk "${fqdn}"
 cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
 
+curl -Lvsk "${fqdn}"
 exit $?
