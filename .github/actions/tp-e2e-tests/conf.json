@@ -8,6 +8,7 @@
     }
   },
   "framework": "jasmine2",
+  "allScriptTimeout": 90000,
   "getPageTimeout": 90000,
   "jasmineNodeOpts": {
     "defaultTimeoutInterval": 900000
@@ -16,6 +17,7 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
+  "untrackOutstandingTimeouts": true,
   "logLevel": "DEBUG",
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
