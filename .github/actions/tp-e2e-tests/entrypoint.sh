@@ -99,15 +99,15 @@ mv /config.js ./conf
 touch tp.log
 touch access.log
 chmod +x server.js
-#forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
-node server.js &
+forever --minUptime 12000 --spinSleepTime 1500 -l ./tp.log start server.js &
+#node server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
   echo "waiting for TP server to start on '${fqdn}'"
   sleep 2
 done
-  ss -ptl
+ss -ptl
 
 
 #curl -Lvsk "http://hub:4444/wd/hub/status"

@@ -20,7 +20,7 @@
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
     "allTests": [
-      "test.js"
+      "login/*.js"
     ]
   }
 }

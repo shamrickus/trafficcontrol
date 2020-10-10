@@ -29,14 +29,12 @@ var constants = require('constants'),
 
 var config;
 
-console.log("yo");
 try {
     config = require('/etc/traffic_portal/conf/config');
 }
 catch(e) {
     config = require('./conf/config');
 }
-console.log(config);
 
 var logStream = fs.createWriteStream(config.log.stream, { flags: 'a' }),
     useSSL = config.useSSL;
