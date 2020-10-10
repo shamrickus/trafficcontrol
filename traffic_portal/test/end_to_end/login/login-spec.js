@@ -23,9 +23,14 @@ describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
 	beforeEach(function() {
+		browser.waitForAngularEnabled(false);
 		browser.get(browser.baseUrl + '/#!/cdns');
 		browser.wait(function() {
-			return element(by.className('nav-md')).isPresent();
+			if(element(by.className('nav-md')).isPresent()){
+				console.log("present");
+				return true;
+			}
+			return false;
 		}, 55000, "Timed out waiting for angular");
 	});
 
