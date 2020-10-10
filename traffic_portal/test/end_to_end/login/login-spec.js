@@ -23,7 +23,7 @@ describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
 	beforeEach(function() {
-		browser.waitForAngularEnabled(false);
+	    browser.refresh(25000);
 		browser.get(browser.baseUrl + '/#!/cdns');
 		browser.wait(function() {
 			if(element(by.className('nav-md')).isPresent()){
