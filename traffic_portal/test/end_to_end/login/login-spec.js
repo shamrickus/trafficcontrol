@@ -23,19 +23,17 @@ describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
 	beforeEach(function() {
-		browser.sleep(10000);
-	    console.log(browser.baseUrl);
 		browser.get(browser.baseUrl + '/#!/cdns');
-		browser.wait(function() {
-			if(element(by.className('nav-md')).isPresent()){
-				console.log("present");
-				return true;
-			}
-			return false;
+		let x = browser.wait(function() {
+			 return element(by.className('nav-md')).isPresent();
 		}, 55000, "Timed out waiting for angular");
+		x.then(function(y) {
+			console.log("done", y);
+		});
 	});
 
 	it('should not show environment banner in prod mode', function() {
+	    console.log(angular);
 		console.log('\nVerifying environment banner does not have the prod class');
 		expect(element(by.css('.enviro-banner.prod')).isPresent()).toBe(false);
 	});
