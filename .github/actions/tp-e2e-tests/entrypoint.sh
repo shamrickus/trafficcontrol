@@ -116,6 +116,8 @@ ss -ptl
 
 cd "test/end_to_end"
 mv /conf.json .
+
+cat conf.json
 protractor conf.js
 
 cat ../../tp.log

@@ -33,7 +33,6 @@ describe('Traffic Portal Login Test Suite', function() {
 	});
 
 	it('should not show environment banner in prod mode', function() {
-	    console.log(angular);
 		console.log('\nVerifying environment banner does not have the prod class');
 		expect(element(by.css('.enviro-banner.prod')).isPresent()).toBe(false);
 	});
