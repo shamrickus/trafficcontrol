@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://localhost:8443",
+  "baseUrl": "https://localhost:8443/",
   "capabilities": {
     "acceptInsecureCerts": true,
     "browserName": "chrome",
@@ -7,7 +7,7 @@
       "args": ["--headless", "--disable-gpu", "--disable-extensions", "--ignore-certificate-errors", "--no-sandbox"]
     }
   },
-  "framework": "jasmine2",
+  "framework": "jasmine",
   "allScriptTimeout": 400000,
   "getPageTimeout": 500000,
   "jasmineNodeOpts": {
@@ -18,7 +18,6 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
-  "untrackOutstandingTimeouts": true,
   "logLevel": "DEBUG",
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
