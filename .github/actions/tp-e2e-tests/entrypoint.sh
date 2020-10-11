@@ -26,7 +26,7 @@ ln -s "$PWD" "$SRCDIR/trafficcontrol"
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
 
-/usr/local/go/bin/go get ./...
+/usr/local/go/bin/go get ./... > /dev/null
 /usr/local/go/bin/go build .
 
 echo "
@@ -89,10 +89,10 @@ mv /database.json ./database.conf
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
-gem update --system
-gem install sass compass
-npm i --save-dev
-bower install --allow-root
+gem update --system > /dev/null
+gem install sass compass > /dev/null
+npm i --save-dev > /dev/null
+bower install --allow-root > /dev/null
 grunt dist
 
 mv /config.js ./conf
@@ -113,7 +113,7 @@ ss -ptl
 #curl -Lvsk "http://hub:4444/wd/hub/status"
 #curl -Lvsk https://localhost:8443/
 #curl -Lvsk https://chrome:8443/
-curl -Lvsk "${fqdn}"
+
 cd "test/end_to_end"
 mv /conf.json .
 protractor conf.js
