@@ -22,19 +22,16 @@ var cfunc = require('../common/commonFunctions.js');
 describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
-	beforeEach(function() {
-		browser.get(browser.baseUrl + '/#!/cdns');
-		let x = browser.wait(function() {
-			 return element(by.className('nav-md')).isPresent();
+	beforeEach(async function() {
+		await browser.get(browser.baseUrl + '/#!/cdns');
+		await browser.wait(async function() {
+			 return await element(by.className('nav-md')).isPresent();
 		}, 55000, "Timed out waiting for angular");
-		x.then(function(y) {
-			console.log("done", y);
-		});
 	});
 
-	it('should not show environment banner in prod mode', function() {
+	it('should not show environment banner in prod mode', async function() {
 		console.log('\nVerifying environment banner does not have the prod class');
-		expect(element(by.css('.enviro-banner.prod')).isPresent()).toBe(false);
+		expect(await element(by.css('.enviro-banner.prod')).isPresent()).toBe(false);
 	});
 
 	it('should fail login to Traffic Portal with bad user', function() {
