@@ -90,7 +90,7 @@ mv /database.json ./database.conf
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
 gem update --system > /dev/null
-gem install sass compass rdoc rake > /dev/null
+gem install sass compass > /dev/null
 npm i --save-dev > /dev/null
 bower install --allow-root > /dev/null
 grunt dist
