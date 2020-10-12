@@ -101,7 +101,8 @@ cd ../..
 grunt dist
 
 webdriver-manager clean > /dev/null
-webdriver-manager update > /dev/null
+webdriver-manager update
+webdriver-manager update
 
 ls /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
 webdriver-manager start &
