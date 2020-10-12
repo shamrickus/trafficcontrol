@@ -93,6 +93,11 @@ gem update --system > /dev/null
 gem install sass compass > /dev/null
 npm i --save-dev > /dev/null
 bower install --allow-root > /dev/null
+
+cd app/src/
+npm i --save-dev > /dev/null
+cd ../..
+
 grunt dist
 
 mv /config.js ./conf
@@ -111,7 +116,9 @@ done
 cd "test/end_to_end"
 mv /conf.json .
 
+curl -sk "${fqdn}api/3.0/ping"
 protractor conf.js
+curl -sk "${fqdn}api/3.0/ping"
 
 cat ../../tp.log
 cat ../../access.log
