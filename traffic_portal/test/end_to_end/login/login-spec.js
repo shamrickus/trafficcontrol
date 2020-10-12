@@ -22,10 +22,10 @@ var cfunc = require('../common/commonFunctions.js');
 describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
-	beforeEach(async function() {
-		await browser.get(browser.baseUrl + '/#!/cdns');
+	beforeEach(function() {
+		browser.get(browser.baseUrl + '/#!/cdns', 55000);
 		browser.wait(function() {
-			 return element(by.className('nav-md')).isPresent();
+			 return angular !== undefined;
 		}, 55000, "Timed out waiting for angular");
 	});
 
