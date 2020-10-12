@@ -24,7 +24,7 @@ describe('Traffic Portal Login Test Suite', function() {
 
 	beforeEach(async function() {
 		await browser.get(browser.baseUrl + '/#!/cdns');
-		await browser.wait(async function() {
+		browser.wait(async function() {
 			 return await element(by.className('nav-md')).isPresent();
 		}, 55000, "Timed out waiting for angular");
 	});
@@ -36,6 +36,7 @@ describe('Traffic Portal Login Test Suite', function() {
 
 	it('should fail login to Traffic Portal with bad user', function() {
 		console.log('Negative login test');
+		browser.ignoreSynchronization = true;
 		element(by.name('loginUsername')).sendKeys('badUser');
 		browser.driver.findElement(by.name('loginPass')).sendKeys('badPassword');
 		browser.driver.findElement(by.name('loginSubmit')).click();

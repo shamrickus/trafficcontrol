@@ -4,15 +4,16 @@
     "acceptInsecureCerts": true,
     "browserName": "chrome",
     "chromeOptions": {
-      "args": []
+      "args": ["--start-maximized", "--ignore-certificate-errors"]
     }
   },
   "framework": "jasmine",
-  "allScriptTimeout": 400000,
-  "getPageTimeout": 500000,
+  "allScriptTimeout": 20000,
+  "getPageTimeout": 15000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 900000,
-    "includeStackTrace": true
+    "defaultTimeoutInterval": 40000,
+    "includeStackTrace": false,
+    "isVerbose": true
   },
   "params": {
     "adminPassword": "twelve12",
