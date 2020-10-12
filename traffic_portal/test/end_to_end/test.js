@@ -21,9 +21,11 @@
 describe("POC Test", function() {
 
     it("should work pls", function() {
-        browser.getCurrentUrl().then(function(x) {
-            console.log(x);
-            expect(true).toBe(true);
-        });
+        browser.waitForAngular(false);
+        browser.get(browser.baseUrl);
+        browser.sleep(15000);
+        console.log(angular);
+        browser.waitForAngular(true);
+        expect(true).toBe(true);
     });
 });
