@@ -9,7 +9,7 @@
   },
   "framework": "jasmine",
   "allScriptTimeout": 900000,
-  "getPageTimeout": 15000,
+  "getPageTimeout": 120000,
   "jasmineNodeOpts": {
     "defaultTimeoutInterval": 900000
   },
