@@ -25,6 +25,6 @@ RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
 COPY entrypoint.sh database.json cdn.json conf.json config.js /
 RUN chmod a+x /entrypoint.sh
 
-EXPOSE 8443 6443 8880
+EXPOSE 8443 6443 8880 4444
 
 ENTRYPOINT /entrypoint.sh
