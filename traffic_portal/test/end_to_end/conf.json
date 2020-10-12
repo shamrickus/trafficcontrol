@@ -5,9 +5,10 @@
     "browserName": "chrome"
   },
   "framework": "jasmine",
-  "getPageTimeout": 30000,
+  "getPageTimeout": 900000,
+  "allScriptTimeout": 900000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 600000
+    "defaultTimeoutInterval": 900000
   },
   "params": {
     "adminPassword": "twelve12",
