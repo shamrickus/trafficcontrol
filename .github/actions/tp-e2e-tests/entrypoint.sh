@@ -100,6 +100,10 @@ cd ../..
 
 grunt dist
 
+webdriver-manager clean
+webdriver-manager update
+webdriver-manager start &
+
 fqdn="http://hub:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
   echo "waiting for selemnium server to start on '${fqdn}'"
