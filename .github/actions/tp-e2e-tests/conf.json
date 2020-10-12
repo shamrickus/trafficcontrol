@@ -10,8 +10,9 @@
   "framework": "jasmine",
   "allScriptTimeout": 20000,
   "getPageTimeout": 15000,
+  "directConnect": true,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 40000,
+    "defaultTimeoutInterval": 120000,
     "includeStackTrace": false,
     "isVerbose": true
   },
@@ -19,6 +20,7 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
+  "rootElement": "*[ng-app]",
   "logLevel": "DEBUG",
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
