@@ -122,6 +122,8 @@ done
 cd "test/end_to_end"
 mv /conf.json .
 
+sleep 2m
+
 protractor ./conf.js
 
 cat ../../tp.log

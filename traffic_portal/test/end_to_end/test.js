@@ -21,10 +21,9 @@
 describe("POC Test", function() {
 
     it("should work pls", function() {
-        console.log("no angular test");
         browser.getCurrentUrl().then(function(x) {
             console.log(x);
+            expect(true).toBe(true);
         });
-        expect(true).toBe(true);
     });
 });
