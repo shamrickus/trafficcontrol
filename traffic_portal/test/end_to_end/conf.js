@@ -26,3 +26,8 @@ exports.config = JSON.parse(
   ).toString()
 );
 
+exports.config.onPrepare(); {
+  browser.manage().window().maximize();
+  browser.manage().timeouts().implicitlyWait(3000);
+}
+
