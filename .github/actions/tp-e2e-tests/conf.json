@@ -8,10 +8,10 @@
     }
   },
   "framework": "jasmine",
-  "allScriptTimeout": 20000,
+  "allScriptTimeout": 900000,
   "getPageTimeout": 15000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 420000
+    "defaultTimeoutInterval": 900000
   },
   "params": {
     "adminPassword": "twelve12",
