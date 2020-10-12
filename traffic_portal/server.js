@@ -62,7 +62,6 @@ app.use(function(req, res, next) {
 // http://expressjs.com/api#req.secure). This allows us
 // to know whether the request was via http or https.
 app.all ("/*", function (req, res, next) {
-    console.log(req.url);
     if (useSSL && !req.secure) {
         // request was via http, so redirect to https
         return res.redirect(['https://', req.get('Host'), ':', config.sslPort, req.url].join(''));

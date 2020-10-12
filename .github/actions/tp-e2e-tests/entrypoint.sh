@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-#set -e
+set -e
 
 GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
@@ -98,8 +98,7 @@ grunt dist
 mv /config.js ./conf
 touch tp.log
 touch access.log
-#forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
-node server.js &
+forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
@@ -109,14 +108,9 @@ done
 #ss -ptl
 
 
-#curl -Lvsk "http://hub:4444/wd/hub/status"
-#curl -Lvsk https://localhost:8443/
-#curl -Lvsk https://chrome:8443/
-
 cd "test/end_to_end"
 mv /conf.json .
 
 protractor conf.js
-curl -Lvsk "${fqdn}/resources/assets/js/shared-libs.js" > /dev/null
-cat  ../../access.log
+
 exit $?

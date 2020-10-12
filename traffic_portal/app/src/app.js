@@ -20,6 +20,8 @@
 'use strict';
 require('app-templates');
 
+console.log("i am here");
+
 var App = function($urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 };

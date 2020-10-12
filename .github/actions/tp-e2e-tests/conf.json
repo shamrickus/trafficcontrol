@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://localhost:8443/",
+  "baseUrl": "https://localhost:8443",
   "capabilities": {
     "acceptInsecureCerts": true,
     "browserName": "chrome",
@@ -13,7 +13,6 @@
   "jasmineNodeOpts": {
     "defaultTimeoutInterval": 120000
   },
-  "SELENIUM_PROMISE_MANAGER": false,
   "params": {
     "adminPassword": "twelve12",
     "adminUser": "admin"
