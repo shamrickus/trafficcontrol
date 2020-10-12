@@ -4,7 +4,7 @@
     "acceptInsecureCerts": true,
     "browserName": "chrome",
     "chromeOptions": {
-      "args": ["--disable-extensions", "--verbose", "--log-path=chromedriver.log", "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors", "--whitelisted-ips="]
+      "args": ["--disable-extensions",  "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors", "--whitelisted-ips="]
     }
   },
   "framework": "jasmine",
