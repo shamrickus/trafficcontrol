@@ -51,9 +51,4 @@ jobs:
         uses: ./.github/actions/todb-init
       - name: Run TP
         uses: ./.github/actions/tp-e2e-tests
-      - name: Run protractor
-        run: protractor conf.js
-        working-directory: traffic_portal/test/end_to_end
-      - name: Logs
-        run: cat traffic_portal/tp.log traffic_portal/access.log traffic_ops/traffic_ops_golang/out.log traffic_ops/traffic_ops_golang/err.log
 

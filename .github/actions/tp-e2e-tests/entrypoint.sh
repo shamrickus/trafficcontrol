@@ -111,4 +111,11 @@ done
 cd "test/end_to_end"
 mv /conf.json .
 
+protractor conf.js
+
+cat ../../tp.log
+cat ../../access.log
+cat ../../../traffic_ops/traffic_ops_golang/out.log
+cat ../../../traffic_ops/traffic_ops_golang/err.log
+
 exit $?
