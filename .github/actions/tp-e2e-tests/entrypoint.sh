@@ -98,9 +98,8 @@ grunt dist
 mv /config.js ./conf
 touch tp.log
 touch access.log
-chmod +x server.js
-#forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
-node server.js &
+forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
+#node server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
@@ -117,8 +116,7 @@ ss -ptl
 cd "test/end_to_end"
 mv /conf.json .
 
-cat conf.json
 protractor conf.js
 
-cat ../../tp.log
+cat ../../tp.log ../../access.log
 exit $?
