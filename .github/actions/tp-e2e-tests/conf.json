@@ -10,7 +10,6 @@
   "framework": "jasmine",
   "allScriptTimeout": 20000,
   "getPageTimeout": 15000,
-  "directConnect": true,
   "jasmineNodeOpts": {
     "defaultTimeoutInterval": 120000,
     "includeStackTrace": false,
