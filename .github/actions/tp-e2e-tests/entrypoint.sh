@@ -98,15 +98,15 @@ grunt dist
 mv /config.js ./conf
 touch tp.log
 touch access.log
-forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
-#node server.js &
+#forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
+node server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
   echo "waiting for TP server to start on '${fqdn}'"
   sleep 2
 done
-ss -ptl
+#ss -ptl
 
 
 #curl -Lvsk "http://hub:4444/wd/hub/status"
@@ -117,6 +117,6 @@ cd "test/end_to_end"
 mv /conf.json .
 
 protractor conf.js
-curl -Lvsk "${fqdn}/resources/assets/js/shared-libs.js"
-cat ../../tp.log ../../access.log
+curl -Lvsk "${fqdn}/resources/assets/js/shared-libs.js" > /dev/null
+cat  ../../access.log
 exit $?
