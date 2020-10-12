@@ -11,9 +11,7 @@
   "allScriptTimeout": 20000,
   "getPageTimeout": 15000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 120000,
-    "includeStackTrace": false,
-    "isVerbose": true
+    "defaultTimeoutInterval": 120000
   },
   "SELENIUM_PROMISE_MANAGER": false,
   "params": {
@@ -21,7 +19,7 @@
     "adminUser": "admin"
   },
   "rootElement": "*[ng-app]",
-  "logLevel": "DEBUG",
+  "logLevel": "INFO",
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {
     "allTests": [

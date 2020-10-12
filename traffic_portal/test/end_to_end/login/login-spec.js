@@ -39,7 +39,7 @@ describe('Traffic Portal Login Test Suite', function() {
 		element(by.name('loginUsername')).sendKeys('badUser');
 		browser.driver.findElement(by.name('loginPass')).sendKeys('badPassword');
 		browser.driver.findElement(by.name('loginSubmit')).click();
-		browser.sleep(250);
+		browser.sleep(1250);
 		expect(browser.driver.findElement(by.css('div.ng-binding')).getText()).toEqual('Invalid username or password.');
 	});
 
