@@ -2,7 +2,10 @@
   "baseUrl": "https://localhost:8443",
   "capabilities": {
     "acceptInsecureCerts": true,
-    "browserName": "firefox"
+    "browserName": "chrome",
+    "chromeOptions": {
+      "args": ["--disable-extensions", "verbose", "log-path=chromedriver.log", "headless", "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors", "--whitelisted-ips="]
+    }
   },
   "framework": "jasmine",
   "allScriptTimeout": 20000,
