@@ -100,13 +100,19 @@ cd ../..
 
 grunt dist
 
+fqdn="http://hub:4444/wd/hub/status"
+while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
+  echo "waiting for selemnium server to start on '${fqdn}'"
+  sleep 2
+done
+
 mv /config.js ./conf
 touch tp.log
 touch access.log
-forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
+forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start ./server.js &
 
 fqdn="https://localhost:8443/"
-while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
+while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   echo "waiting for TP server to start on '${fqdn}'"
   sleep 2
 done
@@ -116,9 +122,7 @@ done
 cd "test/end_to_end"
 mv /conf.json .
 
-curl -sk "${fqdn}api/3.0/ping"
-protractor conf.js
-curl -sk "${fqdn}api/3.0/ping"
+protractor ./conf.js
 
 cat ../../tp.log
 cat ../../access.log
