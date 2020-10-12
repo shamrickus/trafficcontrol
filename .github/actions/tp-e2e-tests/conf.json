@@ -4,14 +4,14 @@
     "acceptInsecureCerts": true,
     "browserName": "chrome",
     "chromeOptions": {
-      "args": ["--disable-extensions", "verbose", "log-path=chromedriver.log", "headless", "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors", "--whitelisted-ips="]
+      "args": ["--disable-extensions", "--verbose", "--log-path=chromedriver.log", "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors", "--whitelisted-ips="]
     }
   },
   "framework": "jasmine",
   "allScriptTimeout": 20000,
   "getPageTimeout": 15000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 120000
+    "defaultTimeoutInterval": 420000
   },
   "params": {
     "adminPassword": "twelve12",
