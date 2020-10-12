@@ -48,11 +48,16 @@ under the License.
     <body class="nav-md" ng-app="trafficPortal">
 
         <div class="app container body" ui-view></div>
+        <script>
+            function complete(name) {
+                console.log(name);
+            };
+        </script>
 
-        <script src="resources/assets/js/shared-libs.js"></script>
+        <script src="resources/assets/js/shared-libs.js" onload="complete('shared-libs')"></script>
         <script src="resources/assets/js/ag-grid-community/dist/ag-grid-community.min.js"></script>
-        <script src="resources/assets/js/app.js"></script>
-        <script src="resources/assets/js/config.js"></script>
+        <script src="resources/assets/js/app.js" onload="complete('app')"></script>
+        <script src="resources/assets/js/config.js" onload="complete('config')"></script>
 
         <script src="resources/assets/js/angular-ui-tree.min_2.22.6.js"></script>
         <script src="resources/assets/js/jsonformatter.min_0.6.0.js"></script>
