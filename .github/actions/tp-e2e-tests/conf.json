@@ -18,7 +18,7 @@
     "adminUser": "admin"
   },
   "logLevel": "INFO",
-  "seleniumAddress": "http://hub:4444/wd/hub",
+  "seleniumAddress": "http://localhost:4444/wd/hub",
   "suites": {
     "allTests": [
       "test.js",
