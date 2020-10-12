@@ -100,8 +100,10 @@ cd ../..
 
 grunt dist
 
-webdriver-manager clean
-webdriver-manager update
+webdriver-manager clean > /dev/null
+webdriver-manager update > /dev/null
+
+ls /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
 webdriver-manager start &
 
 fqdn="http://localhost:4444/wd/hub/status"
