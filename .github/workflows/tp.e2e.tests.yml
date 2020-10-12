@@ -28,12 +28,6 @@ jobs:
           HUB_PORT: 4444
         volumes:
           - /dev/shm:/dev/shm
-#      chrome:
-#        image: selenium/standalone-chrome
-#        ports:
-#          - 4444:4444
-#        volumes:
-#          - /dev/shm
       postgres:
         image: postgres:11
         env:
@@ -51,4 +45,6 @@ jobs:
         uses: ./.github/actions/todb-init
       - name: Run TP
         uses: ./.github/actions/tp-e2e-tests
+      - name: Verify TP running
+        run: curl -Lvsk "https://localhost:8443/api/3.0/ping"
 
