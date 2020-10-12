@@ -117,6 +117,6 @@ cd "test/end_to_end"
 mv /conf.json .
 
 protractor conf.js
-
+curl -Lvsk "${fqdn}/resources/assets/js/shared-libs.js"
 cat ../../tp.log ../../access.log
 exit $?
