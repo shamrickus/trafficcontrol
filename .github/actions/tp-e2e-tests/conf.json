@@ -2,10 +2,7 @@
   "baseUrl": "https://localhost:8443",
   "capabilities": {
     "acceptInsecureCerts": true,
-    "browserName": "chrome",
-    "chromeOptions": {
-      "args": ["--disable-extensions", "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors", "--whitelisted-ips="]
-    }
+    "browserName": "firefox"
   },
   "framework": "jasmine",
   "allScriptTimeout": 20000,
@@ -17,7 +14,6 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
-  "rootElement": "*[ng-app]",
   "logLevel": "INFO",
   "seleniumAddress": "http://hub:4444/wd/hub",
   "suites": {

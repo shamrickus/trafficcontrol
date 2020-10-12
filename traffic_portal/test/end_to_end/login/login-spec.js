@@ -17,8 +17,10 @@
  * under the License.
  */
 
+var cfunc = require('../common/commonFunctions.js');
 
 describe('Traffic Portal Login Test Suite', function() {
+	const commonFunctions = new cfunc();
 
 	beforeEach(function() {
 		browser.get(browser.baseUrl + '/#!/cdns');
