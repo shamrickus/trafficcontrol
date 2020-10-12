@@ -21,11 +21,7 @@
 describe("POC Test", function() {
 
     it("should work pls", function() {
-        browser.waitForAngular(false);
-        browser.get(browser.baseUrl);
-        browser.sleep(15000);
-        console.log(angular);
-        browser.waitForAngular(true);
+        browser.get(browser.baseUrl, 50000);
         expect(true).toBe(true);
     });
 });

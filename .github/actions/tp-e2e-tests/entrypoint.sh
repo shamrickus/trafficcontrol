@@ -123,7 +123,6 @@ cd "test/end_to_end"
 mv /conf.json .
 
 protractor ./conf.js
-protractor ./conf.js
 
 cat ../../tp.log
 cat ../../access.log
