@@ -26,6 +26,3 @@ exports.config = JSON.parse(
   ).toString()
 );
 
-exports.config.onPrepare = async function() {
-  await browser.waitForAngularEnabled(false);
-};

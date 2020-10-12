@@ -15,6 +15,7 @@
     "includeStackTrace": false,
     "isVerbose": true
   },
+  "SELENIUM_PROMISE_MANAGER": true,
   "params": {
     "adminPassword": "twelve12",
     "adminUser": "admin"
