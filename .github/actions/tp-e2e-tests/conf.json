@@ -8,10 +8,9 @@
     }
   },
   "framework": "jasmine",
-  "allScriptTimeout": 900000,
-  "getPageTimeout": 120000,
+  "getPageTimeout": 90000,
   "jasmineNodeOpts": {
-    "defaultTimeoutInterval": 900000
+    "defaultTimeoutInterval": 90000
   },
   "directConnect": true,
   "chromeDriver": "/usr/lib/chromium/chromedriver",
@@ -19,11 +18,10 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
-  "logLevel": "DEBUG",
-  "seleniumAddress": "http://localhost:4444/wd/hub",
+  "logLevel": "INFO",
   "suites": {
     "allTests": [
-      "login/*.js"
+      "login/login-spec.js"
     ]
   }
 }

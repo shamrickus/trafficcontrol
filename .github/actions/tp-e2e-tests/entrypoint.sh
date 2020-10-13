@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-#set -e
+set -e
 
 GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
@@ -29,9 +29,8 @@ ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
-
 /usr/local/go/bin/go get ./... > /dev/null
-/usr/local/go/bin/go build .
+/usr/local/go/bin/go build . > /dev/null
 
 echo "
 -----BEGIN CERTIFICATE-----
@@ -122,17 +121,19 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   echo "waiting for TP server to start on '${fqdn}'"
   sleep 2
 done
-#ss -ptl
 
 
 cd "test/end_to_end"
 mv /conf.json .
-
 protractor ./conf.js
 
+echo "TP Forever log"
 cat ../../tp.log
+echo "TP log"
 cat ../../access.log
+echo "TO out log"
 cat ../../../traffic_ops/traffic_ops_golang/out.log
+echo "TO err log"
 cat ../../../traffic_ops/traffic_ops_golang/err.log
 
 exit $?
