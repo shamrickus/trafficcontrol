@@ -37,17 +37,20 @@ describe('Traffic Portal Login Test Suite', function() {
 	it('should fail login to Traffic Portal with bad user', function() {
 		console.log('Negative login test');
 		element(by.name('loginUsername')).sendKeys('badUser');
-		browser.driver.findElement(by.name('loginPass')).sendKeys('badPassword');
-		browser.driver.findElement(by.name('loginSubmit')).click();
-		browser.sleep(1250);
-		expect(browser.driver.findElement(by.css('div.ng-binding')).getText()).toEqual('Invalid username or password.');
+		element(by.name('loginPass')).sendKeys('badPassword');
+		element(by.name('loginSubmit')).click();
+		browser.sleep(250);
+		expect(element(by.css('div.ng-binding')).getText()).toEqual('Invalid username or password.');
 	});
 
 	it('should successfully login to Traffic Portal', function() {
 		console.log('Logging in to Traffic Portal "' + browser.baseUrl + '" with user "' + browser.params.adminUser + '"');
-		browser.driver.findElement(by.name('loginUsername')).sendKeys(browser.params.adminUser);
-		browser.driver.findElement(by.name('loginPass')).sendKeys(browser.params.adminPassword);
-		browser.driver.findElement(by.name('loginSubmit')).click();
-		expect(browser.getCurrentUrl().then(commonFunctions.urlPath)).toEqual(commonFunctions.urlPath(browser.baseUrl)+"#!/cdns");
+		element(by.name('loginUsername')).sendKeys(browser.params.adminUser);
+		element(by.name('loginPass')).sendKeys(browser.params.adminPassword);
+		element(by.name('loginSubmit')).click();
+		browser.wait(function() {
+			return browser.getCurrentUrl().then(commonFunctions.urlPath)
+				.toEqual(commonFunctions.urlPath(browser.baseUrl)+"#!/cdns");
+		}, 5000, "Time out waiting for redirect on login");
 	});
 });
