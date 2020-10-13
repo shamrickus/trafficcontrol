@@ -47,11 +47,12 @@ describe('Traffic Portal Login Test Suite', function() {
 		console.log('Logging in to Traffic Portal "' + browser.baseUrl + '" with user "' + browser.params.adminUser + '"');
 		element(by.name('loginUsername')).sendKeys(browser.params.adminUser);
 		element(by.name('loginPass')).sendKeys(browser.params.adminPassword);
-		element(by.name('loginSubmit')).click();
-		browser.wait(function() {
-			return browser.getCurrentUrl().then(function(result) {
-			    return commonFunctions.urlPath(result) === commonFunctions.urlPath(browser.baseUrl)+"#!/cdns";
-			});
-		}, 5000, "Time out waiting for redirect on login");
+		element(by.name('loginSubmit')).click().then(function() {
+			browser.wait(function() {
+				return browser.getCurrentUrl().then(function(result) {
+					return commonFunctions.urlPath(result) === commonFunctions.urlPath(browser.baseUrl)+"#!/cdns";
+				});
+			}, 15000, "Time out waiting for redirect on login");
+		});
 	});
 });
