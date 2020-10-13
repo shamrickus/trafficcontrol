@@ -25,19 +25,17 @@ describe('Traffic Portal Login Test Suite', function() {
 	beforeEach(function() {
 		browser.get(browser.baseUrl + '/#!/cdns', 55000);
 		browser.wait(function() {
-			 return angular !== undefined;
+			return element(by.className('nav-md')).isPresent();
 		}, 55000, "Timed out waiting for angular");
 	});
 
 	it('should not show environment banner in prod mode', function() {
 		console.log('\nVerifying environment banner does not have the prod class');
-		console.log(angular);
 		expect(element(by.css('.enviro-banner.prod')).isPresent()).toBe(false);
 	});
 
 	it('should fail login to Traffic Portal with bad user', function() {
 		console.log('Negative login test');
-		console.log(angular);
 		element(by.name('loginUsername')).sendKeys('badUser');
 		browser.driver.findElement(by.name('loginPass')).sendKeys('badPassword');
 		browser.driver.findElement(by.name('loginSubmit')).click();
@@ -47,7 +45,6 @@ describe('Traffic Portal Login Test Suite', function() {
 
 	it('should successfully login to Traffic Portal', function() {
 		console.log('Logging in to Traffic Portal "' + browser.baseUrl + '" with user "' + browser.params.adminUser + '"');
-		console.log(angular);
 		browser.driver.findElement(by.name('loginUsername')).sendKeys(browser.params.adminUser);
 		browser.driver.findElement(by.name('loginPass')).sendKeys(browser.params.adminPassword);
 		browser.driver.findElement(by.name('loginSubmit')).click();
