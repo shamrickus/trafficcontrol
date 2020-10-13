@@ -23,10 +23,10 @@ describe('Traffic Portal Login Test Suite', function() {
 	const commonFunctions = new cfunc();
 
 	beforeEach(function() {
-		browser.get(browser.baseUrl + '/#!/cdns', 55000);
+		browser.get(browser.baseUrl + '/#!/cdns');
 		browser.wait(function() {
 			return element(by.className('nav-md')).isPresent();
-		}, 55000, "Timed out waiting for angular");
+		}, 5000, "Timed out waiting for angular");
 	});
 
 	it('should not show environment banner in prod mode', function() {

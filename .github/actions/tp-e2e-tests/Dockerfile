@@ -16,11 +16,14 @@
 # under the License.
 
 FROM golang:1.14.2-alpine
-RUN apk add --no-cache gettext git nodejs npm ruby ruby-dev \
-    build-base libc-dev linux-headers ruby-doc curl openjdk11 \
-    openssl-dev postgresql-dev libxml2-dev libxslt-dev iproute2
+RUN apk add --update --no-cache gettext git nodejs npm ruby ruby-dev \
+    build-base libc-dev linux-headers curl openjdk11 \
+    openssl-dev postgresql-dev libxml2-dev libxslt-dev iproute2 chromium chromium-chromedriver
 
 RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
+RUN npm i -g webdriver-manager --force
+RUN gem update --system && gem install sass compass
+RUN webdriver-manager update
 
 COPY entrypoint.sh database.json cdn.json conf.json config.js /
 RUN chmod a+x /entrypoint.sh

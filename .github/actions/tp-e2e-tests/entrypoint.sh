@@ -21,6 +21,10 @@
 GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
+#git clone https://github.com/shamrickus/trafficcontrol.git "$SRCDIR" &> /dev/null
+#cd "$SRCDIR"
+#git checkout ga/tp-integration
+
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
@@ -98,13 +102,8 @@ cd app/src/
 npm i --save-dev > /dev/null
 cd ../..
 
-grunt dist
+grunt dist &> /dev/null
 
-webdriver-manager clean > /dev/null
-webdriver-manager update
-webdriver-manager update
-
-ls /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
 webdriver-manager start &
 
 fqdn="http://localhost:4444/wd/hub/status"
@@ -116,7 +115,7 @@ done
 mv /config.js ./conf
 touch tp.log
 touch access.log
-forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start ./server.js &
+forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do

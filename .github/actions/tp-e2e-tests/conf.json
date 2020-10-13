@@ -13,15 +13,16 @@
   "jasmineNodeOpts": {
     "defaultTimeoutInterval": 900000
   },
+  "directConnect": true,
+  "chromeDriver": "/usr/lib/chromium/chromedriver",
   "params": {
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
-  "logLevel": "INFO",
+  "logLevel": "DEBUG",
   "seleniumAddress": "http://localhost:4444/wd/hub",
   "suites": {
     "allTests": [
-      "test.js",
       "login/*.js"
     ]
   }
