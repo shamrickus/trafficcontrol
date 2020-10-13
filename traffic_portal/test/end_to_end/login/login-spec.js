@@ -49,8 +49,9 @@ describe('Traffic Portal Login Test Suite', function() {
 		element(by.name('loginPass')).sendKeys(browser.params.adminPassword);
 		element(by.name('loginSubmit')).click();
 		browser.wait(function() {
-			return browser.getCurrentUrl().then(commonFunctions.urlPath)
-				.toEqual(commonFunctions.urlPath(browser.baseUrl)+"#!/cdns");
+			return browser.getCurrentUrl().then(function(result) {
+			    return commonFunctions.urlPath(result) === commonFunctions.urlPath(browser.baseUrl)+"#!/cdns";
+			});
 		}, 5000, "Time out waiting for redirect on login");
 	});
 });
