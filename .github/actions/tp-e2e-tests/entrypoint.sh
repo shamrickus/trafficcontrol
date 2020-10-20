@@ -125,7 +125,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   sleep 2
 done
 
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT count(*) FROM capability; SELECT * FROM users;"
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT count(*) FROM capability; SELECT * FROM tm_user;"
 
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve logs
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
