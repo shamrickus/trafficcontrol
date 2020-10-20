@@ -94,8 +94,7 @@ cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
 /usr/local/go/bin/go get -v bitbucket.org/liamstask/goose/cmd/goose
 cp /dbconf.yml .
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql >/dev/null
-"$GOPATH"/bin/goose --env=test --path="$PWD" up
-/usr/local/bin/goose --env=test --path="$PWD" up
+"$GOPATH"/bin/goose --env=test --path="$PWD" redo
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql >/dev/null
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql >/dev/null
 cd -
@@ -135,7 +134,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
 done
 
 pip3 install Apache-TrafficControl > /dev/null
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT count(*) FROM user"
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT count(*) FROM capability"
 
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 
