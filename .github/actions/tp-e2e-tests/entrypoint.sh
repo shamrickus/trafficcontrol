@@ -129,7 +129,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   sleep 2
 done
 
-pip3 install Apache-TrafficControl
+pip3 install Apache-TrafficControl > /dev/null
 
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT * FROM user; SELECT * FROM type; SELECT * FROM tm_user;"
 

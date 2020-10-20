@@ -18,7 +18,7 @@
 FROM golang:1.14.2-alpine
 RUN apk add --update --no-cache gettext git nodejs npm ruby ruby-dev build-base \
 	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev \
-	libxslt-dev iproute2 chromium chromium-chromedriver python3 python3-dev
+	libxslt-dev iproute2 chromium chromium-chromedriver python3 python3-dev postgresql-client
 
 RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
 RUN npm i -g webdriver-manager --force
