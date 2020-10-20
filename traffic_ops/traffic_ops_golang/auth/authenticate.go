@@ -92,6 +92,7 @@ func DerivePassword(password string) (string, error) {
 // VerifySCRYPTPassword parses the original Derived Key (DK) from the SCRYPT password
 // so that it can compare that with the password/scriptPassword param
 func VerifySCRYPTPassword(password string, scryptPassword string) error {
+	fmt.Printf("||||%s|||||%s", password, scryptPassword)
 
 	scomp, err := parseScrypt(scryptPassword)
 	if err != nil {
