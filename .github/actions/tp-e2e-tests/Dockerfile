@@ -16,6 +16,14 @@
 # under the License.
 
 FROM alpine:3.12
+
+RUN architecture=$(uname -m) && \
+    mkdir lib64 && \
+    # Use musl libc where the go binary expects glibc
+    # Less-generalized: ln -s /lib/ld-musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+    ln -s /lib/ld-musl-${architecture}.so.[0-9] /lib64/ld-linux-${architecture//_/-}.so.2
+ENV GOROOT=/usr/local/go \
+    CGO_ENABLED=0
 RUN apk add --update --no-cache gettext git nodejs npm iproute2 \
 	ruby ruby-dev build-base \
 	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev libxslt-dev \
@@ -26,7 +34,6 @@ RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
 RUN npm i -g webdriver-manager --force
 RUN gem update --system && gem install sass compass
 RUN webdriver-manager update
-ENV GOROOT=/usr/local/go
 
 COPY entrypoint.sh database.json cdn.json conf.json config.js dbconf.yml /
 RUN chmod a+x /entrypoint.sh
