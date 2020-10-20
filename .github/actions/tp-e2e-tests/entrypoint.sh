@@ -131,6 +131,8 @@ done
 
 pip3 install Apache-TrafficControl
 
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT * FROM user; SELECT * FROM type; SELECT * FROM tm_user;"
+
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 
 cd "test/end_to_end"
