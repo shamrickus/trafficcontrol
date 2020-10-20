@@ -29,6 +29,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/apache/trafficcontrol/lib/go-log"
+
 	"github.com/apache/trafficcontrol/traffic_ops/traffic_ops_golang/config"
 
 	"github.com/jmoiron/sqlx"
@@ -158,6 +160,7 @@ func CheckLocalUserPassword(form PasswordForm, db *sqlx.DB, timeout time.Duratio
 		}
 		return false, err, nil
 	}
+	log.Errorf("User: %s, PW: %s, Hash: %s", form.Username, form.Password, hashedPassword)
 	err = VerifySCRYPTPassword(form.Password, hashedPassword)
 	if err != nil {
 		hashedInput, err := sha1Hex(form.Password)
