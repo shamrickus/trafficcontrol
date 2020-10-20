@@ -24,7 +24,6 @@ download_go() {
 	tar -C /usr/local -xzf go.tar.gz
 	rm go.tar.gz
 	export PATH="${PATH}:${GOROOT}/bin"
-	ls /usr/local/go/bin
 	/usr/local/go/bin/go version
 }
 download_go
