@@ -28,7 +28,7 @@ download_go() {
 }
 download_go
 
-GOPATH="$(mktemp -d)"
+export GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
 
