@@ -129,6 +129,9 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   sleep 2
 done
 
+pip3 install Apache-TrafficControl
+
+toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 
 cd "test/end_to_end"
 mv /conf.json .

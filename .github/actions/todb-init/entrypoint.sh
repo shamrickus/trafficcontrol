@@ -39,7 +39,7 @@ cd "traffic_ops/app/db"
 
 mv /dbconf.yml ./
 
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql >/dev/null
 goose --env=test --path="$PWD" up
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql >/dev/null
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql >/dev/null
