@@ -19,6 +19,8 @@ FROM alpine:3.12
 
 RUN apk add --no-cache bash
 
-COPY entrypoint.sh /
+RUN apk add --no-cache gettext git
+
+COPY entrypoint.sh database.json traffic-ops-test.json cdn.json /
 
 ENTRYPOINT /entrypoint.sh
