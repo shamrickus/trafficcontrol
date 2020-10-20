@@ -17,6 +17,7 @@
 # under the License.
 
 #set -e
+pip3 install Apache-TrafficControl > /dev/null
 
 GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
@@ -90,15 +91,6 @@ A22D22wvfs7CE3cUz/8UnvLM3kbTTu1WbbBbrHjAV47sAHjW/ckTqeo=
 envsubst </cdn.json >cdn.conf
 mv /database.json ./database.conf
 
-cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
-/usr/local/go/bin/go get -v bitbucket.org/liamstask/goose/cmd/goose
-cp /dbconf.yml .
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql >/dev/null
-"$GOPATH"/bin/goose --env=test --path="$PWD" redo
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql >/dev/null
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql >/dev/null
-cd -
-
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
@@ -133,10 +125,9 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   sleep 2
 done
 
-pip3 install Apache-TrafficControl > /dev/null
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT count(*) FROM capability"
 
-toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
+toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve logs
 
 cd "test/end_to_end"
 mv /conf.json .
