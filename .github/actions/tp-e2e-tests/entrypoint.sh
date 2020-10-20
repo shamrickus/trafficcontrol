@@ -22,11 +22,11 @@ GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
 #git clone https://github.com/shamrickus/trafficcontrol.git "$SRCDIR" &> /dev/null
-#cd "$SRCDIR"
-#git checkout ga/tp-integration
 
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
+#cd "$SRCDIR/trafficcontrol"
+#git checkout ga/tp-integration
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
@@ -132,11 +132,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
 done
 
 pip3 install Apache-TrafficControl > /dev/null
-cmds=("SELECT count(*) FROM user" "SELECT count(*) FROM type")
-for c in ${cmds[*]}
-do
-  psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c $c
-done
+psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "SELECT count(*) FROM user"
 
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 
