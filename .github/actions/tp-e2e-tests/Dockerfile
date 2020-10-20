@@ -15,10 +15,11 @@
 # specific language governing permissions and limitations
 # under the License.
 
-FROM golang:1.14.2-alpine
-RUN apk add --update --no-cache gettext git nodejs npm ruby ruby-dev build-base \
-	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev \
-	libxslt-dev iproute2 chromium chromium-chromedriver python3 python3-dev postgresql-client \
+FROM alpine:3.12
+RUN apk add --update --no-cache gettext git nodejs npm iproute2 \
+	ruby ruby-dev build-base \
+	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev libxslt-dev \
+	chromium chromium-chromedriver postgresql-client \
 	gcc musl-dev
 
 RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine

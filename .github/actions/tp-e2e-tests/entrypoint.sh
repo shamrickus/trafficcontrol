@@ -16,18 +16,23 @@
 # specific language governing permissions and limitations
 # under the License.
 
-#set -e
-pip3 install Apache-TrafficControl > /dev/null
+set -e
+
+download_go() {
+	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
+	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz"
+	tar -C /usr/local -xzf go.tar.gz
+	rm go.tar.gz
+	export PATH="${PATH}:${GOROOT}/bin"
+	go version
+}
+download_go
 
 GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
-#git clone https://github.com/shamrickus/trafficcontrol.git "$SRCDIR" &> /dev/null
 
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
-
-#cd "$SRCDIR/trafficcontrol"
-#git checkout ga/tp-integration
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
@@ -94,20 +99,12 @@ mv /database.json ./database.conf
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
-gem update --system &> /dev/null
-gem install sass compass &> /dev/null
 npm i --save-dev &> /dev/null
 bower install --allow-root &> /dev/null
-
-
-cd app/src/
-npm i --save-dev > /dev/null
-cd ../..
 
 grunt dist &> /dev/null
 
 webdriver-manager start &
-
 
 fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
