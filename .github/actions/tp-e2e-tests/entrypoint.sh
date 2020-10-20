@@ -93,8 +93,7 @@ mv /database.json ./database.conf
 cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
 cp /dbconf.yml .
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql >/dev/null
-cp $GOPATH/bin/goose /bin/
-goose --env=test --path="$PWD" up
+"$GOPATH"/bin/goose --env=test --path="$PWD" up
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql >/dev/null
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql >/dev/null
 cd -
