@@ -48,7 +48,6 @@ describe('Traffic Portal Login Test Suite', function() {
 		element(by.name('loginUsername')).sendKeys(browser.params.adminUser);
 		element(by.name('loginPass')).sendKeys(browser.params.adminPassword);
 		element(by.name('loginSubmit')).click().then(function(next) {
-			console.log(next);
 			browser.wait(function() {
 				return browser.getCurrentUrl().then(function(result) {
 					return commonFunctions.urlPath(result) === commonFunctions.urlPath(browser.baseUrl)+"#!/cdns";
