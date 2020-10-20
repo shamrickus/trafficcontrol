@@ -27,12 +27,6 @@ mkdir -p "$SRCDIR"
 
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
-#cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
-#cp /dbconf.yml .
-#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./create_tables.sql >/dev/null
-#goose --env=test --path="$PWD" up
-#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./seeds.sql >/dev/null
-#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./patches.sql >/dev/null
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
@@ -96,6 +90,14 @@ A22D22wvfs7CE3cUz/8UnvLM3kbTTu1WbbBbrHjAV47sAHjW/ckTqeo=
 envsubst </cdn.json >cdn.conf
 mv /database.json ./database.conf
 
+cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
+cp /dbconf.yml .
+psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./create_tables.sql >/dev/null
+goose --env=test --path="$PWD" up
+psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./seeds.sql >/dev/null
+psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./patches.sql >/dev/null
+cd -
+
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
@@ -130,8 +132,11 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
 done
 
 pip3 install Apache-TrafficControl > /dev/null
-
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT * FROM user; SELECT * FROM type; SELECT * FROM tm_user;"
+cmds=("SELECT count(*) FROM user" "SELECT count(*) FROM type")
+for c in ${cmds[*]}
+do
+  psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c $c
+done
 
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 

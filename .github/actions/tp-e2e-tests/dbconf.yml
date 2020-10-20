@@ -14,20 +14,10 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+version: "1.0"
+name: dbconf.yml
 
-FROM golang:1.14.2-alpine
-RUN apk add --update --no-cache gettext git nodejs npm ruby ruby-dev build-base \
-	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev \
-	libxslt-dev iproute2 chromium chromium-chromedriver python3 python3-dev postgresql-client
+test:
+  driver: postgres
+  open: host=postgres port=5432 user=traffic_ops password=twelve dbname=traffic_ops sslmode=disable
 
-RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
-RUN npm i -g webdriver-manager --force
-RUN gem update --system && gem install sass compass
-RUN webdriver-manager update
-
-COPY entrypoint.sh database.json cdn.json conf.json config.js dbconf.yml /
-RUN chmod a+x /entrypoint.sh
-
-EXPOSE 8443 6443 8880 4444
-
-ENTRYPOINT /entrypoint.sh
