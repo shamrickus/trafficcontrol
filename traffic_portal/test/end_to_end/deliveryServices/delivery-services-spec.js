@@ -118,7 +118,7 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		expect(first.isSelected()).toBe(true);
 		first.click();
 		expect(first.isSelected()).toBe(false);
-		let tableColumns = element.all(by.css('#deliveryServicesTable tr:first-child td'));
+		let tableColumns = element.all(by.css('#deliveryServicesTable tr:last-child td'));
 		expect(tableColumns.count()).toBe(11);
 	});
 
