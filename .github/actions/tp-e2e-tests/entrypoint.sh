@@ -104,7 +104,7 @@ bower install --allow-root &> /dev/null
 
 grunt dist &> /dev/null
 
-webdriver-manager start &
+webdriver-manager start &> webdriver.log &
 
 fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
@@ -135,6 +135,8 @@ cd "test/end_to_end"
 mv /conf.json .
 protractor ./conf.js
 
+echo "Webdriver Log"
+cat ../../webdriver.log
 echo "TP Forever log"
 cat ../../tp.log
 echo "TP log"
