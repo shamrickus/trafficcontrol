@@ -27,6 +27,13 @@ mkdir -p "$SRCDIR"
 
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
+#cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
+#cp /dbconf.yml .
+#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./create_tables.sql >/dev/null
+#goose --env=test --path="$PWD" up
+#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./seeds.sql >/dev/null
+#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops < ./patches.sql >/dev/null
+
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
 /usr/local/go/bin/go get ./... > /dev/null
@@ -92,10 +99,10 @@ mv /database.json ./database.conf
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
-gem update --system > /dev/null
-gem install sass compass > /dev/null
-npm i --save-dev > /dev/null
-bower install --allow-root > /dev/null
+gem update --system &> /dev/null
+gem install sass compass &> /dev/null
+npm i --save-dev &> /dev/null
+bower install --allow-root &> /dev/null
 
 cd app/src/
 npm i --save-dev > /dev/null
