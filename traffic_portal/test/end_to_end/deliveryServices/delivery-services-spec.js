@@ -114,14 +114,15 @@ describe('Traffic Portal Delivery Services Suite', function() {
 	it('should toggle the visibility of the first table column ', function() {
 		console.log("Toggle visibilty of first column");
 		browser.driver.findElement(by.id('toggleColumns')).click();
+		let originalCount = element.all(by.css('#deliveryServicesTable tr:first-child td')).count();
 		let first = element.all(by.css('input[type=checkbox]')).first();
 		expect(first.isSelected()).toBe(true);
 		first.click();
 		expect(first.isSelected()).toBe(false);
 		browser.sleep(2500);
-		element.all(by.id("deliveryServicesTable")).then(function(x) {
+		element.all(by.id("deliveryServicesTable")).then(function() {
 			let tableColumns = element.all(by.css('#deliveryServicesTable tr:first-child td'));
-			expect(tableColumns.count()).toBe(11);
+			expect(tableColumns.count()).toBe(originalCount - 1);
 		});
 	});
 

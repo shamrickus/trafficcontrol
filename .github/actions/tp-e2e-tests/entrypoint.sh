@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-set -e
+#set -e
 
 download_go() {
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
@@ -120,12 +120,6 @@ forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
   echo "waiting for TP server to start on '${fqdn}'"
-  sleep 2
-done
-
-fqdn="https://localhost:6443/"
-while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
-  echo "waiting for TO server to start on '${fqdn}'"
   sleep 2
 done
 
