@@ -91,10 +91,11 @@ envsubst </cdn.json >cdn.conf
 mv /database.json ./database.conf
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
-go get -v bitbucket.org/liamstask/goose/cmd/goose
+/usr/local/go/bin/go get -v bitbucket.org/liamstask/goose/cmd/goose
 cp /dbconf.yml .
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql >/dev/null
 "$GOPATH"/bin/goose --env=test --path="$PWD" up
+/usr/local/bin/goose --env=test --path="$PWD" up
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql >/dev/null
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql >/dev/null
 cd -
