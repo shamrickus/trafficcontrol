@@ -99,7 +99,7 @@ mv /database.json ./database.conf
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
-npm i --save-dev &> /dev/null
+npm i --save-dev > /dev/null
 bower install --allow-root &> /dev/null
 
 grunt dist &> /dev/null
@@ -115,7 +115,7 @@ done
 mv /config.js ./conf
 touch tp.log
 touch access.log
-forever --minUptime 2000 --spinSleepTime 1000 -l ./tp.log start server.js &
+forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
