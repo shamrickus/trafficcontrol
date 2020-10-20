@@ -107,6 +107,7 @@ gem install sass compass &> /dev/null
 npm i --save-dev &> /dev/null
 bower install --allow-root &> /dev/null
 
+
 cd app/src/
 npm i --save-dev > /dev/null
 cd ../..
