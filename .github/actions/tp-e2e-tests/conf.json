@@ -15,7 +15,7 @@
   "directConnect": true,
   "chromeDriver": "/usr/lib/chromium/chromedriver",
   "params": {
-    "adminPassword": "twelve",
+    "adminPassword": "twelve12",
     "adminUser": "admin"
   },
   "logLevel": "INFO",
