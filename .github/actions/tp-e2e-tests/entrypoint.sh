@@ -92,11 +92,11 @@ mv /database.json ./database.conf
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/app/db"
 cp /dbconf.yml .
-psql -d postgresql://traffic_ops:twelve@postgresql:5432/traffic_ops < ./create_tables.sql >/dev/null
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./create_tables.sql >/dev/null
 cp $GOPATH/bin/goose /bin/
 goose --env=test --path="$PWD" up
-psql -d postgresql://traffic_ops:twelve@postgresql:5432/traffic_ops < ./seeds.sql >/dev/null
-psql -d postgresql://traffic_ops:twelve@postgresql:5432/traffic_ops < ./patches.sql >/dev/null
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./seeds.sql >/dev/null
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops < ./patches.sql >/dev/null
 cd -
 
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
@@ -133,7 +133,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
 done
 
 pip3 install Apache-TrafficControl > /dev/null
-psql -d postgresql://traffic_ops:twelve@postgresql:5432/traffic_ops -c "SELECT count(*) FROM user"
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "SELECT count(*) FROM user"
 
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 
