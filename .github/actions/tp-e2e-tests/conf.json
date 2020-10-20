@@ -21,7 +21,8 @@
   "logLevel": "INFO",
   "suites": {
     "allTests": [
-      "login/login-spec.js"
+      "login/login-spec.js",
+      "CDNs/cdns-spec.js"
     ]
   }
 }
