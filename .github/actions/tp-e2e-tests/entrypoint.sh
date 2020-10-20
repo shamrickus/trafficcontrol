@@ -132,7 +132,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
 done
 
 pip3 install Apache-TrafficControl > /dev/null
-psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "SELECT count(*) FROM user"
+psql -d postgresql://traffic_ops:twelve@postgresql:5432/traffic_ops -c "SELECT count(*) FROM user"
 
 toget -k --to-url https://localhost:6443 --to-user admin --to-pass twelve12 logs
 
