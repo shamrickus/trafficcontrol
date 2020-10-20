@@ -118,11 +118,11 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		expect(first.isSelected()).toBe(true);
 		first.click();
 		expect(first.isSelected()).toBe(false);
-		console.log(document.querySelectorAll("#deliveryServicesTable"));
-		console.log(document.querySelectorAll("#deliveryServicesTable tr:first-child"));
-		console.log(document.querySelectorAll("#deliveryServicesTable tr:first-child td"));
-		let tableColumns = element.all(by.css('#deliveryServicesTable tr:first-child td'));
-		expect(tableColumns.count()).toBe(11);
+		by.id("deliveryServicesTable").then(function(x) {
+		    console.log(x);
+			let tableColumns = element.all(by.css('#deliveryServicesTable tr:first-child td'));
+			expect(tableColumns.count()).toBe(11);
+		});
 	});
 
 	it('should update the ANY_MAP delivery service', function() {
