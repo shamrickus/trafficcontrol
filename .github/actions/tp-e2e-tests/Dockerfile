@@ -27,8 +27,7 @@ ENV GOROOT=/usr/local/go \
 RUN apk add --update --no-cache gettext git nodejs npm iproute2 \
 	ruby ruby-dev build-base \
 	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev libxslt-dev \
-#	chromium chromium-chromedriver \
-	chrome-chromedriver \
+	chromium chromium-chromedriver \
 	postgresql-client \
 	gcc musl-dev
 
