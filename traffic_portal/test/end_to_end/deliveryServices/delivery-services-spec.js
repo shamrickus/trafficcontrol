@@ -103,6 +103,9 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		// all required fields have been set, create button should be enabled
 		expect(pageData.createButton.isEnabled()).toBe(true);
 		pageData.createButton.click();
+
+		browser.wait(ec.presenceOf(element(by.className("alert"))), 5000);
+		browser.wait(ec.presenceOf(element(by.className("alert-success"))), 5000);
 	});
 
 	it('should back out to delivery services page and verify the new ANY_MAP delivery service and update it', function() {
