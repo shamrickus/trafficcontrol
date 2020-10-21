@@ -25,7 +25,7 @@ RUN architecture=$(uname -m) && \
 ENV GOROOT=/usr/local/go \
     CGO_ENABLED=0
 RUN apk add --update --no-cache gettext git \
-	ruby ruby-dev build-base openjkd11 \
+	ruby ruby-dev build-base openjdk11 \
 	chromium chromium-chromedriver \
 	postgresql-client \
 	gcc musl-dev
