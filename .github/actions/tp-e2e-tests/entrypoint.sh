@@ -98,15 +98,17 @@ mv /database.json ./database.conf
 
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
+BROWSER_HOST="hub"
+
 cd "$SRCDIR/trafficcontrol/traffic_portal"
 npm i --save-dev >/dev/null 2>&1
 bower install --allow-root >/dev/null 2>&1
 
 grunt dist >/dev/null 2>&1
 
-webdriver-manager start >webdriver.log 2>&1 &
+#webdriver-manager start >webdriver.log 2>&1 &
 
-fqdn="http://localhost:4444/wd/hub/status"
+fqdn="http://$BROWSER_HOST:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   echo "waiting for selemnium server to start on '${fqdn}'"
   sleep 2
@@ -119,7 +121,7 @@ forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
-  echo "waiting for TP server to start on '${fqdn}'"
+  echo "waiting for TP/TO server to start on '${fqdn}'"
   sleep 2
 done
 

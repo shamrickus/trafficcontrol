@@ -1,10 +1,10 @@
 {
-  "baseUrl": "https://localhost:4443",
+  "baseUrl": "https://localhost:8443",
   "capabilities": {
     "acceptInsecureCerts": true,
     "browserName": "chrome",
     "chromeOptions": {
-      "args": ["--disable-extensions", "--disable-gpu", "--headless", "--no-sandbox", "--ignore-certificate-errors"]
+      "args": ["--disable-extensions", "--no-sandbox", "--ignore-certificate-errors"]
     }
   },
   "framework": "jasmine",
