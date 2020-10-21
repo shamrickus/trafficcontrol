@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-#set -e
+set -e
 
 download_go() {
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
