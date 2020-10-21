@@ -105,6 +105,9 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		pageData.createButton.click();
 
 		browser.wait(ec.presenceOf(element(by.className("alert"))), 5000);
+		element(by.className("alert")).first().getText().then(function(x) {
+			console.log(x);
+		});
 		browser.wait(ec.presenceOf(element(by.className("alert-success"))), 5000);
 	});
 
