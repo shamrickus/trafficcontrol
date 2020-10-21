@@ -178,6 +178,7 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		// set required fields
 		// set xml id
 		pageData.xmlId.sendKeys(mockVals.dnsXmlId);
+
 		// set display name
 		pageData.displayName.sendKeys(mockVals.dnsXmlId);
 		// set active status
