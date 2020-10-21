@@ -24,7 +24,7 @@ RUN architecture=$(uname -m) && \
     ln -s /lib/ld-musl-${architecture}.so.[0-9] /lib64/ld-linux-${architecture//_/-}.so.2
 ENV GOROOT=/usr/local/go \
     CGO_ENABLED=0
-RUN apk add --update --no-cache gettext git nodejs npm iproute2 \
+RUN apk add --update --no-cache gettext git nodejs npm \
 	ruby ruby-dev build-base \
 	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev libxslt-dev \
 	chromium chromium-chromedriver \
