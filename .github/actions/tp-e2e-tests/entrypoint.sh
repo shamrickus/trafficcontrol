@@ -18,6 +18,9 @@
 
 set -e
 
+openssl -h
+exit;
+
 download_go() {
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
 	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz"
