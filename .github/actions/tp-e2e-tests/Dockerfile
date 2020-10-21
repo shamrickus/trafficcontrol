@@ -39,6 +39,5 @@ RUN webdriver-manager update
 COPY entrypoint.sh database.json cdn.json conf.json config.js dbconf.yml /
 RUN chmod a+x /entrypoint.sh
 
-EXPOSE 8443 6443 8880 4444
 
 ENTRYPOINT /entrypoint.sh
