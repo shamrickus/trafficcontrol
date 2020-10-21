@@ -31,7 +31,7 @@ RUN apk add --update --no-cache gettext git \
 	postgresql-client \
 	gcc musl-dev
 
-RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
+RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 RUN npm i -g webdriver-manager --force
 RUN gem update --system && gem install sass compass
 RUN webdriver-manager update
@@ -39,5 +39,6 @@ RUN webdriver-manager update
 COPY entrypoint.sh database.json cdn.json conf.json config.js dbconf.yml /
 RUN chmod a+x /entrypoint.sh
 
+EXPOSE 8443 6443 8880 4444
 
 ENTRYPOINT /entrypoint.sh
