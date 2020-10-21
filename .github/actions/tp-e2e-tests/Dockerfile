@@ -34,7 +34,7 @@ RUN apk add --update --no-cache gettext git nodejs npm iproute2 \
 RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
 RUN npm i -g webdriver-manager --force
 RUN gem update --system && gem install sass compass
-#RUN webdriver-manager update
+RUN webdriver-manager update
 
 COPY entrypoint.sh database.json cdn.json conf.json config.js dbconf.yml /
 RUN chmod a+x /entrypoint.sh

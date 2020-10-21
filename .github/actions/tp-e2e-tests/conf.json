@@ -16,8 +16,8 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
+  "directConnect": true,
   "chromeDriver": "/usr/lib/chromium/chromedriver",
-  "seleniumAddress": "http://hub:4444/wd/hub",
   "logLevel": "INFO",
   "suites": {
     "allTests": [
