@@ -99,15 +99,15 @@ mv /database.json ./database.conf
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
-npm i --save-dev > /dev/null
-bower install --allow-root &> /dev/null
+npm i --save-dev >/dev/null 2>&1
+bower install --allow-root >/dev/null 2>&1
 
-grunt dist &> /dev/null
+grunt dist >/dev/null 2>&1
 
-webdriver-manager start &> webdriver.log &
+webdriver-manager start >webdriver.log 2>&1 &
 
 fqdn="http://localhost:4444/wd/hub/status"
-while ! curl -Lvsk "${fqdn}" 2>/dev/null >/dev/null; do
+while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   echo "waiting for selemnium server to start on '${fqdn}'"
   sleep 2
 done
@@ -118,12 +118,12 @@ touch access.log
 forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
 fqdn="https://localhost:8443/"
-while ! curl -Lvsk "${fqdn}api/3.0/ping" 2>/dev/null >/dev/null; do
+while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP server to start on '${fqdn}'"
   sleep 2
 done
 
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin','SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)";
+psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin','SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)" >/dev/null 2>&1
 
 cd "test/end_to_end"
 mv /conf.json .
