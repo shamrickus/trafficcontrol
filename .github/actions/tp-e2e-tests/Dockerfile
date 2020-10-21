@@ -26,7 +26,7 @@ ENV GOROOT=/usr/local/go \
     CGO_ENABLED=0
 RUN apk add --update --no-cache gettext git \
 	ruby ruby-dev build-base \
-	libc-dev linux-headers curl openjdk11 openssl-dev postgresql-dev libxml2-dev libxslt-dev \
+	libc-dev curl openjdk11 \
 	chromium chromium-chromedriver \
 	postgresql-client \
 	gcc musl-dev
@@ -38,7 +38,5 @@ RUN webdriver-manager update
 
 COPY entrypoint.sh database.json cdn.json conf.json config.js dbconf.yml /
 RUN chmod a+x /entrypoint.sh
-
-EXPOSE 8443 6443 8880 4444
 
 ENTRYPOINT /entrypoint.sh
