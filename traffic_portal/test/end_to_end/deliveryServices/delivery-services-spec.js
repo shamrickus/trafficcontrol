@@ -130,22 +130,19 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		pageData.searchFilter.clear().then(function() {
 			pageData.searchFilter.sendKeys(mockVals.anyMapXmlId);
 		});
-		console.log("1");
+		browser.sleep(1500);
 		element.all(by.repeater('ds in ::deliveryServices')).filter(function(row){
 			return row.element(by.name('xmlId')).getText().then(function(val){
 				return val.toString() === mockVals.anyMapXmlId.toString();
 			});
 		}).get(0).click();
 		expect(pageData.updateButton.isEnabled()).toBe(false);
-		console.log("2");
 		expect(pageData.xmlId.getAttribute('readonly')).toBe('true');
 		pageData.displayName.clear().then(function() {
 			pageData.displayName.sendKeys("Updated display name");
 		});
-		console.log("3");
 		expect(pageData.updateButton.isEnabled()).toBe(true);
 		pageData.updateButton.click();
-		console.log("4");
 		expect(pageData.displayName.getText() === "Updated display name");
 	});
 
