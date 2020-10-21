@@ -30,7 +30,7 @@ RUN apk add --update --no-cache gettext git \
 	postgresql-client \
 	gcc musl-dev
 
-RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver jasmine
+RUN npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 RUN npm i -g webdriver-manager --force
 RUN gem update --system && gem install sass compass
 RUN webdriver-manager update
