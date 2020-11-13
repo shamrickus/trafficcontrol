@@ -210,7 +210,20 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: ${{ github.workspace }}/dist/
+      - name: Cache Perl modules
+        env:
+          CENTOS_VERSION: 7
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/infrastructure/cdn-in-a-box/traffic_ops/local
+          key: ${{ runner.os }}-cpan-centos-${{ env.CENTOS_VERSION }}-${{ hashFiles('cache/**.tar.gz') }}-${{ hashFiles('**/perllocal.pod') }}
+          restore-keys: |
+            ${{ runner.os }}-cpan-centos-${{ env.CENTOS_VERSION }}-${{ hashFiles('cache/**.tar.gz') }}-${{ hashFiles('**/perllocal.pod') }}
+            ${{ runner.os }}-cpan-centos-${{ env.CENTOS_VERSION }}-${{ hashFiles('cache/**.tar.gz') }}-
+            ${{ runner.os }}-cpan-centos-${{ env.CENTOS_VERSION }}-
       - name: Build CDN-in-a-Box images
+        env:
+          CENTOS_VERSION: 7
         uses: ./.github/actions/build-ciab
       - name: Start CDN-in-a-Box
         uses: ./.github/actions/run-ciab
