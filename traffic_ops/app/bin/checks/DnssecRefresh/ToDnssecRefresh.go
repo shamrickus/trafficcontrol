@@ -30,6 +30,8 @@ import (
 
 	"github.com/apache/trafficcontrol/lib/go-log"
 	"github.com/apache/trafficcontrol/traffic_ops/app/bin/checks/DnssecRefresh/config"
+
+	"gorm.io/gorm"
 )
 
 func main() {
