@@ -26,7 +26,7 @@ download_go() {
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
 	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz"
 	echo "Extracting Go ${go_version}..."
-	<<-'SUDO_COMMANDS' sudo sh
+	<<-'SUDO_COMMANDS' sh
 		set -o errexit
 		go_dir="$(
 			dirname "$(
