@@ -16,18 +16,18 @@ jobs:
   E2E_tests:
     runs-on: ubuntu-latest
     services:
-      hub:
-        image: selenium/hub
-        ports:
-          - "4444:4444"
-        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
-      chrome:
-        image: selenium/node-chrome
-        env:
-          HUB_HOST: hub
-          HUB_PORT: 4444
-        volumes:
-          - /dev/shm:/dev/shm
+#      hub:
+#        image: selenium/hub
+#        ports:
+#          - "4444:4444"
+#        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
+#      chrome:
+#        image: selenium/node-chrome
+#        env:
+#          HUB_HOST: hub
+#          HUB_PORT: 4444
+#        volumes:
+#          - /dev/shm:/dev/shm
       postgres:
         image: postgres:11
         env:
@@ -39,8 +39,9 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - uses: actions/checkout@master
-      - name: todb
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Initalize Traffic Ops Database
         id: todb
         uses: ./.github/actions/todb-init
       - name: Run TP

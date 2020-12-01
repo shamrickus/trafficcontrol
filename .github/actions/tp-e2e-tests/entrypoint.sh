@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -19,24 +19,89 @@
 set -e
 
 download_go() {
+	. build/functions.sh
+	if verify_and_set_go_version; then
+		return
+	fi
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
 	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz"
-	tar -C /usr/local -xzf go.tar.gz
+	echo "Extracting Go ${go_version}..."
+	<<-'SUDO_COMMANDS' sudo sh
+		set -o errexit
+		go_dir="$(
+			dirname "$(
+				dirname "$(
+					realpath "$(
+						which go
+						)")")")"
+		mv "$go_dir" "${go_dir}.unused"
+		tar -C /usr/local -xzf go.tar.gz
+	SUDO_COMMANDS
 	rm go.tar.gz
-	export PATH="${PATH}:${GOROOT}/bin"
-	/usr/local/go/bin/go version
+	go version
 }
-download_go
 
-export GOPATH="$(mktemp -d)"
+ciab_dir="${GITHUB_WORKSPACE}/infrastructure/cdn-in-a-box";
+trafficvault=trafficvault;
+start_traffic_vault() {
+	<<-'/ETC/HOSTS' sudo tee --append /etc/hosts
+		172.17.0.1    trafficvault.infra.ciab.test
+	/ETC/HOSTS
+
+	<<-'BASH_LINES' cat >infrastructure/cdn-in-a-box/traffic_vault/prestart.d/00-0-standalone-config.sh;
+		TV_FQDN="${TV_HOST}.${INFRA_SUBDOMAIN}.${TLD_DOMAIN}" # Also used in 02-add-search-schema.sh
+		certs_dir=/etc/ssl/certs;
+		X509_INFRA_CERT_FILE="${certs_dir}/trafficvault.crt";
+		X509_INFRA_KEY_FILE="${certs_dir}/trafficvault.key";
+
+		# Generate x509 certificate
+		openssl req -new -x509 -nodes -newkey rsa:4096 -out "$X509_INFRA_CERT_FILE" -keyout "$X509_INFRA_KEY_FILE" -subj "/CN=${TV_FQDN}";
+
+		# Do not wait for CDN in a Box to generate SSL keys
+		sed -i '0,/^update-ca-certificates/d' /etc/riak/prestart.d/00-config.sh;
+
+		# Do not try to source to-access.sh
+		sed -i '/to-access\.sh\|^to-enroll/d' /etc/riak/{prestart.d,poststart.d}/*
+	BASH_LINES
+
+	DOCKER_BUILDKIT=1 docker build "$ciab_dir" -f "${ciab_dir}/traffic_vault/Dockerfile" -t "$trafficvault" 2>&1 |
+		color_and_prefix "$gray_bg" "building Traffic Vault";
+	if [[ "$INPUT_VERSION" -lt 3 ]]; then
+		echo 'Not starting Traffic Vault for API versions less than 3'
+		return;
+	fi;
+	echo 'Starting Traffic Vault...';
+	docker run \
+		--detach \
+		--env-file="${ciab_dir}/variables.env" \
+		--hostname="${trafficvault}.infra.ciab.test" \
+		--name="$trafficvault" \
+		--publish=8087:8087 \
+		--rm \
+		"$trafficvault" \
+		/usr/lib/riak/riak-cluster.sh;
+	docker logs -f "$trafficvault" 2>&1 |
+		color_and_prefix "$gray_bg" 'Traffic Vault';
+}
+start_traffic_vault &
+
+download_go
+GOROOT=/usr/local/go
+export GOPATH PATH="${PATH}:${GOROOT}/bin"
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
-
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
 
 cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 
-/usr/local/go/bin/go get ./... > /dev/null
+/usr/local/go/bin/go get -v golang.org/x/net/publicsuffix\
+	golang.org/x/crypto/ed25519 \
+	golang.org/x/crypto/scrypt \
+	golang.org/x/net/idna \
+	golang.org/x/net/ipv4 \
+	golang.org/x/net/ipv6 \
+	golang.org/x/sys/unix \
+	golang.org/x/text/secure/bidirule > /dev/null
 /usr/local/go/bin/go build . > /dev/null
 
 echo "
@@ -93,10 +158,15 @@ A22D22wvfs7CE3cUz/8UnvLM3kbTTu1WbbBbrHjAV47sAHjW/ckTqeo=
 -----END RSA PRIVATE KEY-----
 " > localhost.key
 
-envsubst </cdn.json >cdn.conf
-mv /database.json ./database.conf
+resources="$(dirname "$0")"
+envsubst <"${resources}/cdn.json" >cdn.conf
+cp "${resources}/database.json" database.conf
 
-./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf >out.log 2>err.log &
+export $(<"${ciab_dir}/variables.env" sed '/^#/d') # defines TV_ADMIN_USER/PASSWORD
+envsubst <"${resources}/riak.json" >riak.conf
+
+truncate --size=0 warning.log error.log # Removes output from previous API versions and makes sure files exist
+./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf -riakcfg riak.conf &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
 npm i --save-dev >/dev/null 2>&1
@@ -135,9 +205,9 @@ echo "TP Forever log"
 cat ../../tp.log
 echo "TP log"
 cat ../../access.log
-echo "TO out log"
-cat ../../../traffic_ops/traffic_ops_golang/out.log
-echo "TO err log"
-cat ../../../traffic_ops/traffic_ops_golang/err.log
+echo "TO warning log"
+cat ../../../traffic_ops/traffic_ops_golang/warning.log
+echo "TO error log"
+cat ../../../traffic_ops/traffic_ops_golang/error.log
 
 exit $?
