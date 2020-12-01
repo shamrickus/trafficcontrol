@@ -41,6 +41,19 @@ download_go() {
 	go version
 }
 
+gray_bg="$(printf '%s%s' $'\x1B' '[100m')";
+red_bg="$(printf '%s%s' $'\x1B' '[41m')";
+yellow_bg="$(printf '%s%s' $'\x1B' '[43m')";
+black_fg="$(printf '%s%s' $'\x1B' '[30m')";
+color_and_prefix() {
+	color="$1";
+	shift;
+	prefix="$1";
+	normal_bg="$(printf '%s%s' $'\x1B' '[49m')";
+	normal_fg="$(printf '%s%s' $'\x1B' '[39m')";
+	sed "s/^/${color}${black_fg}${prefix}: /" | sed "s/$/${normal_bg}${normal_fg}/";
+}
+
 ciab_dir="${GITHUB_WORKSPACE}/infrastructure/cdn-in-a-box";
 trafficvault=trafficvault;
 start_traffic_vault() {
@@ -167,6 +180,8 @@ envsubst <"${resources}/riak.json" >riak.conf
 
 truncate --size=0 warning.log error.log # Removes output from previous API versions and makes sure files exist
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf -riakcfg riak.conf &
+tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
+tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
 npm i --save-dev >/dev/null 2>&1
@@ -206,9 +221,5 @@ echo "TP Forever log"
 cat ../../tp.log
 echo "TP log"
 cat ../../access.log
-echo "TO warning log"
-cat ../../../traffic_ops/traffic_ops_golang/warning.log
-echo "TO error log"
-cat ../../../traffic_ops/traffic_ops_golang/error.log
 
 exit $?
