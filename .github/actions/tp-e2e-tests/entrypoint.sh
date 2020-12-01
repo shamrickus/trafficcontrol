@@ -174,8 +174,9 @@ bower install --allow-root >/dev/null 2>&1
 
 grunt dist >/dev/null 2>&1
 
-webdriver-manager start >webdriver.log 2>&1 &
+#webdriver-manager start >webdriver.log 2>&1 &
 
+curl -Lvsk "http://hub:4444/wd/hub/status"
 fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   echo "waiting for selemnium server to start on '${fqdn}'"
