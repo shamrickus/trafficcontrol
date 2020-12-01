@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -26,7 +26,7 @@ download_go() {
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
 	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz"
 	echo "Extracting Go ${go_version}..."
-	<<-'SUDO_COMMANDS' sh
+	<<-'SUDO_COMMANDS' sudo sh
 		set -o errexit
 		go_dir="$(
 			dirname "$(
