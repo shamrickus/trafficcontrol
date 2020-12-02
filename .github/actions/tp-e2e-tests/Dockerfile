@@ -37,6 +37,8 @@ RUN gem update --system && gem install sass compass
 RUN webdriver-manager update
 
 COPY entrypoint.sh database.json cdn.json riak.json conf.json config.js dbconf.yml /
+COPY entrypoint.sh .
 RUN chmod a+x /entrypoint.sh
+RUN chmod a+x ./entrypoint.sh
 
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ./entrypoint.sh
