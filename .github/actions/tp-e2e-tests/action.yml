@@ -18,5 +18,5 @@
 name: 'tp-integration-tests'
 description: 'Runs Traffic Portal E2E tests'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  image: 'dist/tp-e2e-tests.js'
