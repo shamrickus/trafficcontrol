@@ -16,6 +16,8 @@
 # specific language governing permissions and limitations
 # under the License.
 
+echo "yooo"
+
 download_go() {
 	. build/functions.sh
 	if verify_and_set_go_version; then
@@ -77,10 +79,6 @@ start_traffic_vault() {
 
 	DOCKER_BUILDKIT=1 docker build "$ciab_dir" -f "${ciab_dir}/traffic_vault/Dockerfile" -t "$trafficvault" 2>&1 |
 		color_and_prefix "$gray_bg" "building Traffic Vault";
-	if [[ "$INPUT_VERSION" -lt 3 ]]; then
-		echo 'Not starting Traffic Vault for API versions less than 3'
-		return;
-	fi;
 	echo 'Starting Traffic Vault...';
 	docker run \
 		--detach \
@@ -187,16 +185,15 @@ bower install --allow-root >/dev/null 2>&1
 
 grunt dist >/dev/null 2>&1
 
-#webdriver-manager start >webdriver.log 2>&1 &
+webdriver-manager start >webdriver.log 2>&1 &
 
-curl -Lvsk "http://hub:4444/wd/hub/status"
 fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   echo "waiting for selemnium server to start on '${fqdn}'"
   sleep 2
 done
 
-mv /config.js ./conf
+cp "${resources}/config.json" ./conf/
 touch tp.log
 touch access.log
 forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
@@ -210,7 +207,7 @@ done
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)" >/dev/null 2>&1
 
 cd "test/end_to_end"
-mv /conf.json .
+cp "${resources}/conf.json" .
 protractor ./conf.js
 
 echo "Webdriver Log"
