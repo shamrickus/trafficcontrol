@@ -101,10 +101,10 @@ sudo apt-get install -y --no-install-recommends gettext \
 	postgresql-client \
 	gcc musl-dev
 
-npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
-npm i -g webdriver-manager --force
-gem update --system && gem install sass compass
-webdriver-manager update
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+sudo npm i -g webdriver-manager --force
+sudo gem update --system && gem install sass compass
+sudo webdriver-manager update
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
@@ -197,7 +197,7 @@ npm i --save-dev
 bower install --allow-root
 grunt dist
 
-webdriver-manager start &
+sudo webdriver-manager start &
 
 fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
