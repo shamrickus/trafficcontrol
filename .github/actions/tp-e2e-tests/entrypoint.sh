@@ -182,13 +182,12 @@ npm i --save-dev
 bower install --allow-root
 grunt dist
 
-#webdriver-manager start >webdriver.log 2>&1 &
-#tail -f webdriver.log &
+webdriver-manager start &
 
-fqdn="http://hub:4444/wd/hub/status"
+fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   echo "waiting for selemnium server to start on '${fqdn}'"
-  sleep 2
+  sleep 10
 done
 
 cp "${resources}/config.json" ./conf/
@@ -201,7 +200,7 @@ tail -f access.log &
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${fqdn}'"
-  sleep 2
+  sleep 10
 done
 
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)" >/dev/null 2>&1
