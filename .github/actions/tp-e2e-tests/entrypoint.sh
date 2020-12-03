@@ -15,6 +15,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+set -e
 
 download_go() {
 	. build/functions.sh
@@ -91,6 +92,18 @@ start_traffic_vault() {
 		color_and_prefix "$gray_bg" 'Traffic Vault';
 }
 start_traffic_vault &
+
+sudo apt-get install -y --no-install-recommends gettext \
+	ruby ruby-dev build-base \
+	libc-dev curl openjdk11 \
+	chromium chromium-chromedriver \
+	postgresql-client \
+	gcc musl-dev
+
+npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+npm i -g webdriver-manager --force
+gem update --system && gem install sass compass
+webdriver-manager update
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
