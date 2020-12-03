@@ -218,10 +218,12 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
   sleep 10
 done
 
+echo "insert into db"
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)" >/dev/null 2>&1
 
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
-sudo protractor ./conf.js
+echo "starting tests"
+protractor ./conf.js
 
 exit $?
