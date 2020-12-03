@@ -25,6 +25,7 @@ function runProcess(...commandArguments) {
     if (status === 0) {
         return;
     }
+    console.log("maybe");
     console.error("Child process \"", ...commandArguments, "\" exited with status code", status, "!");
     process.exit(status !== null && status !== void 0 ? status : 1);
 }
