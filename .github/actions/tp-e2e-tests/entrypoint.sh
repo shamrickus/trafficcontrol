@@ -205,7 +205,7 @@ while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   sleep 10
 done
 
-cp "${resources}/config.json" ./conf/
+cp "${resources}/config.js" ./conf/
 touch tp.log
 touch access.log
 sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
