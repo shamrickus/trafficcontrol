@@ -31,9 +31,9 @@ inputs:
   smtp_password:
     description: 'The user to authenticate with for the SMTP server.'
     required: false
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
 #runs:
-#  using: 'node12'
-#  main: 'dist/tp-e2e-tests.js'
+#  using: 'docker'
+#  image: 'Dockerfile'
+runs:
+  using: 'node12'
+  main: 'dist/tp-e2e-tests.js'

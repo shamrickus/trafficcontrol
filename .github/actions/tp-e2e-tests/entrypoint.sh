@@ -93,17 +93,18 @@ start_traffic_vault() {
 }
 start_traffic_vault &
 
+lsb_release
 sudo apt-get install -y --no-install-recommends gettext \
-	ruby ruby-dev build-base \
-	libc-dev curl openjdk11 \
-	chromium chromium-chromedriver \
+	ruby ruby-dev \
+	libc-dev curl openjdk-11-jdk-headless \
+	chromium-browser chromium-chromedriver \
 	postgresql-client \
 	gcc musl-dev
 
-#npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
-#npm i -g webdriver-manager --force
-#gem update --system && gem install sass compass
-#webdriver-manager update
+npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+npm i -g webdriver-manager --force
+gem update --system && gem install sass compass
+webdriver-manager update
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
@@ -180,18 +181,11 @@ A22D22wvfs7CE3cUz/8UnvLM3kbTTu1WbbBbrHjAV47sAHjW/ckTqeo=
 " > localhost.key
 
 resources="$(dirname "$0")"
-envsubst <"/cdn.json" >cdn.conf
-cp "/database.json" database.conf
+envsubst <"${resources}/cdn.json" >cdn.conf
+cp "${resources}/database.json" database.conf
 
 export $(<"${ciab_dir}/variables.env" sed '/^#/d') # defines TV_ADMIN_USER/PASSWORD
-envsubst <"/riak.json" >riak.conf
-
-#resources="$(dirname "$0")"
-#envsubst <"${resources}/cdn.json" >cdn.conf
-#cp "${resources}/database.json" database.conf
-#
-#export $(<"${ciab_dir}/variables.env" sed '/^#/d') # defines TV_ADMIN_USER/PASSWORD
-#envsubst <"${resources}/riak.json" >riak.conf
+envsubst <"${resources}/riak.json" >riak.conf
 
 truncate --size=0 warning.log error.log # Removes output from previous API versions and makes sure files exist
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf -riakcfg riak.conf &
@@ -211,8 +205,7 @@ while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   sleep 10
 done
 
-#cp "${resources}/config.json" ./conf/
-cp "/config.json" ./conf/config.json
+cp "${resources}/config.json" ./conf/
 touch tp.log
 touch access.log
 forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
@@ -228,8 +221,7 @@ done
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)" >/dev/null 2>&1
 
 cd "test/end_to_end"
-#cp "${resources}/conf.json" .
-cp "/conf.json" .
+cp "${resources}/conf.json" .
 protractor ./conf.js
 
 exit $?
