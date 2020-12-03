@@ -193,9 +193,9 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-npm i --save-dev
-bower install --allow-root
-grunt dist
+sudo npm i --save-dev
+sudo bower install --allow-root
+sudo grunt dist
 
 sudo webdriver-manager start &
 
@@ -208,7 +208,7 @@ done
 cp "${resources}/config.json" ./conf/
 touch tp.log
 touch access.log
-forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
+sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 tail -f tp.log &
 tail -f access.log &
 
@@ -222,6 +222,6 @@ psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INT
 
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
-protractor ./conf.js
+sudo protractor ./conf.js
 
 exit $?
