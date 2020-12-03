@@ -10,7 +10,7 @@ on:
     paths:
       - traffic_portal/**
       - .github/**
-    types: [ opened, reopened, edited, synchronize ]
+    types: [ opened, reopened, ready_for_review, synchronize ]
 
 jobs:
   E2E_tests:
@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Initalize Traffic Ops Database
+      - name: Initialize Traffic Ops Database
         id: todb
         uses: ./.github/actions/todb-init
       - name: Run TP
