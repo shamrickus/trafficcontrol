@@ -178,12 +178,13 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "$SRCDIR/trafficcontrol/traffic_portal"
-npm i --save-dev >/dev/null 2>&1
-bower install --allow-root >/dev/null 2>&1
+npm i --save-dev
+bower install --allow-root
 
-grunt dist >/dev/null 2>&1
+grunt dist
 
 webdriver-manager start >webdriver.log 2>&1 &
+tail -f webdriver.log &
 
 fqdn="http://localhost:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
@@ -195,6 +196,8 @@ cp "${resources}/config.json" ./conf/
 touch tp.log
 touch access.log
 forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
+tail -f tp.log &
+tail -f access.log &
 
 fqdn="https://localhost:8443/"
 while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
@@ -207,12 +210,5 @@ psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INT
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
 protractor ./conf.js
-
-echo "Webdriver Log"
-cat ../../webdriver.log
-echo "TP Forever log"
-cat ../../tp.log
-echo "TP log"
-cat ../../access.log
 
 exit $?
