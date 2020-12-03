@@ -180,13 +180,12 @@ tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 cd "$SRCDIR/trafficcontrol/traffic_portal"
 npm i --save-dev
 bower install --allow-root
-
 grunt dist
 
-webdriver-manager start >webdriver.log 2>&1 &
-tail -f webdriver.log &
+#webdriver-manager start >webdriver.log 2>&1 &
+#tail -f webdriver.log &
 
-fqdn="http://localhost:4444/wd/hub/status"
+fqdn="http://hub:4444/wd/hub/status"
 while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
   echo "waiting for selemnium server to start on '${fqdn}'"
   sleep 2
