@@ -92,9 +92,10 @@ start_traffic_vault() {
 }
 start_traffic_vault &
 
-download_go
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
+download_go
+export GOPATH="$(mktemp -d)"
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
@@ -177,7 +178,7 @@ truncate --size=0 warning.log error.log # Removes output from previous API versi
 tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
-cd "$SRCDIR/trafficcontrol/traffic_portal"
+cd "../../traffic_portal"
 npm i --save-dev
 bower install --allow-root
 grunt dist
