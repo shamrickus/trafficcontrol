@@ -20,12 +20,13 @@ const spawnOptions: SpawnSyncOptions = {stdio: "inherit"};
 
 function runProcess(...commandArguments: string[]): void {
 	console.info(...commandArguments);
-	const {status}: SpawnSyncReturns<Buffer> = child_process.spawnSync(commandArguments[0], commandArguments.slice(1), spawnOptions);
-	if (status === 0) {
+	const output: SpawnSyncReturns<Buffer> = child_process.spawnSync(commandArguments[0], commandArguments.slice(1), spawnOptions);
+	if (output.status === 0) {
 		return;
 	}
-	console.error("Child process \"", ...commandArguments, "\" exited with status code", status, "!");
-	process.exit(status ?? 1);
+	console.log(output);
+	console.error("Child process \"", ...commandArguments, "\" exited with status code", output.status, "!");
+	process.exit(output.status ?? 1);
 }
 
 runProcess(path.join(__dirname, "../entrypoint.sh"));

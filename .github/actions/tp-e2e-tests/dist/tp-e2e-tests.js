@@ -20,13 +20,14 @@ const child_process_1 = __importDefault(require("child_process"));
 const path_1 = __importDefault(require("path"));
 const spawnOptions = { stdio: "inherit" };
 function runProcess(...commandArguments) {
+    var _a;
     console.info(...commandArguments);
-    const { status } = child_process_1.default.spawnSync(commandArguments[0], commandArguments.slice(1), spawnOptions);
-    if (status === 0) {
+    const output = child_process_1.default.spawnSync(commandArguments[0], commandArguments.slice(1), spawnOptions);
+    if (output.status === 0) {
         return;
     }
-    console.log(commandArguments.slice(1));
-    console.error("Child process \"", ...commandArguments, "\" exited with status code", status, "!");
-    process.exit(status !== null && status !== void 0 ? status : 1);
+    console.log(output);
+    console.error("Child process \"", ...commandArguments, "\" exited with status code", output.status, "!");
+    process.exit((_a = output.status) !== null && _a !== void 0 ? _a : 1);
 }
 runProcess(path_1.default.join(__dirname, "../entrypoint.sh"));
