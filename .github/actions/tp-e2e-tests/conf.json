@@ -16,8 +16,6 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
-  "directConnect": true,
-  "chromeDriver": "/usr/lib/chromium/chromedriver",
   "logLevel": "INFO",
   "suites": {
     "allTests": [

@@ -16,6 +16,14 @@
 # specific language governing permissions and limitations
 # under the License.
 #set -e
+fqdn="http://localhost:4444/wd/hub/status"
+if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
+  echo "not avail on localhost"
+fi
+fqdn="http://hub:4444/wd/hub/status"
+if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
+  echo "not avail on hub"
+fi
 
 download_go() {
 	. build/functions.sh
@@ -93,7 +101,6 @@ start_traffic_vault() {
 }
 start_traffic_vault &
 
-lsb_release
 sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev \
 	libc-dev curl openjdk-11-jdk-headless \
@@ -222,7 +229,6 @@ psql --version
 echo "insert into db"
 psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)"
 
-sudo webdriver-manager update
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
 echo "starting tests"

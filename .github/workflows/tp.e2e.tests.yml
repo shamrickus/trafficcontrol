@@ -16,18 +16,18 @@ jobs:
   E2E_tests:
     runs-on: ubuntu-latest
     services:
-#      hub:
-#        image: selenium/hub
-#        ports:
-#          - "4444:4444"
-#        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
-#      chrome:
-#        image: selenium/node-chrome
-#        env:
-#          HUB_HOST: hub
-#          HUB_PORT: 4444
-#        volumes:
-#          - /dev/shm:/dev/shm
+      hub:
+        image: selenium/hub
+        ports:
+          - "4444:4444"
+        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
+      chrome:
+        image: selenium/node-chrome
+        env:
+          HUB_HOST: hub
+          HUB_PORT: 4444
+        volumes:
+          - /dev/shm:/dev/shm
       postgres:
         image: postgres:11
         env:
