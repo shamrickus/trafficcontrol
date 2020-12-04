@@ -103,7 +103,8 @@ sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev libc-dev \
 	chromium-chromedriver postgresql-client \
 	gcc musl-dev
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver webdriver-manager
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+sudo npm i -g webdriver-manager --force
 
 sudo gem update --system && sudo gem install sass compass
 sudo webdriver-manager update --gecko false
