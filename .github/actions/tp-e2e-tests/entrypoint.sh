@@ -15,7 +15,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-#set -e
+set -e
 
 download_go() {
 	. build/functions.sh
@@ -103,6 +103,7 @@ sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 sudo npm i -g webdriver-manager --force
 sudo gem update --system && sudo gem install sass compass
 sudo webdriver-manager update
+export PATH="${PATH}:/usr/local/lib/node_modules/webdriver-manager/selenium/"
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
