@@ -221,7 +221,6 @@ cp "${resources}/conf.json" .
 
 sudo webdriver-manager update --gecko false
 ls "/usr/local/lib/node_modules/webdriver-manager/selenium/"
-ls "./node_modules/protractor/bin"
 which webdriver-manager
 
 protractor ./conf.js
