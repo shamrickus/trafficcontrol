@@ -16,6 +16,7 @@
     "adminPassword": "twelve12",
     "adminUser": "admin"
   },
+  "directConnect": true,
   "logLevel": "INFO",
   "suites": {
     "allTests": [
