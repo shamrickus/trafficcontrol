@@ -17,12 +17,6 @@
 # under the License.
 set -e
 
-fqdn="http://localhost:4444/wd/hub/status"
-if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
-  echo "Selenium not running at ${fqdn}"
-  exit 1
-fi
-
 download_go() {
 	. build/functions.sh
 	if verify_and_set_go_version; then
@@ -100,10 +94,10 @@ start_traffic_vault() {
 start_traffic_vault &
 
 sudo apt-get install -y --no-install-recommends gettext \
-	ruby ruby-dev libc-dev \
+	ruby ruby-dev libc-dev curl \
 	chromium-chromedriver postgresql-client \
 	gcc musl-dev
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+	#openjdk-11-jdk-headless chromium-browser \
 
 sudo gem update --system && sudo gem install sass compass
 
@@ -194,13 +188,21 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver selenium-webdriver
 npm i --save-dev
-bower install
+bower install --allow-root
 grunt dist
 
+#sudo webdriver-manager start &
+#fqdn="http://localhost:4444/wd/hub/status"
+#while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
+#  echo "waiting for selemnium server to start on '${fqdn}'"
+#  sleep 10
+#done
 
 cp "${resources}/config.js" ./conf/
-touch tp.log access.log
+touch tp.log
+touch access.log
 sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 tail -f tp.log &
 tail -f access.log &
@@ -216,7 +218,9 @@ psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT IN
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
 
-#sudo webdriver-manager update --gecko false
+sudo webdriver-manager update --gecko false
+which webdriver-manager
+
 sudo protractor ./conf.js
 
 exit $?
