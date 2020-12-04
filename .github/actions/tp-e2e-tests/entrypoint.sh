@@ -194,9 +194,9 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver selenium-webdriver
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver webdriver-manager
 npm i --save-dev
-bower install --allow-root
+bower install
 grunt dist
 
 
@@ -212,7 +212,7 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
   sleep 10
 done
 
-#psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)"
+psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)"
 
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
