@@ -189,6 +189,7 @@ tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+sudo npm i -g selenium-webdriver webdriver-manager --force
 sudo npm i --save-dev
 sudo bower install --allow-root
 sudo grunt dist
@@ -218,8 +219,7 @@ psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT IN
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
 
-npm i selenium-webdriver webdriver-manager --force
-webdriver-manager update --gecko false
+sudo webdriver-manager update --gecko false
 ls "/usr/local/lib/node_modules/webdriver-manager/selenium/"
 ls "./node_modules/protractor/bin"
 which webdriver-manager
