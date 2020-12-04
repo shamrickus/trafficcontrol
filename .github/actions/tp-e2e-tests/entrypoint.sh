@@ -104,6 +104,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 sudo npm i -g webdriver-manager --force
 sudo gem update --system && sudo gem install sass compass
+sudo webdriver-manager update
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
