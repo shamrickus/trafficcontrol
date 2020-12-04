@@ -105,6 +105,8 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver selenium-webdriver
+sudo webdriver-manager update --gecko false
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
@@ -193,7 +195,6 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver selenium-webdriver
 npm i --save-dev
 bower install
 grunt dist
@@ -214,8 +215,6 @@ psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT IN
 
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
-
-sudo webdriver-manager update --gecko false
 
 sudo protractor ./conf.js
 
