@@ -223,6 +223,6 @@ sudo webdriver-manager update --gecko false
 ls "/usr/local/lib/node_modules/webdriver-manager/selenium/"
 which webdriver-manager
 
-protractor ./conf.js
+sudo protractor ./conf.js
 
 exit $?
