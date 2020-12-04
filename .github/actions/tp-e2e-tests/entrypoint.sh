@@ -99,11 +99,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 	#openjdk-11-jdk-headless chromium-browser \
 
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
-sudo npm i -g webdriver-manager --force
 sudo gem update --system && sudo gem install sass compass
-sudo webdriver-manager update --gecko false
-export PATH="${PATH}:/usr/local/lib/node_modules/webdriver-manager/selenium/"
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
@@ -222,7 +218,13 @@ cd "test/end_to_end"
 cp "${resources}/conf.json" .
 
 ls /usr/local/lib/node_modules/webdriver-manager/selenium/
+npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+npm i -g webdriver-manager --force
+webdriver-manager update --gecko false
+ls "/usr/local/lib/node_modules/webdriver-manager/selenium/"
+ls "./node_modules/protractor/bin"
+which webdriver-manager
 
-sudo protractor ./conf.js
+protractor ./conf.js
 
 exit $?
