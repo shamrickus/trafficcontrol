@@ -218,7 +218,6 @@ psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT IN
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
 
-ls /usr/local/lib/node_modules/webdriver-manager/selenium/
 npm i selenium-webdriver webdriver-manager --force
 webdriver-manager update --gecko false
 ls "/usr/local/lib/node_modules/webdriver-manager/selenium/"
