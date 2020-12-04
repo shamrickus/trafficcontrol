@@ -103,6 +103,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev libc-dev \
 	chromium-chromedriver postgresql-client \
 	gcc musl-dev
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver webdriver-manager
 
 sudo gem update --system && sudo gem install sass compass
 sudo webdriver-manager update --gecko false
@@ -194,7 +195,6 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver webdriver-manager
 npm i --save-dev
 bower install
 grunt dist
