@@ -188,8 +188,7 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
-sudo npm i -g selenium-webdriver webdriver-manager --force
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver selenium-webdriver
 sudo npm i --save-dev
 sudo bower install --allow-root
 sudo grunt dist
@@ -220,7 +219,6 @@ cd "test/end_to_end"
 cp "${resources}/conf.json" .
 
 sudo webdriver-manager update --gecko false
-ls "/usr/local/lib/node_modules/webdriver-manager/selenium/"
 which webdriver-manager
 
 sudo protractor ./conf.js
