@@ -189,9 +189,9 @@ tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver selenium-webdriver
-sudo npm i --save-dev
-sudo bower install --allow-root
-sudo grunt dist
+npm i --save-dev
+bower install --allow-root
+grunt dist
 
 #sudo webdriver-manager start &
 #fqdn="http://localhost:4444/wd/hub/status"
