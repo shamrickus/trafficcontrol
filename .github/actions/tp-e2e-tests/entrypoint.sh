@@ -16,14 +16,6 @@
 # specific language governing permissions and limitations
 # under the License.
 #set -e
-fqdn="http://localhost:4444/wd/hub/status"
-if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
-  echo "not avail on localhost"
-fi
-fqdn="http://hub:4444/wd/hub/status"
-if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
-  echo "not avail on hub"
-fi
 
 download_go() {
 	. build/functions.sh
@@ -102,11 +94,10 @@ start_traffic_vault() {
 start_traffic_vault &
 
 sudo apt-get install -y --no-install-recommends gettext \
-	ruby ruby-dev \
-	libc-dev curl openjdk-11-jdk-headless \
-	chromium-browser chromium-chromedriver \
-	postgresql-client \
+	ruby ruby-dev libc-dev curl \
+	chromium-chromedriver postgresql-client \
 	gcc musl-dev
+	#openjdk-11-jdk-headless chromium-browser \
 
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 sudo npm i -g webdriver-manager --force
@@ -204,13 +195,12 @@ sudo npm i --save-dev
 sudo bower install --allow-root
 sudo grunt dist
 
-sudo webdriver-manager start &
-
-fqdn="http://localhost:4444/wd/hub/status"
-while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
-  echo "waiting for selemnium server to start on '${fqdn}'"
-  sleep 10
-done
+#sudo webdriver-manager start &
+#fqdn="http://localhost:4444/wd/hub/status"
+#while ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; do
+#  echo "waiting for selemnium server to start on '${fqdn}'"
+#  sleep 10
+#done
 
 cp "${resources}/config.js" ./conf/
 touch tp.log
@@ -225,9 +215,8 @@ while ! curl -Lvsk "${fqdn}api/3.0/ping" >/dev/null 2>&1; do
   sleep 10
 done
 
-psql --version
 echo "insert into db"
-psql -d postgresql://traffic_ops:twelve@postgres:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)"
+psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops -c "INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1)"
 
 cd "test/end_to_end"
 cp "${resources}/conf.json" .
