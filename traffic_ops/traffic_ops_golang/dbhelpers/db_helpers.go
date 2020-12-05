@@ -869,7 +869,7 @@ func CheckTopology(tx *sqlx.Tx, ds tc.DeliveryServiceNullableV30) (int, error, e
 	}
 
 	if err = topology_validation.CheckForEmptyCacheGroups(tx, cacheGroupIDs, []int{*ds.CDNID}, true, []int{}); err != nil {
-		return http.StatusBadRequest, fmt.Errorf("empty cachegroups in Topology %s found for CDN %d: %s", *ds.Topology, ds.CDNID, err.Error()), nil
+		return http.StatusBadRequest, fmt.Errorf("empty cachegroups in Topology %s found for CDN %d: %s", *ds.Topology, *ds.CDNID, err.Error()), nil
 	}
 
 	return statusCode, userErr, sysErr
