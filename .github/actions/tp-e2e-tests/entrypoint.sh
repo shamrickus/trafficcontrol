@@ -162,7 +162,7 @@ cd "$SRCDIR/trafficcontrol/traffic_ops/traffic_ops_golang"
 	golang.org/x/text/secure/bidirule > /dev/null
 /usr/local/go/bin/go build . > /dev/null
 
-openssl req -new -x509 -nodes -newkey rsa:4096 -out localhost.crt -keyout localhost.key -subj "/CN=tptests";
+openssl req -new -x509 -nodes -newkey rsa:4096 -out "localhost.crt" -keyout "localhost.key" -subj "/CN=somebody";
 
 resources="$(dirname "$0")"
 envsubst <"${resources}/cdn.json" >cdn.conf
@@ -206,3 +206,4 @@ if [ $CODE -ne 0 ]; then
 fi
 
 exit $CODE
+
