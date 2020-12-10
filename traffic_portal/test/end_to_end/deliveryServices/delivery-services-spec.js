@@ -232,6 +232,9 @@ describe('Traffic Portal Delivery Services Suite', function() {
 		browser.wait(ec.presenceOf(pageData.selectAllCB), 5000);
 		pageData.selectAllCB.click();
 		pageData.selectFormSubmitButton.click();
+		element.all(by.className("alert")).first().getText().then(function(x){
+			console.log(x);
+		});
 		expect($('div.alert-success').isDisplayed()).toBe(true);
 	});
 
