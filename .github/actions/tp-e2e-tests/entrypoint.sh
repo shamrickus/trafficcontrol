@@ -142,7 +142,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')
+CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1\2/')
 
 sudo gem update --system && sudo gem install sass compass
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
