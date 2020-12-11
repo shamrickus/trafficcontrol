@@ -41,7 +41,7 @@ download_go() {
 }
 
 download_go
-export CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+export CONTAINER=$(docker ps | grep "selenium/hub" | awk '{print $1}')
 echo $CONTAINER
 docker ps
 docker exec $CONTAINER "ls; ls /usr/bin"
