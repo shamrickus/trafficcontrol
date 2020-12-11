@@ -39,8 +39,8 @@ download_go() {
 						which go
 						)")")")"
     echo tesating
+    echo $(which go | xargs realpath | xargs dirname | xargs dirname)
     echo $go_dir
-    which go
 		mv "$go_dir" "${go_dir}.unused"
 		tar -C /usr/local -xzf go.tar.gz
 	SUDO_COMMANDS
