@@ -32,7 +32,7 @@ download_go() {
 	echo "Extracting Go ${go_version}..."
 	<<-'SUDO_COMMANDS' sudo sh
 		set -o errexit
-    go_dir="$(which go | xargs realpath | xargs dirname | xargs dirname)"
+    go_dir="$(command -V go | xargs realpath | xargs dirname | xargs dirname)"
 		mv "$go_dir" "${go_dir}.unused"
 		tar -C /usr/local -xzf go.tar.gz
 	SUDO_COMMANDS
@@ -43,7 +43,7 @@ download_go() {
 download_go
 export CONTAINER=$(docker ps -a | grep "selenium/node-chrome" | awk '{print $1}')
 echo $CONTAINER
-docker exec $CONTAINER "ls /usr/bin"
+docker exec -u O $CONTAINER "ls; ls /usr/bin"
 docker exec $CONTAINER "google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')"
 exit 0
 
