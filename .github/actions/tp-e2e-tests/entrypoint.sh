@@ -29,7 +29,13 @@ COORD="acoord"
 CDN="zcdn"
 CG="acg"
 
-<<QUERY psql -d postgresql://traffic_ops:twelve@localhost:5432/traffic_ops
+PGUSER="traffic_ops"
+PGPASSWORD="twelve"
+PGHOST="localhost"
+PGDATABASE="traffic_ops"
+PGPORT="5432"
+
+<<QUERY psql
 INSERT INTO tm_user (username, local_passwd, role, tenant_id) VALUES ('admin', 'SCRYPT:16384:8:1:vVw4X6mhoEMQXVGB/ENaXJEcF4Hdq34t5N8lapIjDQEAS4hChfMJMzwwmHfXByqUtjmMemapOPsDQXG+BAX/hA==:vORiLhCm1EtEQJULvPFteKbAX2DgxanPhHdrYN8VzhZBNF81NRxxpo7ig720KcrjH1XFO6BUTDAYTSBGU9KO3Q==', 1, 1);
 INSERT INTO division(name) VALUES('${DIVISION}');
 INSERT INTO region(name, division) VALUES('${REGION}', 1);
