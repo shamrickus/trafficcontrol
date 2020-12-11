@@ -21,6 +21,34 @@ if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
   echo "Selenium not started on ${fqdn}"
   exit 1
 fi
+
+download_go() {
+	. build/functions.sh
+	if verify_and_set_go_version; then
+		return
+	fi
+	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
+	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz" --no-verbose
+	echo "Extracting Go ${go_version}..."
+	<<-'SUDO_COMMANDS' sudo sh
+		set -o errexit
+		go_dir="$(
+			dirname "$(
+				dirname "$(
+					realpath "$(
+						which go
+						)")")")"
+    echo $go_dir
+    which go
+		mv "$go_dir" "${go_dir}.unused"
+		tar -C /usr/local -xzf go.tar.gz
+	SUDO_COMMANDS
+	rm go.tar.gz
+	go version
+}
+
+download_go
+docker ps -a | grep "selenium/node-chrome"
 export CONTAINER=$(docker ps -a | grep "selenium/node-chrome" | awk "{print $1}")
 echo $CONTAINER
 docker exec -it $CONTAINER "google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')"
@@ -68,29 +96,6 @@ JOIN CDN ON 1=1
 JOIN CG ON 1=1;
 QUERY
 
-
-download_go() {
-	. build/functions.sh
-	if verify_and_set_go_version; then
-		return
-	fi
-	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
-	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz" --no-verbose
-	echo "Extracting Go ${go_version}..."
-	<<-'SUDO_COMMANDS' sudo sh
-		set -o errexit
-		go_dir="$(
-			dirname "$(
-				dirname "$(
-					realpath "$(
-						which go
-						)")")")"
-		mv "$go_dir" "${go_dir}.unused"
-		tar -C /usr/local -xzf go.tar.gz
-	SUDO_COMMANDS
-	rm go.tar.gz
-	go version
-}
 
 gray_bg="$(printf '%s%s' $'\x1B' '[100m')";
 red_bg="$(printf '%s%s' $'\x1B' '[41m')";
