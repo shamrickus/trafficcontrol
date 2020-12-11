@@ -38,6 +38,7 @@ download_go() {
 					realpath "$(
 						which go
 						)")")")"
+    echo tesating
     echo $go_dir
     which go
 		mv "$go_dir" "${go_dir}.unused"
@@ -48,8 +49,8 @@ download_go() {
 }
 
 download_go
-docker ps -a | grep "selenium/node-chrome"
-export CONTAINER=$(docker ps -a | grep "selenium/node-chrome" | awk "{print $1}")
+docker ps -a | grep "selenium/node-chrome" | awk '{print $1}'
+export CONTAINER=$(docker ps -a | grep "selenium/node-chrome" | awk '{print $1}')
 echo $CONTAINER
 docker exec -it $CONTAINER "google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')"
 exit 0
