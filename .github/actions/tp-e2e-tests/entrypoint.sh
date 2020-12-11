@@ -48,11 +48,10 @@ download_go() {
 	go version
 }
 
-download_go
-docker ps -a | grep "selenium/node-chrome" | awk '{print $1}'
+#download_go
 export CONTAINER=$(docker ps -a | grep "selenium/node-chrome" | awk '{print $1}')
 echo $CONTAINER
-docker exec -it $CONTAINER "google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')"
+docker exec $CONTAINER "google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')"
 exit 0
 
 DIVISION="adivision"
