@@ -21,6 +21,9 @@ if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
   echo "Selenium not started on ${fqdn}"
   exit 1
 fi
+docker ps -a
+#docker exec  google-chrome --version | sed -E "s/.* ([0-9]+)(\.[0-9]+){3}.*/\1/")
+exit 0
 
 DIVISION="adivision"
 REGION="aregion"
@@ -29,7 +32,6 @@ COORD="acoord"
 CDN="zcdn"
 CG="acg"
 
-echo $PGUSER
 export PGUSER="traffic_ops"
 export PGPASSWORD="twelve"
 export PGHOST="localhost"
