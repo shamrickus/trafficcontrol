@@ -40,12 +40,7 @@ download_go() {
 	go version
 }
 
-download_go
-export CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-echo $CONTAINER
-docker exec "$CONTAINER" google-chrome --version
-docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')
-exit 0
+#download_go
 
 DIVISION="adivision"
 REGION="aregion"
@@ -139,16 +134,21 @@ start_traffic_vault() {
 		"$trafficvault" \
 		/usr/lib/riak/riak-cluster.sh;
 }
-start_traffic_vault &
+#start_traffic_vault &
 
 sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev libc-dev curl \
 	chromium-chromedriver postgresql-client \
 	gcc musl-dev
 
+CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')
+
 sudo gem update --system && sudo gem install sass compass
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
-sudo webdriver-manager update --gecko false
+echo "Detected Chrome $CHROME_VER"
+sudo webdriver-manager update --gecko false --standalone false --versions.chrome $CHROME_VER
+exit 0
 
 GOROOT=/usr/local/go
 export GOPATH PATH="${PATH}:${GOROOT}/bin"
