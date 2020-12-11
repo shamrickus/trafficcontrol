@@ -43,8 +43,8 @@ download_go() {
 download_go
 export CONTAINER=$(docker ps | grep "selenium/hub" | awk '{print $1}')
 echo $CONTAINER
-docker exec "$CONTAINER" ls /usr
-docker exec "$CONTAINER" ls /usr/bin
+docker exec "$CONTAINER" which google-chrome
+docker exec "$CONTAINER" whereis google-chrome
 #docker exec $CONTAINER "google-chrome --version | sed -E 's/.* ([0-9]+)(\.[0-9]+){3}.*/\1/')"
 exit 0
 
