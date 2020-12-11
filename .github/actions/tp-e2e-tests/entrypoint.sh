@@ -147,9 +147,8 @@ sudo webdriver-manager update --gecko false --standalone false --versions.chrome
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
+export GOPATH="$(mktemp -d)"
 download_go
-GOPATH="$(mktemp -d)"
-export GOPATH
 SRCDIR="$GOPATH/src/github.com/apache"
 mkdir -p "$SRCDIR"
 ln -s "$PWD" "$SRCDIR/trafficcontrol"
