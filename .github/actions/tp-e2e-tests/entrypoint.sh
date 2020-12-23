@@ -64,9 +64,7 @@ JOIN CDN ON 1=1
 JOIN CG ON 1=1;
 QUERY
 
-groupadd trafops
-useradd trafops
-usermod -a -G trafops trafops
+sudo groupadd trafops && sudo useradd trafops && sudo usermod -a -G trafops trafops
 
 
 download_go() {
