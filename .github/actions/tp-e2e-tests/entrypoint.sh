@@ -65,9 +65,6 @@ JOIN CG ON 1=1;
 QUERY
 
 sudo useradd trafops
-groups trafops
-sudo usermod -a -G trafops trafops
-exit 1
 
 download_go() {
 	. build/functions.sh
