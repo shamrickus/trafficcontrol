@@ -64,16 +64,16 @@ JOIN CDN ON 1=1
 JOIN CG ON 1=1;
 QUERY
 
-#sudo useradd trafops
+sudo useradd trafops
 
 download_go() {
 	. build/functions.sh
 	if verify_and_set_go_version; then
 		return
 	fi
-	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
-	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz" --no-verbose
-	echo "Extracting Go ${go_version}..."
+	GO_VERSION="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
+	wget -O go.tar.gz "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz" --no-verbose
+	echo "Extracting Go ${GO_VERSION}..."
 	<<-'SUDO_COMMANDS' sudo sh
 		set -o errexit
     go_dir="$(command -v go | xargs realpath | xargs dirname | xargs dirname)"
