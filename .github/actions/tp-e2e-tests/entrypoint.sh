@@ -64,12 +64,8 @@ JOIN CDN ON 1=1
 JOIN CG ON 1=1;
 QUERY
 
-whoami
-groups $(whoami)
-sudo groupadd trafops
 sudo useradd trafops
 sudo usermod -a -G trafops trafops
-
 
 download_go() {
 	. build/functions.sh
