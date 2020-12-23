@@ -64,7 +64,7 @@ JOIN CDN ON 1=1
 JOIN CG ON 1=1;
 QUERY
 
-sudo useradd trafops
+#sudo useradd trafops
 
 download_go() {
 	. build/functions.sh
