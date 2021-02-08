@@ -1,0 +1,239 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+var CommonGridController = function ($scope, $document) {
+    this.entry = null;
+    this.quickSearch = "";
+    this.pageSize = 100;
+    this.showMenu = false;
+    this.menuStyle = {
+        left: 0,
+        top: 0
+    };
+    
+    function defaultTooltip(params) {
+        return params.value;
+    }
+
+    function dateCellFormatter(params) {
+        return params.value.toUTCString();
+    }
+    
+    this.$onInit = function() {
+        let tableName = this.tableName;
+        let self = this;
+        
+        for(let i = 0; i < self.columns.length; ++i) {
+            if (self.columns[i].filter === "agDateColumnFilter"){
+                self.columns[i].tooltipValueGetter = dateCellFormatter;
+                self.columns[i].valueFormatter = dateCellFormatter;
+            }
+        }
+
+        // clicks outside the context menu will hide it
+        $document.bind("click", function(e) {
+            self.showMenu = false;
+            e.stopPropagation();
+            $scope.$apply();
+        });
+        
+        this.gridOptions = {
+            columnDefs: self.columns,
+            enableCellTextSelection: true,
+            suppressMenuHide: true,
+            multiSortKey: 'ctrl',
+            alwaysShowVerticalScroll: true,
+            defaultColDef: {
+                filter: true,
+                sortable: true,
+                resizable: true,
+                tooltipValueGetter: defaultTooltip
+            },
+            rowClassRules: self.options.rowClassRules,
+            rowData: self.data,
+            pagination: true,
+            paginationPageSize: self.pageSize,
+            rowBuffer: 0,
+            onColumnResized: function() {
+                localStorage.setItem(tableName + "_table_columns", JSON.stringify(self.gridOptions.columnApi.getColumnState()));
+            },
+            tooltipShowDelay: 500,
+            allowContextMenuWithControlKey: true,
+            preventDefaultOnContextMenu: true,
+            onCellContextMenu: function(params) {
+                self.showMenu = true;
+                self.menuStyle.left = String(params.event.clientX) + "px";
+                self.menuStyle.top = String(params.event.clientY) + "px";
+                self.menuStyle.bottom = "unset";
+                self.menuStyle.right = "unset";
+                $scope.$apply();
+                const boundingRect = document.getElementById("context-menu").getBoundingClientRect();
+
+                if (boundingRect.bottom > window.innerHeight){
+                    self.menuStyle.bottom = String(window.innerHeight - params.event.clientY) + "px";
+                    self.menuStyle.top = "unset";
+                }
+                if (boundingRect.right > window.innerWidth) {
+                    self.menuStyle.right = String(window.innerWidth - params.event.clientX) + "px";
+                    self.menuStyle.left = "unset";
+                }
+                self.entry = params.data;
+                $scope.$apply();
+            },
+            onColumnVisible: function(params) {
+                if (params.visible){
+                    return;
+                }
+                for (let column of params.columns) {
+                    if (column.filterActive) {
+                        const filterModel = self.gridOptions.api.getFilterModel();
+                        if (column.colId in filterModel) {
+                            delete filterModel[column.colId];
+                            self.gridOptions.api.setFilterModel(filterModel);
+                        }
+                    }
+                }
+            },
+            onFirstDataRendered: function() {
+                try {
+                    const filterState = JSON.parse(localStorage.getItem(tableName + "_table_filters")) || {};
+                    self.gridOptions.api.setFilterModel(filterState);
+                } catch (e) {
+                    console.error("Failure to load stored filter state:", e);
+                }
+
+                self.gridOptions.api.addEventListener("filterChanged", function() {
+                    localStorage.setItem(tableName + "_table_filters", JSON.stringify(self.gridOptions.api.getFilterModel()));
+                });
+            },
+            onGridReady: function() {
+                try {
+                    // need to create the show/hide column checkboxes and bind to the current visibility
+                    const colstates = JSON.parse(localStorage.getItem(tableName + "_table_columns"));
+                    if (colstates) {
+                        if (!self.gridOptions.columnApi.setColumnState(colstates)) {
+                            console.error("Failed to load stored column state: one or more columns not found");
+                        }
+                    } else {
+                        self.gridOptions.api.sizeColumnsToFit();
+                    }
+                } catch (e) {
+                    console.error("Failure to retrieve required column info from localStorage (key=" + tableName + "_table_columns):", e);
+                }
+
+                try {
+                    const sortState = JSON.parse(localStorage.getItem(tableName + "_table_sort"));
+                    self.gridOptions.api.setSortModel(sortState);
+                } catch (e) {
+                    console.error("Failure to load stored sort state:", e);
+                }
+
+                try {
+                    self.quickSearch = localStorage.getItem(tableName + "_quick_search");
+                    self.gridOptions.api.setQuickFilter(self.quickSearch);
+                } catch (e) {
+                    console.error("Failure to load stored quick search:", e);
+                }
+
+                try {
+                    const ps = localStorage.getItem(tableName + "_page_size");
+                    if (ps && ps > 0) {
+                        self.pageSize = Number(ps);
+                        self.gridOptions.api.paginationSetPageSize(self.pageSize);
+                    }
+                } catch (e) {
+                    console.error("Failure to load stored page size:", e);
+                }
+
+                self.gridOptions.api.addEventListener("sortChanged", function() {
+                    localStorage.setItem(tableName + "_table_sort", JSON.stringify(self.gridOptions.api.getSortModel()));
+                });
+
+                self.gridOptions.api.addEventListener("columnMoved", function() {
+                    localStorage.setItem(tableName + "_table_columns", JSON.stringify(self.gridOptions.columnApi.getColumnState()));
+                });
+
+                self.gridOptions.api.addEventListener("columnVisible", function() {
+                    self.gridOptions.api.sizeColumnsToFit();
+                    try {
+                        const colStates = self.gridOptions.columnApi.getColumnState();
+                        localStorage.setItem(tableName + "_table_columns", JSON.stringify(colStates));
+                    } catch (e) {
+                        console.error("Failed to store column defs to local storage:", e);
+                    }
+                });
+            },
+            colResizeDefault: "shift"
+        };
+    };
+    
+    this.exportCSV = function() {
+        const params = {
+            allColumns: true,
+            fileName: "invalidation_requests.csv",
+        };
+        this.gridOptions.api.exportDataAsCsv(params);
+    };
+    
+    this.toggleVisibility = function(col) {
+        const visible = this.gridOptions.columnApi.getColumn(col).isVisible();
+        this.gridOptions.columnApi.setColumnVisible(col, !visible);
+    };
+    
+    this.onQuickSearchChanged = function() {
+        this.gridOptions.api.setQuickFilter(this.quickSearch);
+        localStorage.setItem(this.title + "_quick_search", this.quickSearch);
+    };
+
+    this.onPageSizeChanged = function() {
+        const value = Number(this.pageSize);
+        this.gridOptions.api.paginationSetPageSize(value);
+        localStorage.setItem(this.tableName + "_page_size", value);
+    };
+
+    this.clearTableFilters = function() {
+        // clear the quick search
+        this.quickSearch = '';
+        this.onQuickSearchChanged();
+        // clear any column filters
+        this.gridOptions.api.setFilterModel(null);
+    };
+    
+    this.contextMenuClick = function(menu, $event) {
+        $event.stopPropagation();
+        menu.onClick(this.entry);
+    };
+};
+
+angular.module("trafficPortal.table").component("commonGridController", {
+    templateUrl: "common/modules/table/agGrid/grid.tpl.html",
+    controller: CommonGridController,
+    bindings: {
+        title: "@",
+        tableName: "@",
+        options: "<",
+        columns: "<",
+        data: "<",
+        dropDownOptions: "<?",
+        contextMenuOptions: "<?"
+    }
+});
+
+CommonGridController.$inject = ["$scope", "$document"];
+module.exports = CommonGridController;

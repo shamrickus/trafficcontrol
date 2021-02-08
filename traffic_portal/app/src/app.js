@@ -350,6 +350,7 @@ var trafficPortal = angular.module('trafficPortal', [
         require('./common/modules/form/user/register').name,
 
         // tables
+        require("./common/modules/table/agGrid").name,
         require('./common/modules/table/asns').name,
         require('./common/modules/table/cacheGroups').name,
         require('./common/modules/table/cacheGroupAsns').name,
