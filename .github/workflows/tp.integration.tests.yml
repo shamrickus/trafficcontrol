@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-name: TP E2E Tests
+name: TP Integration Tests
 
 env:
   # alpine:3.13
