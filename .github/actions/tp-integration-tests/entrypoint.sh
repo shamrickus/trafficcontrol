@@ -199,7 +199,9 @@ while ! curl -Lvsk "${fqdn}/api/3.0/ping" >/dev/null 2>&1; do
 done
 
 
+echo "|START|"
 cd "test/integration"
+ls
 npm ci
 jq " .capabilities.chromeOptions.args = [
     \"--disable-extensions\",
@@ -218,4 +220,4 @@ onFail() {
   exit 1
 }
 
-sudo protractor ./config.js || onFail
+sudo protractor ./config.js #|| onFail
