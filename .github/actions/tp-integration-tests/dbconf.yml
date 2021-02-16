@@ -14,23 +14,10 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+version: "1.0"
+name: dbconf.yml
 
-name: 'tp-e2e-tests'
-description: 'Runs Traffic Portal E2E tests'
-inputs:
-  smtp_address:
-    description: 'Address of an SMTP server to use for the Traffic Ops API tests'
-    required: true
-  smtp_port:
-    description: 'Port of an SMTP server to use for the Traffic Ops API tests'
-    required: true
-    default: '25'
-  smtp_user:
-    description: 'The user to authenticate with for the SMTP server.'
-    required: false
-  smtp_password:
-    description: 'The user to authenticate with for the SMTP server.'
-    required: false
-runs:
-  using: 'node12'
-  main: 'dist/tp-e2e-tests.js'
+test:
+  driver: postgres
+  open: host=172.17.0.1 port=5432 user=traffic_ops password=twelve dbname=traffic_ops sslmode=disable
+
