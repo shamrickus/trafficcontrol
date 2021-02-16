@@ -30,7 +30,6 @@ exports.randomize = randomize;
 
 export let config: Config = conf;
 config.capabilities.chromeOptions.prefs.download = {
-    prompt_for_download: false,
     default_directory: downloadsPath
 };
 config.onPrepare = async function () {

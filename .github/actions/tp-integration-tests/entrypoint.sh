@@ -210,7 +210,7 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] | .params.baseUrl = \"${fqdn}/\" | del(.seleniumAddress)" \
+  ] | .params.baseUrl = \"${fqdn}/\" | del(.seleniumAddress) | del(.capabilities.chromeOptions.prefs.download.prompt_for_download" \
   config.json > config.json.tmp && mv config.json.tmp config.json
 
 onFail() {
