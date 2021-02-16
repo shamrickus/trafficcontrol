@@ -221,4 +221,5 @@ onFail() {
   exit 1
 }
 
-sudo protractor ./config.js #|| onFail
+tsc
+sudo protractor ./GeneratedCode/config.js #|| onFail
