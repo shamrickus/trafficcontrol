@@ -97,13 +97,13 @@ jobs:
           key: docker-images/alpine@${{ env.ALPINE_VERSION }}.tar.gz
       - name: Import cached Alpine Docker image
         run: .github/actions/save-alpine-tar/entrypoint.sh load ${{ env.ALPINE_VERSION }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('traffic_portal/package-lock.json traffic_portal/bower.json' 'traffic_portal/test/integration/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+#      - name: Cache node modules
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.npm
+#          key: ${{ runner.os }}-node-modules-${{ hashFiles('traffic_portal/package-lock.json traffic_portal/bower.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-node-modules-
       - name: Initialize Traffic Ops Database
         id: todb
         uses: ./.github/actions/todb-init
