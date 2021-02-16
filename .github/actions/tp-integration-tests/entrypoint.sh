@@ -201,8 +201,9 @@ done
 
 echo "|START|"
 cd "test/integration"
-ls
 npm ci
+#remove
+cp ${resources}/config.json .
 jq " .capabilities.chromeOptions.args = [
     \"--disable-extensions\",
     \"--disable-gpu\",
