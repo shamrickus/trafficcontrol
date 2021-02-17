@@ -111,6 +111,11 @@ jobs:
         uses: ./.github/actions/tp-integration-tests
         with:
           smtp_address: 172.17.0.1
+      - name: Upload Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.job }}
+          path: ${{ github.workspace }}/traffic_portal/test/integration/Reports/
       - name: Save Alpine Docker image
         run: .github/actions/save-alpine-tar/entrypoint.sh save ${{ env.ALPINE_VERSION }}
 
