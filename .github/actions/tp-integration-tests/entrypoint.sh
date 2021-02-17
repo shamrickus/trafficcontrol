@@ -211,7 +211,7 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] | .params.baseUrl = \"${fqdn}/\" | del(.seleniumAddress) " \
+  ] | .params.baseUrl = \"${fqdn}/\" | del(.seleniumAddress) | .params.login.password = \"twelve\"" \
   config.json > config.json.tmp && mv config.json.tmp config.json
 
 onFail() {
