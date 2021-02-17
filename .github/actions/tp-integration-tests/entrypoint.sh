@@ -222,4 +222,4 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js #|| onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}/" #|| onFail
