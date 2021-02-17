@@ -204,7 +204,8 @@ export class API {
                 }
                 return null
             } else {
-                throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + response.data)
+                
+                throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + response.data + "\n" + config.params)
             }
         } catch (error) {
             return error;
