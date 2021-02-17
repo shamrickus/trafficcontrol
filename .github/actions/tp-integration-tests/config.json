@@ -11,7 +11,9 @@
     "chromeOptions": {
       "args": ["--headless", "--no-sandbox", "--window-size=1920,1080"],
       "prefs": {
-        "download": {}
+        "download": {
+          "prompt_for_download": false
+        }
       }
     }
   },
