@@ -199,6 +199,7 @@ while ! curl -Lvsk "${fqdn}/api/3.0/ping" >/dev/null 2>&1; do
 done
 
 
+fqdn="https://localhost:6443"
 echo "|START|"
 cd "test/integration"
 npm ci
@@ -214,12 +215,12 @@ jq " .capabilities.chromeOptions.args = [
   config.json > config.json.tmp && mv config.json.tmp config.json
 
 onFail() {
-	docker logs "$trafficvault" 2>&1 |
-		color_and_prefix "$gray_bg" 'Traffic Vault';
+#	docker logs "$trafficvault" 2>&1 |
+#		color_and_prefix "$gray_bg" 'Traffic Vault';
   cat tp.log | color_and_prefix "${gray_bg}" 'Forever'
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   exit 1
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}/" #|| onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}/" onFail
