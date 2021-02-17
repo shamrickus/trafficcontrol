@@ -29,9 +29,7 @@ exports.twoNumberRandomize = twoNumberRandomize;
 exports.randomize = randomize;
 
 export let config: Config = conf;
-config.capabilities.chromeOptions.prefs.download = {
-    default_directory: downloadsPath
-};
+config.capabilities.chromeOptions.prefs.download.default_directory = downloadsPath;
 config.onPrepare = async function () {
     browser.waitForAngularEnabled(true);
 
