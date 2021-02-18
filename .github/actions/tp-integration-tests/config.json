@@ -20,6 +20,8 @@
   "specs": [
     "specs/*.spec.js"
   ],
+  "framework": "jasmine",
+  "getPageTimeout": 30000,
   "jasmineNodeOpts": {
     "showColors": true,
     "defaultTimeoutInterval": 1000000,
