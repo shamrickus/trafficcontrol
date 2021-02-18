@@ -18,10 +18,10 @@
     }
   },
   "specs": [
-    "specs/*.spec.js"
+    "specs/ASNs.spec.js"
   ],
   "framework": "jasmine",
-  "getPageTimeout": 30000,
+  "getPageTimeout": 60000,
   "jasmineNodeOpts": {
     "showColors": true,
     "defaultTimeoutInterval": 1000000,
