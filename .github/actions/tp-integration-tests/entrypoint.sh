@@ -202,7 +202,7 @@ done
 fqdn="https://localhost:6443"
 cd "test/integration"
 
-jq " del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver " \
+jq " del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
   
 npm ci
