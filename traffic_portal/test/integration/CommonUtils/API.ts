@@ -206,7 +206,7 @@ export class API {
             } else {
                 
                 throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + 
-                    response.data + "\n" + config.params.login.password + "\n" + config.params.baseUrl + "\n" + config.params.apiUrl)
+                    response.data + "\nResponse: " + response + "\n" + config.params.login.password + "\n" + config.params.baseUrl + "\n" + config.params.apiUrl)
             }
         } catch (error) {
             return error;
