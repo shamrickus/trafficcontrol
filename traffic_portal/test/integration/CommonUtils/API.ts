@@ -18,7 +18,7 @@
  */
 
 // API Utility
-import axios from 'axios';
+import { AxiosResponse, default as axios } from 'axios';
 import { config } from '../config';
 
 const https = require('https');
@@ -38,9 +38,9 @@ export class API {
         axios.defaults.httpsAgent = new https.Agent({ rejectUnauthorized: false })
     }
 
-    Login = async function () {
+    Login = async function (): Promise<AxiosResponse | Error> {
         try {
-            const response = await axios({
+            const response: AxiosResponse = await axios({
                 method: 'post',
                 url: config.params.apiUrl + '/user/login',
                 data: {
@@ -194,8 +194,8 @@ export class API {
         try {
             let response = await this.Login();
             if (response.status == 200) {
-                for(var i = 0; i < data.Prerequisites.length; i++){
-                    for(var j = 0; j < data.Prerequisites[i].Data.length; j++){
+                for (var i = 0; i < data.Prerequisites.length; i++) {
+                    for (var j = 0; j < data.Prerequisites[i].Data.length; j++) {
                         let output = await this.SendRequest(data.Prerequisites[i].Route, data.Prerequisites[i].Method, data.Prerequisites[i].Data[j]);
                         if (output != null) {
                             throw new Error(output)
@@ -203,11 +203,10 @@ export class API {
                     }
                 }
                 return null
+            } else if (response.status == undefined) {
+                throw new Error(`Error requesting ${config.params.apiUrl}: ${response}`); 
             } else {
-                if (typeof response == typeof String) 
-                    throw new Error("Error requesting " + config.params.apiUrl + ": " + response); 
-                else
-                    throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + response.data);
+                throw new Error(`Login failed: \nResponse Status: ${response.statusText} \nResponse Data: ${response.data}`);
             }
         } catch (error) {
             return error;
