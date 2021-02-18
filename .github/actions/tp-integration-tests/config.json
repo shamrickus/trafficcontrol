@@ -32,7 +32,7 @@
     "baseUrl": "https://localhost:6443/",
     "login": {
       "username": "admin",
-      "password": "twelve"
+      "password": "twelve12"
     }
   }
 }
