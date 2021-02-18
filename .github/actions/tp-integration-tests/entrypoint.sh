@@ -145,7 +145,11 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass
-sudo npm i -g forever bower grunt selenium-webdriver
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+
+CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -197,12 +201,11 @@ done
 
 fqdn="https://localhost:6443"
 cd "test/integration"
+
+jq " del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver " \
+  package.json > package.json.tmp && mv package.json.tmp package.json
+  
 npm ci
-
-CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
-
 #remove
 echo "|START|"
 cp ${resources}/config.json .
