@@ -204,9 +204,10 @@ export class API {
                 }
                 return null
             } else {
-                
-                throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + 
-                    response.data + "\nResponse: " + response + "\n" + config.params.login.password + "\n" + config.params.baseUrl + "\n" + config.params.apiUrl)
+                if (typeof response == typeof String) 
+                    throw new Error("Error requesting " + config.params.apiUrl + ": " + response); 
+                else
+                    throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + response.data);
             }
         } catch (error) {
             return error;
