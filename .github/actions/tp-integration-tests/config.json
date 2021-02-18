@@ -28,11 +28,11 @@
   },
 
   "params": {
-    "apiUrl": " https://localhost:443/api/3.0",
-    "baseUrl": "https://localhost:443/",
+    "apiUrl": " https://localhost:6443/api/4.0",
+    "baseUrl": "https://localhost:6443/",
     "login": {
       "username": "admin",
-      "password": "twelve12"
+      "password": "twelve"
     }
   }
 }
