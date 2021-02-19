@@ -216,7 +216,7 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] | .params.baseUrl = \"${fqdn}/\" | .params.apiUrl = \"${fqdn}/api/4.0\" | del(.seleniumAddress)" \
+  ] " \
  # .params.login.password = \"twelve\"" \
   config.json > config.json.tmp && mv config.json.tmp config.json
 
@@ -229,4 +229,4 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}/#!" --params.apiUrl="${fqdn}/api/v4.0" || onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/v4.0" || onFail
