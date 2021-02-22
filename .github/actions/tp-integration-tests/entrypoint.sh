@@ -193,7 +193,7 @@ touch tp.log access.log
 sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
 fqdn="https://localhost:8443"
-while ! curl -Lvsk "${fqdn}/api/3.0/ping" >/dev/null 2>&1; do
+while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${fqdn}'"
   sleep 10
 done
@@ -229,4 +229,4 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/v4.0" || onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" || onFail
