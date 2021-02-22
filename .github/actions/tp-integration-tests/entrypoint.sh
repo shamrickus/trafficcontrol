@@ -205,7 +205,7 @@ cd "test/integration"
 jq " del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
   
-npm ci
+npm i -g --save-dev
 #remove
 echo "|START|"
 cp ${resources}/config.json .
