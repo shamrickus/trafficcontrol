@@ -207,7 +207,7 @@ cd "test/integration"
 #  package.json > package.json.tmp && mv package.json.tmp package.json
 #npm i --save-dev
   
-npm i -g axios constants download-file file-exists fs-extra jasmine-reporters jasmine2-protractor-utils protractor-beautiful-reporter \
+sudo npm i -g axios constants download-file file-exists fs-extra jasmine-reporters jasmine2-protractor-utils protractor-beautiful-reporter \
   protractor-html-reporter-2 random-ipv6 xlsx typescript jasmine jasmine-data-provider @types/jasmine @types/node
   
 #remove
