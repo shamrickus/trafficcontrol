@@ -145,11 +145,6 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
-
-CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -183,6 +178,14 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
+echo "|START|"
+
+sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+
+CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+
 cd "../../traffic_portal"
 npm ci
 bower install
@@ -213,7 +216,6 @@ sudo npm i -g axios constants download-file file-exists fs-extra jasmine-reporte
   protractor-html-reporter-2 random-ipv6 xlsx typescript jasmine jasmine-data-provider @types/jasmine @types/node
   
 #remove
-echo "|START|"
 cp ${resources}/config.json .
 
 jq " .capabilities.chromeOptions.args = [
@@ -233,7 +235,7 @@ onFail() {
   exit 1
 }
 
-ls /usr/local/lib/node_modules/webdriver-manager/selenium
+ls /usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
 ls /usr/bin/google-chrome
 
 
