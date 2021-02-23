@@ -49,7 +49,10 @@ under the License.
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu-right dropdown-menu" uib-dropdown-menu>
-                    <li ng-repeat="dd in $ctrl.dropDownOptions" name="{{ dd.name }}" role="menuitem"><a ng-click="dd.onClick()">{{ dd.text }}</a></li>
+                    <li ng-repeat="dd in $ctrl.dropDownOptions" name="{{ dd.name }}" role="menuitem" ng-class="{'divider': dd.type == 0}" ng-if="$ctrl.isShown(dd)">
+                        <button ng-if="dd.type == 1" class="menu-item-button" type="button" ng-click="dd.onClick($ctrl.entry)">{{ $ctrl.getText(dd) }}</button>
+                        <a ng-if="dd.type == 2" href="{{ $ctrl.getHref(dd) }}">{{ dd.text }}</a>
+                    </li>
                     <li ng-if="$ctrl.dropDownOptions.length > 0" class="divider"></li>
                     <li role="menuitem"><button class="menu-item-button" type="button" ng-click="$ctrl.clearTableFilters()">Clear Table Filters</button></li>
                     <li role="menuitem"><button class="menu-item-button" type="button" ng-click="$ctrl.exportCSV()">Export CSV</button></li>
@@ -65,8 +68,10 @@ under the License.
 
 <menu id="context-menu" class="dropdown-menu" ng-style="$ctrl.menuStyle" type="contextmenu" ng-show="$ctrl.showMenu">
     <ul>
-        <li role="menuitem" ng-repeat="menu in $ctrl.contextMenuOptions">
-            <button type="button" ng-click="$ctrl.contextMenuClick(menu, $event)">{{ menu.text }}</button>
+        <li role="menuitem" ng-repeat="menu in $ctrl.contextMenuOptions" ng-if="$ctrl.isShown(menu)">
+            <hr ng-if="menu.type == 0" class="divider"/>
+            <button ng-if="menu.type == 1" type="button" ng-click="$ctrl.contextMenuClick(menu, $event)">{{ $ctrl.getText(menu) }}</button>
+            <a ng-if="menu.type == 2" href="{{ $ctrl.getHref(menu) }}" target="{{ menu.newTab ? '_blank' : '' }}">{{ $ctrl.getText(menu) }}</a>
         </li>
     </ul>
 </menu>

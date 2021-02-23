@@ -66,19 +66,23 @@ var TableJobsController = function(tableName, jobs, $document, $scope, $state, $
 			return x;
 		});
 
+	/** @type CGC.DropDownOption[] */
 	$scope.dropDownOptions = [{
 		name: "createJobMenuItem",
 		onClick: function (){
 			$scope.createJob();
 		},
-		text: "Create Invalidation Request"
+		text: "Create Invalidation Request",
+		type: 1
 	}];
 	
+	/** @type CGC.ContextMenuOption[] */
 	$scope.contextMenuOptions = [{
 		onClick: function (job, $event) {
 			$scope.confirmRemoveJob(jobs,  $event);
 		},
-		text: "Delete Invalidation Request"
+		text: "Delete Invalidation Request",
+		type: 1
 	}];
 	
 	$scope.gridOptions = {

@@ -17,7 +17,9 @@
  * under the License.
  */
 
-var CommonGridController = function ($scope, $document) {
+/** @typedef { import('./CommondGridController').CGC } CGC */
+
+var CommonGridController = function ($scope, $document, userModel, dateUtils) {
     this.entry = null;
     this.quickSearch = "";
     this.pageSize = 100;
@@ -26,23 +28,80 @@ var CommonGridController = function ($scope, $document) {
         left: 0,
         top: 0
     };
+    this.mouseDownSelectionText = "";
+    
+    // Bound Variables
+    /** @type string */
+    this.title = "";
+    /** @type string */
+    this.tableName = "";
+    /** @type any[] */
+    this.options = [];
+    /** @type any[] */
+    this.columns = [];
+    /** @type any[] */
+    this.data = [];
+    /** @type any */
+    this.defaultData = {};
+    /** @type CGC.CommonOption[] */
+    this.dropDownOptions = [];
+    /** @type CGC.CommonOption[] */
+    this.contextMenuOptions = [];
+
+    // browserify can't handle classes...
+    function SSHCellRenderer() {}
+    SSHCellRenderer.prototype.init = function(params) {
+        this.eGui = document.createElement("A");
+        this.eGui.href = "ssh://" + userModel.user.username + "@" + params.value;
+        this.eGui.setAttribute("target", "_blank");
+        this.eGui.textContent = params.value;
+    };
+    SSHCellRenderer.prototype.getGui = function() {return this.eGui;};
+
+    function UpdateCellRenderer() {}
+    UpdateCellRenderer.prototype.init = function(params) {
+        this.eGui = document.createElement("I");
+        this.eGui.setAttribute("aria-hidden", "true");
+        this.eGui.setAttribute("title", String(params.value));
+        this.eGui.classList.add("fa", "fa-lg");
+        if (params.value) {
+            this.eGui.classList.add("fa-clock-o");
+        } else {
+            this.eGui.classList.add("fa-check");
+        }
+    };
+    UpdateCellRenderer.prototype.getGui = function() {return this.eGui;};
     
     function defaultTooltip(params) {
         return params.value;
     }
 
-    function dateCellFormatter(params) {
-        return params.value.toUTCString();
+    function dateCellFormatterRelative(params) {
+        return params.value ? dateUtils.getRelativeTime(params.value) : params.value;
+    }
+    
+    function dateCellFormatterUTC(params) {
+        return params.value ? params.value.toUTCString() : params.value;
     }
     
     this.$onInit = function() {
         let tableName = this.tableName;
         let self = this;
         
+        if (self.defaultData !== undefined) {
+            self.entry = self.defaultData;
+        }
+        
         for(let i = 0; i < self.columns.length; ++i) {
-            if (self.columns[i].filter === "agDateColumnFilter"){
-                self.columns[i].tooltipValueGetter = dateCellFormatter;
-                self.columns[i].valueFormatter = dateCellFormatter;
+            if (self.columns[i].filter === "agDateColumnFilter") {
+                if (self.columns[i].relative !== undefined && self.columns[i].relative === true) {
+                    self.columns[i].tooltipValueGetter = dateCellFormatterRelative;
+                    self.columns[i].valueFormatter = dateCellFormatterRelative;
+                }
+                else {
+                    self.columns[i].tooltipValueGetter = dateCellFormatterUTC;
+                    self.columns[i].valueFormatter = dateCellFormatterUTC;
+                }
             }
         }
 
@@ -54,6 +113,10 @@ var CommonGridController = function ($scope, $document) {
         });
         
         this.gridOptions = {
+            components: {
+                sshCellRenderer: SSHCellRenderer,
+                updateCellRenderer: UpdateCellRenderer
+            },
             columnDefs: self.columns,
             enableCellTextSelection: true,
             suppressMenuHide: true,
@@ -73,9 +136,13 @@ var CommonGridController = function ($scope, $document) {
             onColumnResized: function() {
                 localStorage.setItem(tableName + "_table_columns", JSON.stringify(self.gridOptions.columnApi.getColumnState()));
             },
+            colResizeDefault: "shift",
             tooltipShowDelay: 500,
             allowContextMenuWithControlKey: true,
             preventDefaultOnContextMenu: true,
+            onCellMouseDown: function() {
+                self.mouseDownSelectionText = window.getSelection().toString();
+            },
             onCellContextMenu: function(params) {
                 self.showMenu = true;
                 self.menuStyle.left = String(params.event.clientX) + "px";
@@ -178,8 +245,7 @@ var CommonGridController = function ($scope, $document) {
                         console.error("Failed to store column defs to local storage:", e);
                     }
                 });
-            },
-            colResizeDefault: "shift"
+            }
         };
     };
     
@@ -219,6 +285,27 @@ var CommonGridController = function ($scope, $document) {
         $event.stopPropagation();
         menu.onClick(this.entry);
     };
+    
+    this.getHref = function(menu) {
+        if (menu.href !== undefined){
+            return menu.href;
+        }
+        return menu.getHref(this.entry);
+    };
+    
+    this.getText = function (menu) {
+        if (menu.text !== undefined){
+            return menu.text;
+        }
+        return menu.getText(this.entry);
+    };
+    
+    this.isShown = function (menu) {
+        if (menu.shown === undefined){
+            return true;
+        }
+        return menu.shown(this.entry);
+    };
 };
 
 angular.module("trafficPortal.table").component("commonGridController", {
@@ -231,9 +318,10 @@ angular.module("trafficPortal.table").component("commonGridController", {
         columns: "<",
         data: "<",
         dropDownOptions: "<?",
-        contextMenuOptions: "<?"
+        contextMenuOptions: "<?",
+        defaultData: "<?"
     }
 });
 
-CommonGridController.$inject = ["$scope", "$document"];
+CommonGridController.$inject = ["$scope", "$document", "userModel", "dateUtils"];
 module.exports = CommonGridController;
