@@ -203,7 +203,7 @@ fqdn="https://localhost:6443"
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-jq 'del(.dependencies["selenium-webdriver"])' \
+jq 'del(.dependencies.node) | del(.dependencies.chromedriver) | del(.dependencies["selenium-webdriver"])' \
   package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
   
