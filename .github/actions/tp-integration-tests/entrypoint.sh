@@ -203,17 +203,20 @@ fqdn="https://localhost:6443"
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-#jq 'del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies["selenium-webdriver"]) | del(.dependencies.node)' \
-#  package.json > package.json.tmp && mv package.json.tmp package.json
+jq 'del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies["selenium-webdriver"]) | del(.dependencies.node)' \
+  package.json > package.json.tmp && mv package.json.tmp package.json
+rm package-lock.json ./path/file
 #sudo npm i -g --save-dev
 
   
+which chromedriver
 sudo npm i -g axios constants download-file file-exists fs-extra jasmine-reporters jasmine2-protractor-utils protractor-beautiful-reporter \
   protractor-html-reporter-2 random-ipv6 xlsx typescript jasmine jasmine-data-provider @types/jasmine @types/node
 npm i @types/jasmine @types/node
   
 #remove
 echo "|START|"
+which protractor
 cp ${resources}/config.json .
 
 jq " .capabilities.chromeOptions.args = [
