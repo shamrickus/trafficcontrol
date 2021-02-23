@@ -221,7 +221,6 @@ jq " .capabilities.chromeOptions.args = [
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
   ] " \
- # .params.login.password = \"twelve\"" \
   config.json > config.json.tmp && mv config.json.tmp config.json
 
 onFail() {
