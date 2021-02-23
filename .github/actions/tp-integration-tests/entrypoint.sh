@@ -208,7 +208,7 @@ ls -l /usr/bin/google-chrome
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
   #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"" \
-jq "del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies[\"selenium-webdriver\"]) | del(.dependencies.node) " \
+jq "del(.dependencies.chromedriver) | del(.dependencies[\"selenium-webdriver\"]) | del(.dependencies.node) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
 npm i --save-dev
