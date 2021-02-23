@@ -206,17 +206,14 @@ cd "test/integration"
 jq 'del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies["selenium-webdriver"]) | del(.dependencies.node)' \
   package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
-#sudo npm i -g --save-dev
+#sudo npm i --save-dev
 
   
-which chromedriver
 sudo npm i -g axios constants download-file file-exists fs-extra jasmine-reporters jasmine2-protractor-utils protractor-beautiful-reporter \
   protractor-html-reporter-2 random-ipv6 xlsx typescript jasmine jasmine-data-provider @types/jasmine @types/node
-npm i @types/jasmine @types/node
   
 #remove
 echo "|START|"
-which protractor
 cp ${resources}/config.json .
 
 jq " .capabilities.chromeOptions.args = [
@@ -235,6 +232,10 @@ onFail() {
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   exit 1
 }
+
+ls /usr/local/lib/node_modules/webdriver-manager/selenium
+ls /usr/bin/google-chrome
+
 
 tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" || onFail
