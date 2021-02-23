@@ -204,16 +204,15 @@ done
 
 fqdn="https://localhost:6443"
 cd "test/integration"
+ll /usr/bin/google-chrome
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-jq 'del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies["selenium-webdriver"]) | del(.dependencies.node)' \
+  #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"" \
+jq "del(.dependencies.protractor) | del(.dependencies.chromedriver) | del(.dependencies[\"selenium-webdriver\"]) | del(.dependencies.node) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
-#sudo npm i --save-dev
+npm i --save-dev
 
-  
-sudo npm i -g axios constants download-file file-exists fs-extra jasmine-reporters jasmine2-protractor-utils protractor-beautiful-reporter \
-  protractor-html-reporter-2 random-ipv6 xlsx typescript jasmine jasmine-data-provider @types/jasmine @types/node
   
 #remove
 cp ${resources}/config.json .
@@ -236,7 +235,6 @@ onFail() {
 }
 
 ls /usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
-ls /usr/bin/google-chrome
 
 
 tsc
