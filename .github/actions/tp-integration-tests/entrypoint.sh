@@ -210,6 +210,7 @@ cd "test/integration"
   
 sudo npm i -g axios constants download-file file-exists fs-extra jasmine-reporters jasmine2-protractor-utils protractor-beautiful-reporter \
   protractor-html-reporter-2 random-ipv6 xlsx typescript jasmine jasmine-data-provider @types/jasmine @types/node
+npm i @types/jasmine @types/node
   
 #remove
 echo "|START|"
