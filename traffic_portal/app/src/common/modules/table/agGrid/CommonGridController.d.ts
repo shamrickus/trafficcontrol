@@ -41,6 +41,11 @@ export namespace CGC {
         text: string;
         getText(row: any): string;
     }
+    
+    export interface TitleButton {
+        onClick(): void;
+        getText(): string;
+    }
 
     export interface DropDownOption extends CommonOption {
     }

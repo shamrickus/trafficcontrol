@@ -19,7 +19,11 @@ under the License.
 
 <div class="x_title">
     <ol class="breadcrumb pull-left">
-        <li class="active">{{ $ctrl.title }}</li>
+        <li class="active">
+            {{ $ctrl.title }}
+            <button ng-if="$ctrl.titleButton !== undefined" type="button" class="btn btn-link" 
+                    ng-click="$ctrl.titleButton.onClick()">{{ $ctrl.titleButton.getText() }}</button>
+        </li>
     </ol>
     <div class="pull-right">
         <div class="form-inline" role="search">

@@ -47,6 +47,8 @@ var CommonGridController = function ($scope, $document, userModel, dateUtils) {
     this.dropDownOptions = [];
     /** @type CGC.CommonOption[] */
     this.contextMenuOptions = [];
+    /** @type CGC.TitleButton */
+    this.titleButton = {};
 
     // browserify can't handle classes...
     function SSHCellRenderer() {}
@@ -319,7 +321,8 @@ angular.module("trafficPortal.table").component("commonGridController", {
         data: "<",
         dropDownOptions: "<?",
         contextMenuOptions: "<?",
-        defaultData: "<?"
+        defaultData: "<?",
+        titleButton: "<?"
     }
 });
 
