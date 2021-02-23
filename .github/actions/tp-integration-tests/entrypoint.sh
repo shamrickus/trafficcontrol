@@ -204,7 +204,7 @@ done
 
 fqdn="https://localhost:6443"
 cd "test/integration"
-ll /usr/bin/google-chrome
+ls -l /usr/bin/google-chrome
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
   #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"" \
