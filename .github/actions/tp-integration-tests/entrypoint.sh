@@ -236,6 +236,7 @@ tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" #|| onFail
 c=$?
 
+Also ./Reports
 cat ./Reports/console.log
 echo "||"
 docker logs $CONTAINER
