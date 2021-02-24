@@ -204,10 +204,8 @@ done
 
 fqdn="https://localhost:6443"
 cd "test/integration"
-ls -l /usr/bin/google-chrome
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-  #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"" \
 jq "del(.dependencies.chromedriver) | del(.dependencies[\"selenium-webdriver\"]) | del(.dependencies.node) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
@@ -223,7 +221,8 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] " \
+  ] 
+  | .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"" \
   config.json > config.json.tmp && mv config.json.tmp config.json
 
 onFail() {
@@ -233,9 +232,6 @@ onFail() {
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   exit 1
 }
-
-ls /usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
-
 
 tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" || onFail
