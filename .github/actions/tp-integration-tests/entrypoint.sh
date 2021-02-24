@@ -15,7 +15,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-set -o errexit -o nounset -o pipefail
+#set -o errexit -o nounset -o pipefail
 
 fqdn="http://localhost:4444/wd/hub/status"
 if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
@@ -219,10 +219,11 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] "
+  ] " \
   config.json > config.json.tmp && mv config.json.tmp config.json
   #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"
   #| .directConnect = true" \
+  
 
 onFail() {
 #	docker logs "$trafficvault" 2>&1 |
@@ -233,4 +234,9 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" || onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" #|| onFail
+c=$?
+docker logs -f $CONTAINER
+
+exit $c
+
