@@ -214,7 +214,6 @@ npm i --save-dev
 cp ${resources}/config.json .
 
 jq " .capabilities.chromeOptions.args = [
-    \"--disable-extensions\",
     \"--disable-gpu\",
     \"--headless\",
     \"--no-sandbox\",

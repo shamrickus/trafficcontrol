@@ -1,6 +1,6 @@
 {
-  "seleniumAddress": "http://hub:4444/wd/hub",
-  "allScriptsTimeout": 200000,
+  "seleniumAddress": "http://localhost:4444/wd/hub",
+  "allScriptsTimeout": 400000,
   "capabilities": {
     "browserName": "chrome",
     "shardTestFiles": false,
@@ -21,7 +21,7 @@
     "specs/ASNs.spec.js"
   ],
   "framework": "jasmine",
-  "getPageTimeout": 60000,
+  "getPageTimeout": 160000,
   "jasmineNodeOpts": {
     "showColors": true,
     "defaultTimeoutInterval": 1000000,
