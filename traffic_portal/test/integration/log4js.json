@@ -7,7 +7,7 @@
 
     "file" : {
       "type": "file",
-      "filename": "console.log"
+      "filename": "./Reports/console.log"
     }
   },
   "categories": {

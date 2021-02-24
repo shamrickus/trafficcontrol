@@ -238,12 +238,6 @@ c=$?
 
 ls ./Reports
 echo "||"
-ls ./GeneratedCode
-echo "||"
-ls ./
-echo "||"
-ls ../
-echo "||"
 docker logs $CONTAINER
 
 exit $c
