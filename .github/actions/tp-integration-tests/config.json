@@ -1,5 +1,5 @@
 {
-  "seleniumAddress": "http://localhost:4444/wd/hub",
+  "seleniumAddress": "http://hub:4444/wd/hub",
   "allScriptsTimeout": 200000,
   "capabilities": {
     "browserName": "chrome",

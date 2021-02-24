@@ -210,7 +210,6 @@ cd "test/integration"
 rm package-lock.json 
 npm i --save-dev
 
-  
 #remove
 cp ${resources}/config.json .
 
@@ -220,10 +219,10 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] 
-  | .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"
-  | .directConnect = true" \
+  ] "
   config.json > config.json.tmp && mv config.json.tmp config.json
+  #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"
+  #| .directConnect = true" \
 
 onFail() {
 #	docker logs "$trafficvault" 2>&1 |
