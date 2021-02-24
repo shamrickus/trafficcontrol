@@ -21,6 +21,7 @@ import { LoginPage } from '../PageObjects/LoginPage.po';
 import { TopNavigationPage } from '../PageObjects/TopNavigationPage.po';
 import { API } from '../CommonUtils/API';
 import { ASNsPage } from '../PageObjects/ASNs.po';
+import {Log} from "../log";
 
 let fs = require('fs')
 let using = require('jasmine-data-provider');
@@ -47,7 +48,9 @@ using(testData.ASNs, async function(asnsData){
     using(asnsData.Login, function(login){
         describe('Traffic Portal - ASNs - ' + login.description, function(){
             it('can login', async function(){
-                browser.get(browser.params.baseUrl);
+                Log.Debug("title: ", browser.getTitle());
+                browser.get(browser.params.baseUrl, 60000);
+                Log.Debug("title: ", browser.getTitle());
                 await loginPage.Login(login.username, login.password);
                 expect(await loginPage.CheckUserName(login.username)).toBeTruthy();
             })
