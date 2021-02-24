@@ -237,7 +237,12 @@ sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.ap
 c=$?
 
 ls ./Reports
-cat ./Reports/console.log
+echo "||"
+ls ./GeneratedCode
+echo "||"
+ls ./
+echo "||"
+ls ../
 echo "||"
 docker logs $CONTAINER
 
