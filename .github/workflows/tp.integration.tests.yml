@@ -62,6 +62,7 @@ jobs:
         env:
           HUB_HOST: hub
           HUB_PORT: 4444
+          JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
         volumes:
           - /dev/shm:/dev/shm
       postgres:

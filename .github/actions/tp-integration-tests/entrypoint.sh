@@ -218,7 +218,7 @@ jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
-  ] " \
+  ] | del(.capabilities.chromeOptions.prefs.download)" \
   config.json > config.json.tmp && mv config.json.tmp config.json
   #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"
   #| .directConnect = true" \
