@@ -45,6 +45,26 @@ describe('Setup API for ASNs Test', function(){
 })
 
 using(testData.ASNs, async function(asnsData){
+    describe("test", function () {
+        it('should work', function () {
+            console.log("test");
+            Log.Log().debug("asdf");
+        });
+        
+        it('dont wait for angular', function () {
+            browser.waitForAngularEnabled(false);
+            console.log("test1");
+            Log.Log().debug("asdf1");
+            browser.waitForAngularEnabled(true);
+        });
+        
+        it('font wait for angular', function () {
+            browser.get("https://google.com");
+            console.log("test2");
+            Log.Debug("asdf2 ", browser.getTitle());
+        });
+    })
+    
     using(asnsData.Login, function(login){
         describe('Traffic Portal - ASNs - ' + login.description, function(){
             it('can login', async function(){
