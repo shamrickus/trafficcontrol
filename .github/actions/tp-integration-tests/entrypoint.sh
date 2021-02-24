@@ -235,7 +235,7 @@ onFail() {
 tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" #|| onFail
 c=$?
-docker logs -f $CONTAINER
+docker logs $CONTAINER
 
 exit $c
 
