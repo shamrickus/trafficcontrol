@@ -43,68 +43,60 @@ describe('Setup API for ASNs Test', function(){
         expect(output).toBeNull();
     })
 })
-
-using(testData.ASNs, async function(asnsData){
+describe("test", function () {
+    it('dont wait for angular', function () {
+        browser.waitForAngularEnabled(false);
+        browser.get(browser.params.baseUrl + "/#!/login");
+        browser.waitForAngularEnabled(true);
+    });
     
-    using(asnsData.Login, function(login){
-        describe("test", function () {
-            it('should work', function () {
-                Log.Log().debug("asdf");
-            });
-
-            it('dont wait for angular', function () {
-                browser.waitForAngularEnabled(false);
-                Log.Log().debug("asdf1");
-                browser.waitForAngularEnabled(true);
-            });
-
-            it('font wait for angular', function () {
-                browser.waitForAngularEnabled(false);
-                browser.get(browser.params.baseUrl + "/#!/login");
-                browser.waitForAngularEnabled(true);
-                Log.Debug("asdf2 ", browser.getTitle());
-            });
-        })
-        describe('Traffic Portal - ASNs - ' + login.description, function(){
-            it('can login', async function(){
-                Log.Debug("title: ", browser.getTitle());
-                browser.get(browser.params.baseUrl, 60000);
-                Log.Debug("title: ", browser.getTitle());
-                await loginPage.Login(login.username, login.password);
-                expect(await loginPage.CheckUserName(login.username)).toBeTruthy();
-            })
-            it('can open asns page', async function(){
-                await asnsPage.OpenTopologyMenu();
-                await asnsPage.OpenASNsPage();
-            })
-
-            using(asnsData.Add, function (add) {
-                it(add.description, async function () {
-                    expect(await asnsPage.CreateASNs(add)).toBeTruthy();
-                    await asnsPage.OpenASNsPage();
-                })
-            })
-            using(asnsData.Update, function (update) {
-                it(update.description, async function () {
-                    await asnsPage.SearchASNs(update.ASNs);
-                    expect(await asnsPage.UpdateASNs(update)).toBeTruthy();
-                    await asnsPage.OpenASNsPage();
-                })
-            })
-            using(asnsData.Remove, function (remove) {
-                it(remove.description, async function () {
-                    await asnsPage.SearchASNs(remove.ASNs);
-                    expect(await asnsPage.DeleteASNs(remove)).toBeTruthy();
-                    await asnsPage.OpenASNsPage();
-                })
-            })
-            it('can logout', async function () {
-                expect(await topNavigation.Logout()).toBeTruthy();
-            })
-        })
-    })
+    it('do wait for angular', function () {
+        browser.get(browser.params.baseUrl + "/#!/login");
+    });
 })
-
+//
+// using(testData.ASNs, async function(asnsData){
+//     using(asnsData.Login, function(login){
+//         describe('Traffic Portal - ASNs - ' + login.description, function(){
+//             it('can login', async function(){
+//                 Log.Debug("title: ", browser.getTitle());
+//                 browser.get(browser.params.baseUrl, 60000);
+//                 Log.Debug("title: ", browser.getTitle());
+//                 await loginPage.Login(login.username, login.password);
+//                 expect(await loginPage.CheckUserName(login.username)).toBeTruthy();
+//             })
+//             it('can open asns page', async function(){
+//                 await asnsPage.OpenTopologyMenu();
+//                 await asnsPage.OpenASNsPage();
+//             })
+//
+//             using(asnsData.Add, function (add) {
+//                 it(add.description, async function () {
+//                     expect(await asnsPage.CreateASNs(add)).toBeTruthy();
+//                     await asnsPage.OpenASNsPage();
+//                 })
+//             })
+//             using(asnsData.Update, function (update) {
+//                 it(update.description, async function () {
+//                     await asnsPage.SearchASNs(update.ASNs);
+//                     expect(await asnsPage.UpdateASNs(update)).toBeTruthy();
+//                     await asnsPage.OpenASNsPage();
+//                 })
+//             })
+//             using(asnsData.Remove, function (remove) {
+//                 it(remove.description, async function () {
+//                     await asnsPage.SearchASNs(remove.ASNs);
+//                     expect(await asnsPage.DeleteASNs(remove)).toBeTruthy();
+//                     await asnsPage.OpenASNsPage();
+//                 })
+//             })
+//             it('can logout', async function () {
+//                 expect(await topNavigation.Logout()).toBeTruthy();
+//             })
+//         })
+//     })
+// })
+//
 describe('Clean Up API for ASNs Test', function () {
     it('Cleanup', async function () {
         let cleanupData = JSON.parse(fs.readFileSync(cleanupFile));
