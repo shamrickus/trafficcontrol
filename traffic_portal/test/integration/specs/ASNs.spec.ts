@@ -63,7 +63,9 @@ using(testData.ASNs, async function(asnsData){
         //     })
         // });
         describe('Traffic Portal - ASNs - ' + login.description, function(){
+            Log.Log().debug("pls respond");
             it('can login', async function(){
+                Log.Log().debug("pls respond2");
                 Log.Debug("title: ", browser.getTitle());
                 browser.get(browser.params.baseUrl);
                 Log.Debug("title: ", browser.getTitle());
