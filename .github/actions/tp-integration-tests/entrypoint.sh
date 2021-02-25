@@ -147,10 +147,6 @@ sudo apt-get install -y --no-install-recommends gettext \
 sudo gem update --system && sudo gem install sass compass
 sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
 
-CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
-
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
 download_go
@@ -227,6 +223,10 @@ onFail() {
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   exit 1
 }
+
+CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
