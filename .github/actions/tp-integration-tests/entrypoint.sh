@@ -192,8 +192,8 @@ tp_fqdn="https://localhost:8443"
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${tp_fqdn}'"
   sleep 10
-done
-
+  
+done 
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
@@ -234,6 +234,7 @@ c=$?
 
 docker logs $CONTAINER
 cat ./Reports/console.log
+curl -l ${tp_fqdn}/#!/login
 
 exit $c
 
