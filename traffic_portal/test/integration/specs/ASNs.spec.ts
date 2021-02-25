@@ -46,16 +46,16 @@ describe('Setup API for ASNs Test', function(){
 let tests = [
     "6443", "8443"
 ]
-using(testData,  function (testData) {
+using(tests,  function (port) {
     describe("test", function () {
-        it('dont wait for angular ' + testData, function () {
+        it('dont wait for angular ' + port, function () {
             browser.waitForAngularEnabled(false);
-            browser.get("https://localhost:" + testData);
+            browser.get("https://localhost:" + port);
             browser.waitForAngularEnabled(true);
         });
 
-        it('do wait for angular ' + testData, function () {
-            browser.get("https://localhost:" + testData);
+        it('do wait for angular ' + port, function () {
+            browser.get("https://localhost:" + port);
         });
     })
 });
