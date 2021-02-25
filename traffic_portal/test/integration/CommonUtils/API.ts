@@ -20,6 +20,8 @@
 // API Utility
 import { AxiosResponse, default as axios } from 'axios';
 import { config } from '../config';
+import {log} from "util";
+import {Log} from "../log";
 
 const https = require('https');
 
@@ -193,6 +195,7 @@ export class API {
     UseAPI = async function(data) {
         try {
             let response = await this.Login();
+            Log.Debug("API: ", response);
             if (response.status == 200) {
                 for (var i = 0; i < data.Prerequisites.length; i++) {
                     for (var j = 0; j < data.Prerequisites[i].Data.length; j++) {
