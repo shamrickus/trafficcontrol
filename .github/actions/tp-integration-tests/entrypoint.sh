@@ -202,6 +202,11 @@ done
 
 
 tp_fqdn="https://localhost:6443"
+while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
+  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
+  sleep 10
+done
+
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
@@ -236,8 +241,6 @@ tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
-ls ./Reports
-echo "||"
 docker logs $CONTAINER
 
 exit $c
