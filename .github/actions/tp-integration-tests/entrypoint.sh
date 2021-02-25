@@ -194,14 +194,14 @@ cp "${resources}/config.js" ./conf/
 touch tp.log access.log
 sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
-fqdn="https://localhost:8443"
-while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
-  echo "waiting for TP/TO server to start on '${fqdn}'"
+to_fqdn="https://localhost:8443"
+while ! curl -Lvsk "${to_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
+  echo "waiting for TP/TO server to start on '${to_fqdn}'"
   sleep 10
 done
 
 
-fqdn="https://localhost:6443"
+tp_fqdn="https://localhost:6443"
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
@@ -233,7 +233,7 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${fqdn}" --params.apiUrl="${fqdn}/api/4.0" #|| onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
 ls ./Reports
