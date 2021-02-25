@@ -59,7 +59,9 @@ using(testData.ASNs, async function(asnsData){
             });
 
             it('font wait for angular', function () {
+                browser.waitForAngularEnabled(false);
                 browser.get(browser.params.baseUrl + "/#!/login");
+                browser.waitForAngularEnabled(true);
                 Log.Debug("asdf2 ", browser.getTitle());
             });
         })
