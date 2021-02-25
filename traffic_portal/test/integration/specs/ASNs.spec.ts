@@ -60,12 +60,12 @@ using(tests,  function (port) {
     })
 });
 
-using(testData.ASNs[0], async function(asnsData){
+using(testData.ASNs, async function(asnsData){
     using(asnsData.Login, function(login){
         describe('Traffic Portal - ASNs - ' + login.description, function(){
             it('can login', async function(){
                 Log.Debug("title: ", browser.getTitle());
-                browser.get(browser.params.baseUrl, 60000);
+                browser.get(browser.params.baseUrl);
                 Log.Debug("title: ", browser.getTitle());
                 await loginPage.Login(login.username, login.password);
                 expect(await loginPage.CheckUserName(login.username)).toBeTruthy();
