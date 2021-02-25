@@ -242,6 +242,7 @@ sudo protractor ./GeneratedCode/config.js --params.baseUrl="${to_fqdn}" --params
 c=$?
 
 docker logs $CONTAINER
+cat ./Reports/console.log
 
 exit $c
 
