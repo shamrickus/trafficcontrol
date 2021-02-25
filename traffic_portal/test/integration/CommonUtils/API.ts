@@ -195,7 +195,7 @@ export class API {
     UseAPI = async function(data) {
         try {
             let response = await this.Login();
-            Log.Debug("API: ", response);
+            Log.Log().debug("API: "+ response);
             if (response.status == 200) {
                 for (var i = 0; i < data.Prerequisites.length; i++) {
                     for (var j = 0; j < data.Prerequisites[i].Data.length; j++) {
