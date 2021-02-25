@@ -46,22 +46,22 @@ describe('Setup API for ASNs Test', function(){
 let tests = [
     "6443", "8443"
 ]
-using(tests,  function (port) {
-    describe("test", function () {
-        it('dont wait for angular ' + port, function () {
-            browser.waitForAngularEnabled(false);
-            browser.get("https://localhost:" + port);
-            browser.waitForAngularEnabled(true);
-        });
-
-        it('do wait for angular ' + port, function () {
-            browser.get("https://localhost:" + port);
-        });
-    })
-});
 
 using(testData.ASNs, async function(asnsData){
     using(asnsData.Login, function(login){
+        using(tests,  function (port) {
+            describe("test", function () {
+                it('dont wait for angular ' + port, function () {
+                    browser.waitForAngularEnabled(false);
+                    browser.get("https://localhost:" + port);
+                    browser.waitForAngularEnabled(true);
+                });
+
+                it('do wait for angular ' + port, function () {
+                    browser.get("https://localhost:" + port);
+                });
+            })
+        });
         describe('Traffic Portal - ASNs - ' + login.description, function(){
             it('can login', async function(){
                 Log.Debug("title: ", browser.getTitle());
