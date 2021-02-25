@@ -183,8 +183,6 @@ tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
-echo "|START|"
-
 cd "../../traffic_portal"
 npm ci
 bower install
@@ -203,8 +201,8 @@ done
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-#jq "del(.dependencies.chromedriver) | del(.dependencies[\"selenium-webdriver\"]) | del(.dependencies.node) " \
-#  package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver) " \
+  package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
 npm i --save-dev
 
