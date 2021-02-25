@@ -46,12 +46,12 @@ describe('Setup API for ASNs Test', function(){
 describe("test", function () {
     it('dont wait for angular', function () {
         browser.waitForAngularEnabled(false);
-        browser.get(browser.params.baseUrl + "/#!/login");
+        browser.get(browser.params.baseUrl);
         browser.waitForAngularEnabled(true);
     });
     
     it('do wait for angular', function () {
-        browser.get(browser.params.baseUrl + "/#!/login");
+        browser.get(browser.params.baseUrl);
     });
 })
 //
