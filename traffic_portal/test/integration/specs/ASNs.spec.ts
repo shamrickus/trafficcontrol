@@ -66,7 +66,7 @@ using(testData.ASNs, async function(asnsData){
             it('can login', async function(){
                 browser.get(browser.params.baseUrl);
                 Log.Debug("title: ", browser.getTitle());
-                await loginPage.Login(login.username, login.password);
+                await loginPage.Login(login);
                 expect(await loginPage.CheckUserName(login.username)).toBeTruthy();
             })
             // it('can open asns page', async function(){
