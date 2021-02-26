@@ -19,6 +19,7 @@
 import { API } from './CommonUtils/API';
 import { Config, browser } from 'protractor'
 import * as conf from "./config.json"
+import {Log} from "./log";
 
 let path = require('path');
 let downloadsPath = path.resolve('Downloads');
@@ -61,5 +62,25 @@ config.onPrepare = async function () {
       }
     } catch (error) {
       throw error
+    }
+}
+
+config.onComplete = function () {
+    try {
+        browser.executeScript("window.angular.version.full").then(function (v){
+            console.log("angular version: " + v);
+        });
+    }
+    catch (e) {
+       console.log("unable to get angualr version"); 
+    }
+    
+    try {
+       browser.manage().logs().get("browser").then(function (bl){
+            console.log("browser log: " + require("util").inspect(bl));  
+       });
+    }
+    catch (e) {
+        
     }
 }
