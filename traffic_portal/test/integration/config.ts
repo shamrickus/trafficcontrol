@@ -66,15 +66,7 @@ config.onPrepare = async function () {
 }
 
 config.onComplete = function () {
-    try {
-        browser.executeScript("window.angular.version.full").then(function (v){
-            console.log("angular version: " + v);
-        });
-    }
-    catch (e) {
-       console.log("unable to get angualr version"); 
-    }
-    
+    console.log("onComplete");
     try {
        browser.manage().logs().get("browser").then(function (bl){
             console.log("browser log: " + require("util").inspect(bl));  
@@ -83,4 +75,13 @@ config.onComplete = function () {
     catch (e) {
         
     }
+    try {
+        browser.executeScript("window.angular").then(function (v){
+            console.log("angular version: " + v);
+        });
+    }
+    catch (e) {
+        console.log("unable to get angualr version");
+    }
+
 }
