@@ -234,7 +234,7 @@ c=$?
 
 docker logs $CONTAINER
 cat ./Reports/console.log
-curl -l ${tp_fqdn}/#!/login
+curl -Lvsk ${tp_fqdn}/#!/login
 
 exit $c
 
