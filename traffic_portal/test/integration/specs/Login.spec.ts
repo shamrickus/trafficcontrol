@@ -31,6 +31,9 @@ using(testData.LoginTest, async function(loginData){
             it('can open login page', async function(){
                 browser.get(browser.params.baseUrl);
             })
+            it('await can open login page', async function(){
+                await browser.get(browser.params.baseUrl);
+            })
             it(login.description, async function(){
                 expect(await loginPage.Login(login)).toBeTruthy();
             })

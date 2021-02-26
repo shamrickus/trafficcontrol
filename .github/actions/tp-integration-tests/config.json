@@ -28,6 +28,7 @@
     "random": false,
     "stopSpecOnExpectationFailure": true
   },
+  "SELENIUM_PROMISE_MANAGER": false,
 
   "params": {
     "apiUrl": " https://localhost:6443/api/4.0",

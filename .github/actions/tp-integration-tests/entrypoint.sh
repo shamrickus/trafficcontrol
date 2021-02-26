@@ -188,6 +188,7 @@ cp "${resources}/config.js" ./conf/
 touch tp.log access.log
 sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
+tp_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${tp_fqdn}'"
@@ -229,7 +230,7 @@ CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0
 sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
 docker logs $CONTAINER
