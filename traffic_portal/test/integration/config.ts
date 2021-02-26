@@ -73,7 +73,7 @@ config.onComplete = function () {
        });
     }
     catch (e) {
-        
+       console.log("unable to get browser logs"); 
     }
     try {
         browser.executeScript("window.angular").then(function (v){
@@ -83,5 +83,6 @@ config.onComplete = function () {
     catch (e) {
         console.log("unable to get angualr version");
     }
+    console.log('finish onComplete');
 
 }
