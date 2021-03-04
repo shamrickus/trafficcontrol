@@ -26,7 +26,7 @@ interface LoginData {
 }
 
 export class LoginPage extends BasePage{
-    private txtUserName = element(by.id("loginUsername"))
+    public txtUserName = element(by.id("loginUsername"))
     private txtPassword = element(by.id("loginPass"))
     private btnLogin = element(by.name("loginSubmit"))
     private lnkResetPassword= element (by.xpath("//button[text()='Reset Password']"))
