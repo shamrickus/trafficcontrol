@@ -18,6 +18,7 @@
  */
 import { browser, by, element} from 'protractor'
 import { BasePage } from './BasePage.po'
+import { config } from "../config";
 
 interface LoginData {
     password: string;
@@ -26,13 +27,23 @@ interface LoginData {
 }
 
 export class LoginPage extends BasePage{
-    public txtUserName = element(by.id("loginUsername"))
-    private txtPassword = element(by.id("loginPass"))
-    private btnLogin = element(by.name("loginSubmit"))
-    private lnkResetPassword= element (by.xpath("//button[text()='Reset Password']"))
-    private lblUserName = element(by.xpath("//span[@id='headerUsername']"))
-    private config = require('../config');
-    private randomize = this.config.randomize;
+    private txtUserName;
+    private txtPassword;
+    private btnLogin;
+    private lnkResetPassword;
+    private lblUserName;
+    private randomize;
+    
+    public LoginPage() {
+        console.log("LoginPage ctor beg");
+        this.txtUserName = element(by.id("loginUsername"))
+        this.txtPassword = element(by.id("loginPass"))
+        this.btnLogin = element(by.name("loginSubmit"))
+        this.lnkResetPassword= element (by.xpath("//button[text()='Reset Password']"))
+        this.lblUserName = element(by.xpath("//span[@id='headerUsername']"))
+        this.randomize = config.randomize;
+        console.log("LoginPage ctor end");
+    }
     
     
     async Login(login:LoginData){

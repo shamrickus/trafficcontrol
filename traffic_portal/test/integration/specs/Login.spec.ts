@@ -23,7 +23,7 @@ import { readFileSync } from "fs"
 
 const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
-//const loginPage = new LoginPage();
+const loginPage = new LoginPage();
 
 using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
@@ -32,9 +32,9 @@ using(testData.LoginTest, async function(loginData){
                 console.log(await browser.getCurrentUrl());
                 browser.get(browser.params.baseUrl);
             })
-            // it(login.description, async function(){
-            //     expect(await loginPage.Login(login)).toBeTruthy();
-            // })
+            it(login.description, async function(){
+                expect(await loginPage.Login(login)).toBeTruthy();
+            })
         })
     })
 })
