@@ -235,5 +235,7 @@ c=$?
 
 
 docker logs $CONTAINER
+protractor --version
+sudo protractor --version
 exit $c
 
