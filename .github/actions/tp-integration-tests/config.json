@@ -19,7 +19,8 @@
   },
   "plugins": [
     {
-      "package": "protractor-console-plugin",
+      "package": "protractor-console",
+      "logLevels": ["info", "debug", "warning", "severe"]
     }
   ],
   "specs": [

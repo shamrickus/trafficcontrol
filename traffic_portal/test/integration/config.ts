@@ -18,6 +18,7 @@
  */
 import { API } from './CommonUtils/API';
 import { Config, browser } from 'protractor'
+import { inspect  } from "util";
 import * as conf from "./config.json"
 import {Log} from "./log";
 
@@ -69,7 +70,10 @@ config.onComplete = function () {
     console.log("onComplete");
     try {
        browser.manage().logs().get("browser").then(function (bl){
-            console.log("browser log: " + require("util").inspect(bl));  
+            console.log("browser log: " + inspect(bl));  
+            bl.forEach(function (log) {
+                console.log(log.type + ": " + log.message);  
+            });
        });
     }
     catch (e) {
