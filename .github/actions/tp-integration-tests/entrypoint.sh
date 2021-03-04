@@ -144,7 +144,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	chromium-chromedriver postgresql-client \
 	gcc musl-dev
 
-sudo gem update --system && sudo gem install sass compass
+sudo gem update --system && sudo gem install sass compass > /dev/null
 sudo npm i -g protractor forever bower grunt selenium-webdriver protractor-console
 
 GOROOT=/usr/local/go
@@ -180,9 +180,9 @@ tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-npm ci
-bower install
-grunt dist
+npm ci > /dev/null
+bower install > /dev/null
+grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
@@ -235,6 +235,5 @@ c=$?
 
 
 docker logs $CONTAINER
-cat package.json
 exit $c
 
