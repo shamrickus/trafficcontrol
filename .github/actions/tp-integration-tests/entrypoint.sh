@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass
-sudo npm i -g protractor@^7.0.0 forever bower grunt selenium-webdriver
+sudo npm i -g protractor forever bower grunt selenium-webdriver
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -198,7 +198,7 @@ done
 cd "test/integration"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-jq "del(.dependencies.chromedriver) " \
+jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
 npm i --save-dev
@@ -234,8 +234,7 @@ sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params
 c=$?
 
 docker logs $CONTAINER
-cat ./Reports/console.log
-curl -Lvsk ${tp_fqdn}/#!/login
+cat ./Reports/console.rep
 
 exit $c
 
