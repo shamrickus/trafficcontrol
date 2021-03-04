@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass
-sudo npm i -g protractor forever bower grunt selenium-webdriver
+sudo npm i -g protractor forever bower grunt selenium-webdriver protractor-console
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -234,7 +234,6 @@ sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params
 c=$?
 
 docker logs $CONTAINER
-cat ./Reports/console.rep
 
 exit $c
 
