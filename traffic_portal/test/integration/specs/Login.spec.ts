@@ -28,7 +28,7 @@ const loginPage = new LoginPage();
 using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
-            it('can open login page', async function(){
+            it('can open login page', function(){
                 browser.get(browser.params.baseUrl);
             })
             it('await can open login page', async function(){
