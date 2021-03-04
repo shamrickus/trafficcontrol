@@ -28,12 +28,9 @@ const loginPage = new LoginPage();
 using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
-            it('can open login page', function(){
-                console.log(loginPage.txtUserName);
+            it('can open login page', async function(){
+                console.log(await browser.getCurrentUrl());
                 browser.get(browser.params.baseUrl);
-            })
-            it('await can open login page', async function(){
-                await browser.get(browser.params.baseUrl);
             })
             it(login.description, async function(){
                 expect(await loginPage.Login(login)).toBeTruthy();
