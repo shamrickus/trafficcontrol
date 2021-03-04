@@ -20,7 +20,7 @@
   "plugins": [
     {
       "package": "protractor-console-plugin",
-      "path": "./Reports/console.rep"
+      "path": "../Reports/console.rep"
     }
   ],
   "specs": [
