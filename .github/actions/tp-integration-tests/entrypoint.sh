@@ -206,6 +206,7 @@ jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
   package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
 npm i --save-dev
+sudo npm i -g --save-dev
 
 #remove
 cp ${resources}/config.json .
