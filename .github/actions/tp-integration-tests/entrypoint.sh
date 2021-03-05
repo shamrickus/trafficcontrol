@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g protractor forever bower grunt selenium-webdriver protractor-console
+sudo npm i -g forever bower grunt #selenium-webdriver protractor-console
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -207,8 +207,8 @@ cd "test/integration"
 rm package-lock.json 
 npm i --save-dev
 
-sudo webdriver-manager update --gecko false
-sudo webdriver-manager start &
+webdriver-manager update --gecko false
+webdriver-manager start &
 
 #remove
 cp ${resources}/config.json .
@@ -233,10 +233,9 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
-
-docker logs $CONTAINER
+#docker logs $CONTAINER
 exit $c
 
