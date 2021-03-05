@@ -17,7 +17,7 @@
  * under the License.
  */
 import { browser } from 'protractor';
-import { LoginPage } from '../PageObjects/LoginPage.po';
+//import { LoginPage } from '../PageObjects/LoginPage.po';
 import  * as using  from "jasmine-data-provider";
 import { readFileSync } from "fs"
 
@@ -29,14 +29,10 @@ using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', async function(){
-                await browser.executeScript("console.log(window.document.location);").then(function (v) {
+                await browser.executeScript("window.document.location;").then(function (v) {
                     console.log(v);
                 });
-                await browser.waitForAngularEnabled(false);
-                await browser.get(browser.params.baseUrl);
-                console.log(await browser.getCurrentUrl());
-                await browser.waitForAngularEnabled(true);
-                await browser.get(browser.params.baseUrl);
+                await browser.get(browser.params.baseUrl, 240*1000);
             })
             // it(login.description, async function(){
             //     expect(await loginPage.Login(login)).toBeTruthy();
