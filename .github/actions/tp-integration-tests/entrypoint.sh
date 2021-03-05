@@ -137,7 +137,7 @@ start_traffic_vault() {
 		"$trafficvault" \
 		/usr/lib/riak/riak-cluster.sh;
 }
-start_traffic_vault &
+#start_traffic_vault &
 
 sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev libc-dev curl \
@@ -235,7 +235,5 @@ c=$?
 
 
 docker logs $CONTAINER
-protractor --version
-sudo protractor --version
 exit $c
 

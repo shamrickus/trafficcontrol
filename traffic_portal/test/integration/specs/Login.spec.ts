@@ -29,8 +29,14 @@ using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', async function(){
+                await browser.executeScript("console.log(window.document.location);").then(function (v) {
+                    console.log(v);
+                });
+                await browser.waitForAngularEnabled(false);
+                await browser.get(browser.params.baseUrl);
                 console.log(await browser.getCurrentUrl());
-                browser.get(browser.params.baseUrl);
+                await browser.waitForAngularEnabled(true);
+                await browser.get(browser.params.baseUrl);
             })
             // it(login.description, async function(){
             //     expect(await loginPage.Login(login)).toBeTruthy();
