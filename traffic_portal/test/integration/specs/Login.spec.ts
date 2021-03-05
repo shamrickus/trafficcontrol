@@ -29,7 +29,7 @@ using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', async function(){
-                await browser.executeScript("window.document.location="+browser.params.baseUrl).then(function (v) {
+                await browser.executeScript("window.document.location='"+browser.params.baseUrl + "';").then(function (v) {
                     console.log(v);
                 });
                 console.log(browser.params.baseUrl, JSON.stringify(browser.params));
