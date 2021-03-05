@@ -25,6 +25,17 @@ const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
 //const loginPage = new LoginPage();
 
+describe("test", async function () {
+    it('should work', async function () {
+        console.log(await browser.getCurrentUrl());
+        await browser.waitForAngularEnabled(false);
+        console.log(await browser.executeScript("window.document.location='"+browser.params.baseUrl + "';"));
+        console.log(await browser.getCurrentUrl());
+        await browser.waitForAngularEnabled(true);
+        
+    });
+})
+
 using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
@@ -32,7 +43,6 @@ using(testData.LoginTest, async function(loginData){
                 await browser.executeScript("window.document.location='"+browser.params.baseUrl + "';").then(function (v) {
                     console.log(v);
                 });
-                console.log(browser.params.baseUrl, JSON.stringify(browser.params));
                 await browser.get(browser.params.baseUrl);
             })
             // it(login.description, async function(){
