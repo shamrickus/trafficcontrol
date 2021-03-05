@@ -16,6 +16,7 @@
     "node": "^12.12.0",
     "protractor": "^7.0.0",
     "protractor-beautiful-reporter": "^1.3.6",
+    "protractor-console": "^3.0.0",
     "protractor-html-reporter-2": "^1.0.4",
     "random-ipv6": "^1.0.2",
     "selenium-webdriver": "^4.0.0-beta.1",
