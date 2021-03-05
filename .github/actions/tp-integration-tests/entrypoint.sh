@@ -17,12 +17,12 @@
 # under the License.
 #set -o errexit -o nounset -o pipefail
 
-fqdn="http://localhost:4444/wd/hub/status"
-if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
-  echo "Selenium not started on ${fqdn}"
-  exit 1
-fi
-
+#fqdn="http://localhost:4444/wd/hub/status"
+#if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
+#  echo "Selenium not started on ${fqdn}"
+#  exit 1
+#fi
+#
 DIVISION="adivision"
 REGION="aregion"
 PHYS="aloc"
