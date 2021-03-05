@@ -197,6 +197,12 @@ while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
 done 
 cd "test/integration"
 
+if [ --f "/usr/bin/google-chrome"  ]; then
+  echo "Removing google-chrome"
+  google-chrome --version
+   sudo rm /usr/bin/google-chrome
+fi 
+
 #CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 #CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 #sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
@@ -205,10 +211,10 @@ cd "test/integration"
 #jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
 #  package.json > package.json.tmp && mv package.json.tmp package.json
 rm package-lock.json 
-npm i --save-dev
+sudo npm i -g --save-dev
 
-./node_modules/.bin/webdriver-manager update --gecko false
-./node_modules/.bin/webdriver-manager start &
+sudo webdriver-manager update --gecko false
+sudo webdriver-manager start &
 
 #remove
 cp ${resources}/config.json .
@@ -232,8 +238,8 @@ onFail() {
   exit 1
 }
 
-tsc
-./node_modules/.bin/protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+sudo tsc
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 #docker logs $CONTAINER
