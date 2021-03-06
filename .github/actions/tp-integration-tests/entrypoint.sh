@@ -212,13 +212,9 @@ fi
 #  package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-which webdriver-manager
-which protractor
 
-ls node_modules/.bin
-
-webdriver-manager update --gecko false
-webdriver-manager start &
+./node_modules/.bin/webdriver-manager update --gecko false
+./node_modules/.bin/webdriver-manager start &
 
 #remove
 cp ${resources}/config.json .
@@ -242,8 +238,8 @@ onFail() {
   exit 1
 }
 
-tsc
-protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+./node_modules/.bin/tsc
+./node_modules/.bin/protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 #docker logs $CONTAINER
