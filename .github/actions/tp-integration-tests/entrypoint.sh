@@ -175,9 +175,9 @@ envsubst <"${resources}/riak.json" >riak.conf
 
 truncate --size=0 warning.log error.log event.log # Removes output from previous API versions and makes sure files exist
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf -riakcfg riak.conf &
-tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
-tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
-tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
+#tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
+#tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
+#tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
 npm ci > /dev/null
@@ -210,11 +210,15 @@ fi
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
 #jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
 #  package.json > package.json.tmp && mv package.json.tmp package.json
-rm package-lock.json 
-sudo npm i -g --save-dev
+npm i --save-dev
 
-sudo webdriver-manager update --gecko false
-sudo webdriver-manager start &
+which webdriver-manager
+which protractor
+
+ls node_modules/.bin
+
+webdriver-manager update --gecko false
+webdriver-manager start &
 
 #remove
 cp ${resources}/config.json .
@@ -238,8 +242,8 @@ onFail() {
   exit 1
 }
 
-sudo tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+tsc
+protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 #docker logs $CONTAINER
