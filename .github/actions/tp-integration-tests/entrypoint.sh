@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt selenium-webdriver
+sudo npm i -g forever bower grunt
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -199,12 +199,15 @@ cd "test/integration"
 
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) | del(.dependencies.webdriver-manager) " \
-  package.json > package.json.tmp && mv package.json.tmp package.json
+#jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) | del(.dependencies.webdriver-manager) " \
+#  package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
+
+PATH=$PATH:$(pwd)/node_modules/.bin/
+
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
