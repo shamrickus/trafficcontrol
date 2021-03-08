@@ -48,23 +48,23 @@ on:
     types: [ opened, reopened, ready_for_review, synchronize ]
 
 jobs:
-  TP_E2E_tests:
+  TP_INTEGRATION_tests:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     services:
-#      hub:
-#        image: selenium/hub
-#        ports:
-#          - "4444:4444"
-#        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
-#      chrome:
-#        image: selenium/node-chrome
-#        env:
-#          HUB_HOST: hub
-#          HUB_PORT: 4444
-#          JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
-#        volumes:
-#          - /dev/shm:/dev/shm
+      hub:
+        image: selenium/hub
+        ports:
+          - "4444:4444"
+        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=5s --health-timeout=15s --health-retries=5
+      chrome:
+        image: selenium/node-chrome
+        env:
+          HUB_HOST: hub
+          HUB_PORT: 4444
+          JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
+        volumes:
+          - /dev/shm:/dev/shm
       postgres:
         image: postgres:11
         env:

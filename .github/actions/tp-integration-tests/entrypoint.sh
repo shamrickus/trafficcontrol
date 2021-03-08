@@ -18,11 +18,11 @@
 #set -o errexit -o nounset -o pipefail
 
 fqdn="http://localhost:4444/wd/hub/status"
-#if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
-#  echo "Selenium not started on ${fqdn}"
-#  exit 1
-#fi
-#
+if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
+  echo "Selenium not started on ${fqdn}"
+  exit 1
+fi
+
 DIVISION="adivision"
 REGION="aregion"
 PHYS="aloc"
@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt #selenium-webdriver protractor-console
+sudo npm i -g forever bower grunt selenium-webdriver
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -197,24 +197,23 @@ done
 cd "test/integration"
 
 
-#CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-#CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
-#sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 # Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-#jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) " \
-#  package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) | del(.dependencies.webdriver-manager) " \
+  package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
-
-./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
-./node_modules/.bin/webdriver-manager start --detach
-
-while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
-  echo "Selenium not started on ${fqdn}"
-  sleep 10
-done 
+#chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
+#
+#./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
+#./node_modules/.bin/webdriver-manager start --detach
+#while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
+#  echo "Selenium not started on ${fqdn}"
+#  sleep 10
+#done 
 
 #remove
 cp ${resources}/config.json .
@@ -226,22 +225,20 @@ jq " .capabilities.chromeOptions.args = [
     \"--ignore-certificate-errors\"
   ] | del(.capabilities.chromeOptions.prefs.download)" \
   config.json > config.json.tmp && mv config.json.tmp config.json
-  #| .chromeDriver = \"/usr/local/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_LATEST_RELEASE_$CHROME_VER\"
-  #| .directConnect = true" \
   
 
 onFail() {
-#	docker logs "$trafficvault" 2>&1 |
-#		color_and_prefix "$gray_bg" 'Traffic Vault';
+	docker logs "$trafficvault" 2>&1 |
+		color_and_prefix "$gray_bg" 'Traffic Vault';
   cat tp.log | color_and_prefix "${gray_bg}" 'Forever'
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   exit 1
 }
 
-./node_modules/.bin/tsc
-./node_modules/.bin/protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+tsc
+protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
-#docker logs $CONTAINER
+docker logs $CONTAINER
 exit $c
 
