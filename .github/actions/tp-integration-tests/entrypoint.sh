@@ -220,6 +220,7 @@ if [ -f "/usr/bin/google-chrome"  ]; then
   google-chrome --version
    sudo rm /usr/bin/google-chrome
    sudo rm /opt/google/chrome/google-chrome
+   sudo rm /opt/google/chrome/chrome
 fi 
 
 #remove
