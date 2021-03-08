@@ -219,6 +219,7 @@ if [ -f "/usr/bin/google-chrome"  ]; then
   echo "Removing google-chrome"
   google-chrome --version
    sudo rm /usr/bin/google-chrome
+   sudo rm /opt/google/chrome/google-chrome
 fi 
 
 #remove
