@@ -196,11 +196,6 @@ while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
 done 
 cd "test/integration"
 
-if [ --f "/usr/bin/google-chrome"  ]; then
-  echo "Removing google-chrome"
-  google-chrome --version
-   sudo rm /usr/bin/google-chrome
-fi 
 
 #CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 #CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
@@ -219,6 +214,12 @@ while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "Selenium not started on ${fqdn}"
   sleep 10
 done 
+
+if [ -f "/usr/bin/google-chrome"  ]; then
+  echo "Removing google-chrome"
+  google-chrome --version
+   sudo rm /usr/bin/google-chrome
+fi 
 
 #remove
 cp ${resources}/config.json .
