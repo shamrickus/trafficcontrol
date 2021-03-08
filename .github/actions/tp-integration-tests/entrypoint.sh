@@ -208,18 +208,13 @@ npm i --save-dev
 
 chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 
-./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
+sudo ./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
 ./node_modules/.bin/webdriver-manager start --detach
 
 while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "Selenium not started on ${fqdn}"
   sleep 10
 done 
-
-if [ -f "/usr/bin/google-chrome"  ]; then
-  echo "Chrome version: "
-  google-chrome --version
-fi 
 
 #remove
 cp ${resources}/config.json .
