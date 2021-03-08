@@ -206,9 +206,10 @@ cd "test/integration"
 #  package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
+chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 
-./node_modules/.bin/webdriver-manager update --gecko false
-./node_modules/.bin/webdriver-manager start &
+./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
+./node_modules/.bin/webdriver-manager start --detach
 
 while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "Selenium not started on ${fqdn}"
@@ -216,11 +217,8 @@ while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
 done 
 
 if [ -f "/usr/bin/google-chrome"  ]; then
-  echo "Removing google-chrome"
+  echo "Chrome version: "
   google-chrome --version
-   sudo rm /usr/bin/google-chrome
-   sudo rm /opt/google/chrome/google-chrome
-   sudo rm /opt/google/chrome/chrome
 fi 
 
 #remove
