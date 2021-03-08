@@ -208,7 +208,7 @@ npm i --save-dev
 
 chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 
-sudo ./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
+./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
 ./node_modules/.bin/webdriver-manager start --detach
 
 while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
