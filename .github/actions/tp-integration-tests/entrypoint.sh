@@ -17,7 +17,7 @@
 # under the License.
 #set -o errexit -o nounset -o pipefail
 
-#fqdn="http://localhost:4444/wd/hub/status"
+fqdn="http://localhost:4444/wd/hub/status"
 #if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
 #  echo "Selenium not started on ${fqdn}"
 #  exit 1
@@ -193,7 +193,6 @@ tp_fqdn="https://localhost:8443"
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${tp_fqdn}'"
   sleep 10
-  
 done 
 cd "test/integration"
 
@@ -215,6 +214,11 @@ npm i --save-dev
 
 ./node_modules/.bin/webdriver-manager update --gecko false
 ./node_modules/.bin/webdriver-manager start &
+
+while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
+  echo "Selenium not started on ${fqdn}"
+  sleep 10
+done 
 
 #remove
 cp ${resources}/config.json .
