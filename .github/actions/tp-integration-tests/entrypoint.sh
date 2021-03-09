@@ -196,6 +196,7 @@ tp_fqdn="https://localhost:8443"
 #  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
 #  sleep 10
 #done 
+wget $tp_fqdn
 sleep 15
 cat tp.log | color_and_prefix "${gray_bg}" 'Forever'
 cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
