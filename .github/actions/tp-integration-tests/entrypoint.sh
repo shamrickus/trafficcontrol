@@ -186,9 +186,9 @@ cd "../../traffic_portal"
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-sudo forever -v --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js
+sudo forever -v --minUptime 5000 --spinSleepTime 2000 -f start server.js
 
-tp_fqdn="https://localhost:6443"
+to_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
 
 
@@ -196,14 +196,17 @@ tp_fqdn="https://localhost:8443"
 #  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
 #  sleep 10
 #done 
-wget $tp_fqdn
-sleep 15
-cat tp.log | color_and_prefix "${gray_bg}" 'Forever'
-cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
-while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
-  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
-  sleep 10
-done 
+curl -Lvsk $tp_fqdn
+
+timeout 30s bash <<WAIT
+  while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
+    echo "waiting for TP/TO server to start on '${tp_fqdn}'"
+    sleep 10
+  done 
+WAIT
+if [ $? -ne 0 ]; then
+  exit $?
+fi
 cd "test/integration"
 
 
