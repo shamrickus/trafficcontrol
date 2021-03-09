@@ -1,0 +1,269 @@
+<html>
+<head>
+	<title>Runewords</title>
+    <meta charset="UTF-8">
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-85873601-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"></link>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"></link>
+
+  <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.14/js/bootstrap-select.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.14/css/bootstrap-select.min.css"></link>
+
+  <link rel="stylesheet" href="style/bootstrap-tagsinput.css"></link>
+
+  <script src="script/data.js?version=1051"></script>
+  <script src="script/app.js?version=1051"></script>
+  <link rel="stylesheet" href="style/app.css?version=1051"></link>
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<script src="script/bootstrap-tagsinput-angular.js"></script>
+<script src="script/bootstrap-tagsinput.js"></script>
+
+<body ng-app="mainApp" ng-controller="sortController">
+<div class="container">
+  <div class="well">
+  	<h1>Diablo II Runewords</h1>
+  	<p>Made by <a href="https://www.github.com/shamrickus">shamrickus</a> | <a href="https://www.github.com/shamrickus/d2runewords">Source</a> | <a data-toggle="modal" data-target="#changelog">Changelog</a></p>
+    <p id="versionHolder"></p>
+  </div>
+  <form action="">
+    <div class="inputs well searchWell">
+      <div class="form-group label-floating">
+        <label for="name" class="control-label">Name</label>
+        <input id="name" type="text" class="form-control" ng-model="name"/>
+        <p class="help-block">Not case sensitive</p>
+      </div>
+      <div class="form-group label-floating">
+        <label for="sockets" class="control-label">Sockets</label>
+        <input id="sockets" type="text" class="form-control" ng-model="sockets"/>
+        <p class="help-block">You can either input a number for equality or you can type (<|<=|>|>=) XX</p>
+      </div>
+      <div class="form-group label-floating">
+        <label for="properties" class="control-label">Properties</label>
+        <input id="properties" type="text" class="form-control" ng-model="properties"/>
+        <p class="help-block">Not case sensitive</p>
+      </div>
+      <div class="form-group label-floating">
+        <label for="levelReq" class="control-label">Level Requirement</label>
+        <input id="levelReq" type="text" class="form-control" ng-model="lvlReq"/>
+        <p class="help-block">You can either input a number for equality or you can type (<|<=|>|>=) XX</p>
+      </div>
+      <div class="form-group input-group">
+        <select id="itemSelect" data-actions-box="true" multiple data-live-search="true" ng-change="updateItemType($event)" ng-model="itemType" title="Item Type">
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="runeFormGroup">
+          <input type="text" data-role="tagsinput" class="form-control" id="runes" placeholder="Runes"/>
+          <div class="checkbox strictLabel">
+            <label data-toggle="tooltip" data-placement="bottom" data-original-title="If enabled, only show runewords that contain all of the selected runes">
+              <input type="checkbox" ng-model="runesStrict" />Strict
+            </label>
+          </div>
+          </label>
+        </div>
+      </div>
+      <div class="form-group half">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="includeLadder" />Include Ladder Runewords
+            </label>
+          </div>
+      </div>
+      <div class="half mult form-group">
+            <span class="twitter-typeahead">Versions:</span>
+            <div class="checkbox">
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="version.orig" />1.09
+              </label>
+            </div>
+            <div class="checkbox">
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="version.ot" />1.10
+              </label>
+            </div>
+            <div class="checkbox">
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="version.oe" />1.11
+              </label>
+            </div>
+        </div>
+      </div>
+  </form>
+  <div class="well">
+	<table class="table table-striped" ng-init="initItems()">
+	<thead>
+      <tr>
+        <th>
+          <a ng-click="sort('name')">Name
+             <span class="fa fa-caret-down" ng-show="!sortReverse && sortName=='name'"></span>
+             <span class="fa fa-caret-up" ng-show="sortReverse && sortName=='name'"></span>
+          </a>
+        </th>
+        <th>
+          <a href="javascript:;" ng-click="sort('sockets')">Sockets
+             <span class="fa fa-caret-down" ng-show="!sortReverse && sortName=='sockets'"></span>
+             <span class="fa fa-caret-up" ng-show="sortReverse && sortName=='sockets'"></span>
+          </a>
+        </th>
+        <th>
+          <a href="javascript:;" ng-click="sort('itemType')">Item Type
+             <span class="fa fa-caret-down" ng-show="!sortReverse && sortName=='itemType'"></span>
+             <span class="fa fa-caret-up" ng-show="sortReverse && sortName=='itemType'"></span>
+          </a>
+        </th>
+        <th>
+          <a href="javascript:;" class="noselect">Runes</a>
+        </th>
+        <th>
+          <a href="javascript:;" class="noselect">Properties</a>
+        </th>
+        <th>
+        	<a href="javascript:;" ng-click="sort('lvlReq')">Lvl Req
+          		<span class="fa fa-caret-down" ng-show="!sortReverse && sortName=='lvlReq'"></span>
+            	<span class="fa fa-caret-up" ng-show="sortReverse && sortName=='lvlReq'"></span>
+        	</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in items | orderBy:sortName:sortReverse | filter: checkFilters track by $index ">
+      	<td>{{getItemName(item)}}</td>
+      	<td class="number">{{item.sockets}}</td>
+      	<td>{{item.itemType}}</td>
+      	<td>{{outputRune(item.runes)}}</td>
+      	<td>
+      		<div ng-repeat="property in item.properties track by $index">
+      			{{property}}<br />
+      		</div>
+      	</td>
+      	<td class="number">{{item.lvlReq}}</td>
+      </tr>
+    </tbody>
+	</table>
+  </div>
+</div>
+<div id="changelog" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <ul>
+          <b id="version">1.5.1</b>
+          <li>Add styling to item types to help determine what is checked.</li>
+          <li>Update css library</li>
+        </ul>
+        <ul>
+          <b>1.5.0</b>
+          <li>Update version numbering</li>
+          <li>Item types will now also select children types when filtering <a href="https://github.com/shamrickus/d2runewords/issues/3">#3</a></li>
+          <li>Update dependencies</li>
+          <li>Fix issue with item types not always loading</li>
+          <li>Fix styling issues with third party library</li>
+          <li>Fix an issue with Weapons selecting both Missle and Melee</li>
+        </ul>
+        <ul>
+          <b>1.4.4</b>
+          <li>Update dependencies</li>
+        </ul>
+        <ul>
+          <b>1.4.3</b>
+          <li>Fixed styling on smaller screens</li>
+        </ul>
+        <ul>
+          <b>1.4.2</b>
+          <li>Fixed styling on large screens</li>
+          <li>Fix weapon type for Spirit</li>
+        </ul>
+        <ul>
+          <b>1.4.1</b>
+          <li>Fixed styling on certain screen resolutions</li>
+        </ul>
+        <ul>
+          <b>1.4.0</b>
+          <li>Added strict options to runes</li>
+          <li>Fixed sorting to restart when changing column</li>
+          <li>Refactor filter code in anticipation of change to item type</li>
+          <li>Added level requirement math to sockets</li>
+        </ul>
+        <ul>
+          <b>1.3.3</b>
+          <li>Fixed confusing styling on table headers (non-sortable columns look like sortable columns)</li>
+          <li>Added a favicon</li>
+        </ul>
+        <ul>
+          <b>1.3.2</b>
+          <li>Fixed varius styling issues</li>
+        </ul>
+        <ul>
+          <b>1.3.1</b>
+          <li>Fixed styling issue on runeword table</li>
+        </ul>
+        <ul>
+          <b>1.3.0</b>
+          <li>Added field for ladder only rune words</li>
+          <li>Added field for rune word version</li>
+          <li>Fixed sort arrows such that they show the correct value</li>
+        </ul>
+        <ul>
+          <b>1.2.1</b>
+          <li>Added jasmine tests (no front end changes)</li>
+        </ul>
+        <ul>
+          <b>1.2.0</b>
+          <li>Item Type is now split on "/" to provide more space for other columns</li>
+          <li>Item Type is now a select field</li>
+          <li>Many tags added for select field</li>
+          <li>Rearranged header fields</li>
+          <li>Added versioning to js files so no caching occurs</li>
+        </ul>
+        <ul>
+          <b>1.1.1</b>
+          <li>Links no longer bring you to the top of the page</li>
+          <li>Links now have the cursor set to pointer</li>
+        </ul>
+        <ul>
+          <b>1.1.0</b>
+          <li>Now doing custom filtering</li>
+          <li>Runes are now tags</li>
+          <li>Level Requirement support rudimentary math (<, >, <=, >=)</li>
+          <li>Added typeahead on rune tags</li>
+          <li>Added tooltip on icons for each form input</li>
+        </ul>
+        <ul>
+          <b>1.0.0</b>
+          <li>Added Changelog</li>
+          <li>Runewords with multiple items now work properply</li>
+          <li>Screens below 1200 width now display better</li>
+          <li>Fixed typos</li>
+          <li>Fixed attributes for Bone</li>
+          <li>Added Google Analytics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

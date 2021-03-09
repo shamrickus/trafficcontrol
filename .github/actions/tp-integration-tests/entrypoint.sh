@@ -179,10 +179,10 @@ truncate --size=0 warning.log error.log event.log # Removes output from previous
 #tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
 #tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
-cd "../../traffic_portal"
-npm ci > /dev/null
-bower install > /dev/null
-grunt dist > /dev/null
+#cd "../../traffic_portal"
+#npm ci > /dev/null
+#bower install > /dev/null
+#grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
@@ -245,5 +245,6 @@ c=$?
 docker logs $CONTAINER
 
 chromedriver -v
+wget $tp_fqdn
 exit $c
 
