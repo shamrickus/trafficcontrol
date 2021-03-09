@@ -27,7 +27,6 @@ const testData = JSON.parse(readFileSync(filename,'utf-8'));
 
 describe("test", async function () {
     it('should work', async function () {
-        console.log(await browser.getCurrentUrl());
         await browser.waitForAngularEnabled(false);
         console.log(await browser.executeScript("window.document.location='"+browser.params.baseUrl + "';"));
         console.log(await browser.getCurrentUrl());
@@ -40,9 +39,6 @@ using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', async function(){
-                await browser.executeScript("window.document.location='"+browser.params.baseUrl + "';").then(function (v) {
-                    console.log(v);
-                });
                 await browser.get(browser.params.baseUrl);
             })
             // it(login.description, async function(){
