@@ -200,9 +200,9 @@ cd "test/integration"
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-# Remove deps that we have installed globally (or are in a separate container) as they have precedence on the PATH
-#jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) | del(.dependencies.webdriver-manager) " \
-#  package.json > package.json.tmp && mv package.json.tmp package.json
+# | del(.dependencies.selenium-webdriver) | del(.dependencies.webdriver-manager) " \
+jq "del(.dependencies.chromedriver)" \ 
+  package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
 PATH=$PATH:$(pwd)/node_modules/.bin/
@@ -243,5 +243,7 @@ protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiU
 c=$?
 
 docker logs $CONTAINER
+
+chromedriver -v
 exit $c
 
