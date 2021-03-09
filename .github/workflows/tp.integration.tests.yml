@@ -48,7 +48,7 @@ on:
     types: [ opened, reopened, ready_for_review, synchronize ]
 
 jobs:
-  TP_INTEGRATION_tests:
+  TP_Integration_tests:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     services:
@@ -114,6 +114,7 @@ jobs:
           smtp_address: 172.17.0.1
       - name: Upload Report
         uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: ${{ github.job }}
           path: ${{ github.workspace }}/traffic_portal/test/integration/Reports/
