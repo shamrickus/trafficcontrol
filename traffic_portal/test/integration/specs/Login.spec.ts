@@ -31,12 +31,6 @@ describe("test", async function () {
         console.log(await browser.getCurrentUrl());
         console.log(await browser.executeScript("console.log(window.angular);"));
     });
-    
-    it('index', async function () {
-        await browser.get(browser.params.baseUrl + "/index.html");
-        console.log(await browser.getCurrentUrl());
-        console.log(await browser.executeScript("console.log(window.angular);"));
-    });
 })
 
 using(testData.LoginTest, async function(loginData){

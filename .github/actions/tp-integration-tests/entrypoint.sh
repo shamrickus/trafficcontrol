@@ -180,9 +180,9 @@ truncate --size=0 warning.log error.log event.log # Removes output from previous
 #tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
-#npm ci > /dev/null
-#bower install > /dev/null
-#grunt dist > /dev/null
+npm ci > /dev/null
+bower install > /dev/null
+grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
@@ -192,21 +192,21 @@ to_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
 
 
-#while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
-#  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
-#  sleep 10
-#done 
-curl -Lvsk $tp_fqdn
+while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
+  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
+  sleep 10
+done 
+#cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
 
-timeout 30s bash <<WAIT
-  while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
-    echo "waiting for TP/TO server to start on '${tp_fqdn}'"
-    sleep 10
-  done 
-WAIT
-if [ $? -ne 0 ]; then
-  exit $?
-fi
+#timeout 30s bash <<WAIT
+#  while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
+#    echo "waiting for TP/TO server to start on '${tp_fqdn}'"
+#    sleep 10
+#  done 
+#WAIT
+#if [ $? -ne 0 ]; then
+#  exit 1
+#fi
 cd "test/integration"
 
 
@@ -258,6 +258,5 @@ c=$?
 docker logs $CONTAINER
 
 chromedriver -v
-wget $tp_fqdn
 exit $c
 
