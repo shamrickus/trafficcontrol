@@ -190,7 +190,13 @@ sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
 tp_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
-while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
+
+
+#while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
+#  echo "waiting for TP/TO server to start on '${tp_fqdn}'"
+#  sleep 10
+#done 
+while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${tp_fqdn}'"
   sleep 10
 done 
