@@ -31,7 +31,7 @@ describe("test", async function () {
         console.log(await browser.executeScript("window.document.location='"+browser.params.baseUrl + "/#!/login';"));
         console.log(await browser.getCurrentUrl());
         await browser.sleep(10*1000);
-        console.log(await browser.executeScript("console.log(window.angular"));
+        console.log(await browser.executeScript("console.log(window.angular);"));
         await browser.waitForAngularEnabled(true);
         
     });
