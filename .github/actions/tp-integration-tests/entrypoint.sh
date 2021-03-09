@@ -186,7 +186,7 @@ cd "../../traffic_portal"
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
+sudo forever -v --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js
 
 tp_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
