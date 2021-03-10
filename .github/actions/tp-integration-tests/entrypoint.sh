@@ -186,7 +186,7 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-sudo forever -v --minUptime 5000 --spinSleepTime 2000 -f start server.js
+forever -v --minUptime 5000 --spinSleepTime 2000 -f start server.js
 
 to_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
@@ -249,6 +249,8 @@ onFail() {
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   exit 1
 }
+
+wget tp_fqdn
 
 tsc
 protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
