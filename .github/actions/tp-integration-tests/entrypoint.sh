@@ -76,7 +76,7 @@ download_go() {
 		return
 	fi
 	go_version="$(cat "${GITHUB_WORKSPACE}/GO_VERSION")"
-	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz" --no-verbose
+	wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz" --no-verbose > /dev/null
 	echo "Extracting Go ${go_version}..."
 	<<-'SUDO_COMMANDS' sudo sh
 		set -o errexit
@@ -160,8 +160,8 @@ if [[ ! -e "$REPO_DIR" ]]; then
 fi
 
 cd "${REPO_DIR}/traffic_ops/traffic_ops_golang"
-go mod vendor -v > /dev/null
-go build . > /dev/null
+go mod vendor -v 2>&1 /dev/null
+go build . 2>&1 /dev/null
 
 openssl req -new -x509 -nodes -newkey rsa:4096 -out localhost.crt -keyout localhost.key -subj "/CN=tptests";
 
