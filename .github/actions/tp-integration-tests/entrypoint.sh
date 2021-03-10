@@ -212,7 +212,7 @@ cd "test/integration"
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver) | del(.dependencies.['selenium-webdriver']" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver) | del(.dependencies.['selenium-webdriver'])" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
 
@@ -255,6 +255,9 @@ protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiU
 c=$?
 
 docker logs $CONTAINER
+
+wget $tp_fdqn --no-check-certificate
+cat index.html
 
 exit $c
 
