@@ -212,14 +212,13 @@ cd "test/integration"
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver) | del(.dependencies.webdriver-manager)" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
-npm i webdriver-manager
 
 
 PATH=$PATH:$(pwd)/node_modules/.bin/
 
-webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+webdriver-manager update --gecko false #--versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
