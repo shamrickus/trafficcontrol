@@ -175,9 +175,9 @@ envsubst <"${resources}/riak.json" >riak.conf
 
 truncate --size=0 warning.log error.log event.log # Removes output from previous API versions and makes sure files exist
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf -riakcfg riak.conf &
-#tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
-#tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
-#tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
+tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
+tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
+tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
 
 cd "../../traffic_portal"
 npm ci > /dev/null
@@ -212,7 +212,7 @@ cd "test/integration"
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver) | del(.dependencies.['selenium-webdriver'])" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
 
@@ -258,6 +258,9 @@ docker logs $CONTAINER
 
 wget $tp_fdqn --no-check-certificate
 cat index.html
+
+cat ../../tp.log | color_and_prefix "${gray_bg}" 'Forever'
+cat ../../access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
 
 exit $c
 

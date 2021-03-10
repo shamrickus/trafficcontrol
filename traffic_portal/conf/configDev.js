@@ -21,8 +21,8 @@
 module.exports = {
     timeout: '120s',
     useSSL: true, // set to true if you plan to use https (self-signed or trusted certs).
-    port: 880, // set to http port
-    sslPort: 8443, // set to https port
+    port: 80, // set to http port
+    sslPort: 443, // set to https port
     // if useSSL is true, generate ssl certs and provide the proper locations.
     ssl: {
         key:    './localhost.key',
@@ -35,7 +35,7 @@ module.exports = {
     },
     // default static files location (this is where the traffic portal html, css and javascript was installed. rpm installs these files at /opt/traffic_portal/public
     files: {
-        static: './app/test/'
+        static: './app/dist/public'
     },
     // default log location (this is where traffic_portal logs are written)
     log: {
