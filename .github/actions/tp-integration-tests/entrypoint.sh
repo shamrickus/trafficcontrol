@@ -213,14 +213,13 @@ cd "test/integration"
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver) | del(.dependencies.webdriver-manager) | del(.dependencies.selenium-webdriver)" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-npm i -g webdriver-manager
 
 PATH=$PATH:$(pwd)/node_modules/.bin/
 
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
@@ -252,7 +251,7 @@ onFail() {
 }
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 docker logs $CONTAINER
