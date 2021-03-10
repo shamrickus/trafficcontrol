@@ -26,8 +26,6 @@
     "random": false,
     "stopSpecOnExpectationFailure": true
   },
-  "rootElement": "body",
-
   "params": {
     "apiUrl": " https://localhost:443/api/3.0",
     "baseUrl": "https://localhost:443/",
