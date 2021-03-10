@@ -250,7 +250,7 @@ onFail() {
   exit 1
 }
 
-wget tp_fqdn
+wget $tp_fqdn
 
 tsc
 protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
