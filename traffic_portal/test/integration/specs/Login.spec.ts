@@ -25,16 +25,17 @@ const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
 //const loginPage = new LoginPage();
 
-describe("test", async function () {
-    it('default dir', async function () {
-        await browser.waitForAngularEnabled(false);
-        await browser.get(browser.params.baseUrl);
-        await browser.sleep(30 * 1000);
-        console.log(await browser.getCurrentUrl());
+describe("test", function () {
+    it('default dir', function () {
+        browser.waitForAngularEnabled(false);
+        browser.get(browser.params.baseUrl);
+        browser.sleep(30 * 1000);
+        browser.getCurrentUrl().then(function (d){
+            console.log(d);
+        });
         
-        await browser.waitForAngularEnabled(true);
-        await browser.get(browser.params.baseUrl);
-        console.log(await browser.executeScript("console.log(window.angular);"));
+        browser.waitForAngularEnabled(true);
+        browser.get(browser.params.baseUrl);
     });
 })
 
