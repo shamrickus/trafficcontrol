@@ -141,7 +141,6 @@ start_traffic_vault() {
 
 sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev libc-dev curl \
-	chromium-chromedriver postgresql-client \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
