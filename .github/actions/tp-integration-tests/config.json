@@ -26,7 +26,6 @@
   "specs": [
     "specs/Login.spec.js"
   ],
-  "rootElement": "body",
   "framework": "jasmine",
   "getPageTimeout": 60000,
   "jasmineNodeOpts": {
