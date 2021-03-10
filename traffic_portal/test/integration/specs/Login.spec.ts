@@ -27,8 +27,13 @@ const testData = JSON.parse(readFileSync(filename,'utf-8'));
 
 describe("test", async function () {
     it('default dir', async function () {
+        await browser.waitForAngularEnabled(false);
         await browser.get(browser.params.baseUrl);
+        await browser.sleep(30 * 1000);
         console.log(await browser.getCurrentUrl());
+        
+        await browser.waitForAngularEnabled(true);
+        await browser.get(browser.params.baseUrl);
         console.log(await browser.executeScript("console.log(window.angular);"));
     });
 })
