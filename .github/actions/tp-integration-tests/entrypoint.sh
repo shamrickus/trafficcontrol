@@ -186,7 +186,7 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-forever -v --minUptime 5000 --spinSleepTime 2000 -f start server.js
+sudo forever -v --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js
 
 to_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
@@ -196,7 +196,6 @@ while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${tp_fqdn}'"
   sleep 10
 done 
-#cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
 
 #timeout 30s bash <<WAIT
 #  while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
@@ -250,7 +249,6 @@ onFail() {
   exit 1
 }
 
-wget $tp_fqdn --no-check-certificate
 
 tsc
 protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
