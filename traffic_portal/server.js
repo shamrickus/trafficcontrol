@@ -105,7 +105,7 @@ app.enable('trust proxy');
 
 // Startup HTTP Server
 var httpServer = http.createServer(app);
-httpServer.listen(config.port, "localhost");
+httpServer.listen(config.port);
 
 if (useSSL) {
     //
@@ -123,7 +123,7 @@ if (useSSL) {
 
     // Startup HTTPS Server
     var httpsServer = https.createServer(sslOptions, app);
-    httpsServer.listen(config.sslPort, "localhost");
+    httpsServer.listen(config.sslPort);
 
     sslOptions.agent = new https.Agent(sslOptions);
 }
