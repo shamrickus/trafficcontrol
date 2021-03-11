@@ -185,7 +185,8 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-sudo forever --minUptime 5000 --spinSleepTime 2000 -f start server.js &
+sudo forever --minUptime 5000 --spinSleepTime 2000 -f -o out.log start server.js &
+tail -f out.log 2>&1 | color_and_prefix "${red_bg}" "node Out" &
 
 to_fqdn="https://localhost:6443"
 tp_fqdn="https://127.0.0.1:8443"
@@ -212,7 +213,7 @@ CHROME_CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 HUB_CONTAINER=$(docker ps | grep "selenium/hub" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CHROME_CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver)" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
 PATH=$(pwd)/node_modules/.bin/:$PATH
@@ -268,6 +269,5 @@ echo "access Log"
 cat ../../access.log
 
 sudo forever list
-sudo forever logs
 exit $c
 
