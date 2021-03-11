@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt  webdriver-manager
+sudo npm i -g forever bower grunt 
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -215,9 +215,9 @@ CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0
 jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
-
 PATH=$PATH:$(pwd)/node_modules/.bin/
+
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
@@ -231,14 +231,13 @@ PATH=$PATH:$(pwd)/node_modules/.bin/
 #remove
 cp ${resources}/config.json .
 
+    #\"--disable-gpu\",
 jq " .capabilities.chromeOptions.args = [
-    \"--disable-gpu\",
     \"--headless\",
     \"--no-sandbox\",
     \"--ignore-certificate-errors\"
   ] | del(.capabilities.chromeOptions.prefs.download)" \
   config.json > config.json.tmp && mv config.json.tmp config.json
-  
 
 onFail() {
 	docker logs "$trafficvault" 2>&1 |

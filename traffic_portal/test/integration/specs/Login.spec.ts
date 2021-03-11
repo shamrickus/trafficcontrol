@@ -43,7 +43,7 @@ using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', async function(){
-                await browser.get(browser.params.baseUrl);
+                await browser.get("https://shamrickus.github.com/d2runewords/");
             })
             // it(login.description, async function(){
             //     expect(await loginPage.Login(login)).toBeTruthy();
