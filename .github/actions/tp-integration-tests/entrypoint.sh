@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt protractor selenium-webdriver
+sudo npm i -g forever bower grunt 
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -215,9 +215,9 @@ CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0
 jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 PATH=$PATH:$(pwd)/node_modules/.bin/
-
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
@@ -251,13 +251,12 @@ onFail() {
 
 tsc
 rm -rf node_modules
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 docker logs $CONTAINER
 
-wget --no-check-certificate $tp_fdqn
+wget --no-check-certificate $tp_fqdn
 cat index.html
 
 cat ../../tp.log | color_and_prefix "${gray_bg}" 'Forever'
