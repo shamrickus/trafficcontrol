@@ -144,7 +144,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt 
+sudo npm i -g forever bower grunt protractor selenium-webdriver protractor-console
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -185,7 +185,7 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js
+sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
 
 to_fqdn="https://localhost:6443"
 tp_fqdn="https://localhost:8443"
@@ -212,12 +212,12 @@ CHROME_CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 HUB_CONTAINER=$(docker ps | grep "selenium/hub" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CHROME_CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver) | del(.dependencies.seleniumAddress)" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver) | del(.dependencies.selenium-webdriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
 PATH=$(pwd)/node_modules/.bin/:$PATH
 
-webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
@@ -250,7 +250,7 @@ onFail() {
 netstat -lntup
 
 tsc
-protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
 echo "Chrome logs"

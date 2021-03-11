@@ -26,17 +26,17 @@ const testData = JSON.parse(readFileSync(filename,'utf-8'));
 //const loginPage = new LoginPage();
 
 describe("POC tests", function () {
-    it("functionBind angular on deployed page", function () {
+    it("functionBind angular on deployed page", async function () {
         browser.get("https://shamrickus.github.io/d2runewords/");  
     });
 
-    it('should ping', function () {
+    it('should ping', async function () {
         browser.waitForAngularEnabled(false);
         browser.get(browser.params.baseUrl + "/api/4.0/ping") ;
         browser.waitForAngularEnabled(true);
     });
 
-    it('default dir', function () {
+    it('default dir', async function () {
         browser.waitForAngularEnabled(false);
         browser.get(browser.params.baseUrl);
         browser.sleep(30 * 1000);
@@ -52,7 +52,7 @@ describe("POC tests", function () {
 using(testData.LoginTest, function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
-            it('can open login page', function(){
+            it('can open login page', async function(){
                 browser.get(browser.params.baseUrl);
             })
             // it(login.description, async function(){

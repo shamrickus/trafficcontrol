@@ -64,9 +64,7 @@ jobs:
         env:
           HUB_HOST: hub
           HUB_PORT: 4444
-          START_XVFB: false
           JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
-          GRID_DEBUG: true
         volumes:
           - /dev/shm:/dev/shm
       postgres:
