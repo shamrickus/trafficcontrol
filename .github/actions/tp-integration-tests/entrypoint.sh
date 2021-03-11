@@ -185,7 +185,7 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log
-sudo forever --minUptime 5000 --spinSleepTime 2000 -l ./tp.log start server.js &
+sudo forever --minUptime 5000 --spinSleepTime 2000 -f start server.js &
 
 to_fqdn="https://localhost:6443"
 tp_fqdn="https://127.0.0.1:8443"
