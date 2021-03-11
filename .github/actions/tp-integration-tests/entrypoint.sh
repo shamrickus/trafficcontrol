@@ -141,7 +141,6 @@ start_traffic_vault() {
 
 sudo apt-get install -y --no-install-recommends gettext \
 	ruby ruby-dev libc-dev curl \
-	chromium-chromedriver postgresql-client \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
@@ -212,10 +211,10 @@ cd "test/integration"
 CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
-jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
+jq "del(.dependencies.chromedriver) | del(.dependencies.seleniumAddress)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-PATH=$PATH:$(pwd)/node_modules/.bin/
+PATH=$(pwd)/node_modules/.bin/:$PATH
 
 webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
