@@ -251,13 +251,13 @@ onFail() {
 
 tsc
 rm -rf node_modules
-webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
-protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 docker logs $CONTAINER
 
-wget $tp_fdqn --no-check-certificate
+wget --no-check-certificate $tp_fdqn
 cat index.html
 
 cat ../../tp.log | color_and_prefix "${gray_bg}" 'Forever'
