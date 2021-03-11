@@ -25,7 +25,11 @@ const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
 //const loginPage = new LoginPage();
 
-describe("test", function () {
+describe("POC tests", function () {
+    it("functionBind angular on deployed page", function () {
+        browser.get("https://shamrickus.github.io/d2runewords/");  
+    });
+    
     it('default dir', function () {
         browser.waitForAngularEnabled(false);
         browser.get(browser.params.baseUrl);
@@ -42,8 +46,8 @@ describe("test", function () {
 using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
-            it('can open login page', async function(){
-                await browser.get("https://shamrickus.github.com/d2runewords/");
+            it('can open login page', function(){
+                browser.get(browser.params.baseUrl);
             })
             // it(login.description, async function(){
             //     expect(await loginPage.Login(login)).toBeTruthy();
