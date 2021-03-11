@@ -209,7 +209,7 @@ cd "test/integration"
 
 
 CHROME_CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-HUB_CONTAINER = $(docker ps | grep "selenium/hub" | awk '{print $1}')
+HUB_CONTAINER=$(docker ps | grep "selenium/hub" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CHROME_CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
 jq "del(.dependencies.chromedriver) | del(.dependencies.seleniumAddress)" package.json > package.json.tmp && mv package.json.tmp package.json
