@@ -144,7 +144,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt protractor selenium-webdriver protractor-console
+sudo npm i -g forever bower grunt
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -217,7 +217,7 @@ npm i --save-dev
 
 PATH=$(pwd)/node_modules/.bin/:$PATH
 
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
@@ -250,7 +250,7 @@ onFail() {
 netstat -lntup
 
 tsc
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
+protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
 echo "Chrome logs"
