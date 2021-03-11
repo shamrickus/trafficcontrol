@@ -215,7 +215,7 @@ CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0
 jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 PATH=$PATH:$(pwd)/node_modules/.bin/
 
