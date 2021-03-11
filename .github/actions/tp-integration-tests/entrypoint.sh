@@ -268,6 +268,6 @@ echo "access Log"
 cat ../../access.log
 
 sudo forever list
-
+sudo forever logs
 exit $c
 
