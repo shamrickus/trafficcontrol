@@ -217,6 +217,7 @@ npm i --save-dev
 
 PATH=$(pwd)/node_modules/.bin/:$PATH
 
+webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
 #
@@ -247,7 +248,6 @@ onFail() {
 }
 
 netstat -lntup
-
 
 tsc
 protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
