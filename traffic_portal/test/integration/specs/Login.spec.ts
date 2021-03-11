@@ -17,7 +17,7 @@
  * under the License.
  */
 import { browser } from 'protractor';
-//import { LoginPage } from '../PageObjects/LoginPage.po';
+import { LoginPage } from '../PageObjects/LoginPage.po';
 import  * as using  from "jasmine-data-provider";
 import { readFileSync } from "fs"
 
