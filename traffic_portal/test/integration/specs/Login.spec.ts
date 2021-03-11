@@ -43,7 +43,7 @@ describe("POC tests", function () {
     });
 })
 
-using(testData.LoginTest, async function(loginData){
+using(testData.LoginTest, function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', function(){
