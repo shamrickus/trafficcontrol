@@ -65,6 +65,7 @@ app.use(function(req, res, next) {
 // http://expressjs.com/api#req.secure). This allows us
 // to know whether the request was via http or https.
 app.all ("/*", function (req, res, next) {
+    console.log(req);
     if (useSSL && !req.secure) {
         // request was via http, so redirect to https
         return res.redirect(['https://', req.get('Host'), ':', config.sslPort, req.url].join(''));
@@ -104,7 +105,7 @@ app.enable('trust proxy');
 
 // Startup HTTP Server
 var httpServer = http.createServer(app);
-httpServer.listen(config.port);
+httpServer.listen(config.port, "localhost");
 
 if (useSSL) {
     //
@@ -122,7 +123,7 @@ if (useSSL) {
 
     // Startup HTTPS Server
     var httpsServer = https.createServer(sslOptions, app);
-    httpsServer.listen(config.sslPort);
+    httpsServer.listen(config.sslPort, "localhost");
 
     sslOptions.agent = new https.Agent(sslOptions);
 }
