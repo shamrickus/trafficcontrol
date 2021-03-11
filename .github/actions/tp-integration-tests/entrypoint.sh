@@ -267,5 +267,7 @@ cat ../../tp.log
 echo "access Log"
 cat ../../access.log
 
+netstat -lntup
+
 exit $c
 
