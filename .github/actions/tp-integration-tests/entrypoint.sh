@@ -250,8 +250,7 @@ onFail() {
 
 
 tsc
-rm -rf node_modules
-sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
+protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
 echo "Crhome logs"
