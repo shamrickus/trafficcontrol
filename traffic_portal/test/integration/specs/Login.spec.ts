@@ -29,7 +29,13 @@ describe("POC tests", function () {
     it("functionBind angular on deployed page", function () {
         browser.get("https://shamrickus.github.io/d2runewords/");  
     });
-    
+
+    it('should ping', function () {
+        browser.waitForAngularEnabled(false);
+        browser.get(browser.params.baseUrl + "/api/4.0/ping") ;
+        browser.waitForAngularEnabled(true);
+    });
+
     it('default dir', function () {
         browser.waitForAngularEnabled(false);
         browser.get(browser.params.baseUrl);
