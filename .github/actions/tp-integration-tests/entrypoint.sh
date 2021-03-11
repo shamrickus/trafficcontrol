@@ -208,8 +208,9 @@ done
 cd "test/integration"
 
 
-CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
-CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
+CHROME_CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
+HUB_CONTAINER = $(docker ps | grep "selenium/hub" | awk '{print $1}')
+CHROME_VER=$(docker exec "$CHROME_CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
 jq "del(.dependencies.chromedriver) | del(.dependencies.seleniumAddress)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
@@ -252,12 +253,14 @@ tsc
 protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
-echo "Crhome logs"
-docker logs $CONTAINER
+echo "Chrome logs"
+docker logs $CHROME_CONTAINER
+
+echo "Hub logs"
+docker logs $HUB_CONTAINER
 
 echo "TP site"
 wget --no-check-certificate $tp_fqdn
-cat index.html
 
 echo "TP Log"
 cat ../../tp.log 
