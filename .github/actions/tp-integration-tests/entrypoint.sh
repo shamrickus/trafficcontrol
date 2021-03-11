@@ -145,7 +145,7 @@ sudo apt-get install -y --no-install-recommends gettext \
 	gcc musl-dev
 
 sudo gem update --system && sudo gem install sass compass > /dev/null
-sudo npm i -g forever bower grunt 
+sudo npm i -g forever bower grunt  webdriver-manager
 
 GOROOT=/usr/local/go
 export PATH="${PATH}:${GOROOT}/bin"
@@ -161,8 +161,8 @@ if [[ ! -e "$REPO_DIR" ]]; then
 fi
 
 cd "${REPO_DIR}/traffic_ops/traffic_ops_golang"
-go mod vendor -v 2>&1 /dev/null
-go build . 2>&1 /dev/null
+go mod vendor -v > /dev/null
+go build . > /dev/null
 
 openssl req -new -x509 -nodes -newkey rsa:4096 -out localhost.crt -keyout localhost.key -subj "/CN=tptests";
 
@@ -215,7 +215,7 @@ CHROME_VER=$(docker exec "$CONTAINER" google-chrome --version | sed -E 's/.* ([0
 jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
-webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 PATH=$PATH:$(pwd)/node_modules/.bin/
 
@@ -254,13 +254,17 @@ rm -rf node_modules
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${tp_fqdn}/api/4.0" #|| onFail
 c=$?
 
+echo "Crhome logs"
 docker logs $CONTAINER
 
+echo "TP site"
 wget --no-check-certificate $tp_fqdn
 cat index.html
 
-cat ../../tp.log | color_and_prefix "${gray_bg}" 'Forever'
-cat ../../access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
+echo "TP Log"
+cat ../../tp.log 
+echo "access Log"
+cat ../../access.log
 
 exit $c
 
