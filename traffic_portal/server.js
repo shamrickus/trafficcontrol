@@ -25,7 +25,8 @@ var constants = require('constants'),
     fs = require('fs'),
     morgan = require('morgan'),
     modRewrite = require('connect-modrewrite'),
-    timeout = require('connect-timeout');
+    timeout = require('connect-timeout'),
+    useragent = require("express-useragent");
 
 var config;
 
@@ -69,7 +70,8 @@ app.all ("/*", function (req, res, next) {
         // request was via http, so redirect to https
         return res.redirect(['https://', req.get('Host'), ':', config.sslPort, req.url].join(''));
     } else {
-        console.log(req.url);
+        let ua = useragent.parse(req.headers['user-agent']);
+        console.log(JSON.stringify(ua) + " requested: " + req.url);
         // request was via https or useSSL=false, so do no special handling
         next();
     }
