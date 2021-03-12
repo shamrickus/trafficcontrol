@@ -23,7 +23,7 @@ import { readFileSync } from "fs"
 
 const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
-//const loginPage = new LoginPage();
+const loginPage = new LoginPage();
 
 describe("POC tests", function () {
     it("functionBind angular on deployed page", async function () {
