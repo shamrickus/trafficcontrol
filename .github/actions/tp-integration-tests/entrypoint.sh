@@ -188,7 +188,7 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log out.log err.log
-sudo forever --minUptime 5000 --spinSleepTime 2000 -e err.log -o out.log start server.js &
+sudo forever --minUptime 5000 --spinSleepTime 2000 -f -e err.log -o out.log start server.js &
 tail -f out.log 2>&1 | color_and_prefix "${gray_bg}" "Node Out" &
 tail -f err.log 2>&1 | color_and_prefix "${red_bg}" "Node Err" &
 
@@ -214,12 +214,13 @@ CHROME_CONTAINER=$(docker ps | grep "selenium/node-chrome" | awk '{print $1}')
 HUB_CONTAINER=$(docker ps | grep "selenium/hub" | awk '{print $1}')
 CHROME_VER=$(docker exec "$CHROME_CONTAINER" google-chrome --version | sed -E 's/.* ([0-9.]+).*/\1/')
 
+cat package.json | grep "protractor\|jasmine" | awk 'BEGIN { FS = ": " } ; {print $1}' | xargs sudo npm i -g
+sudo npm i -g webdriver-manager --force
+
 jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv package.json.tmp package.json
 npm i --save-dev
 
 PATH=$(pwd)/node_modules/.bin/:$PATH
-cat package.json | grep "protractor\|jasmine" | awk 'BEGIN { FS = ": " } ; {print $1}' | xargs sudo npm i -g
-sudo npm i -g webdriver-manager
 
 sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
@@ -265,6 +266,6 @@ cat ../../access.log
 sudo forever list
 
 
-docker exec -it "$CHROME_CONTAINER" "wget --no-check-certificate https://localhost/8443"
+docker exec "$CHROME_CONTAINER" "wget --no-check-certificate https://localhost/8443"
 exit $c
 
