@@ -188,9 +188,9 @@ grunt dist > /dev/null
 
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log out.log err.log
-sudo forever --minUptime 5000 --spinSleepTime 2000 -f -e err.log -o out.log start server.js &
-tail -f out.log 2>&1 | color_and_prefix "${gray_bg}" "Node Out" &
-tail -f err.log 2>&1 | color_and_prefix "${red_bg}" "Node Err" &
+sudo forever --minUptime 5000 --spinSleepTime 2000 -f -o out.log start server.js &
+tail -f out.log 2>&1 | color_and_prefix "${red_bg}" "Node Out" &
+#tail -f err.log 2>&1 | color_and_prefix "${red_bg}" "Node Err" &
 
 
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
@@ -266,6 +266,6 @@ cat ../../access.log
 sudo forever list
 
 
-docker exec "$CHROME_CONTAINER" "wget --no-check-certificate https://localhost/8443"
+docker exec "$CHROME_CONTAINER" "wget --no-check-certificate $tp_fqdn"
 exit $c
 
