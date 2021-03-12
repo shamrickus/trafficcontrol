@@ -270,5 +270,7 @@ echo "access Log"
 cat ../../access.log
 
 sudo forever list
+
+docker exec "$CHROME_CONTAINER" "wget --no-check-certificate https://localhost/8443"
 exit $c
 

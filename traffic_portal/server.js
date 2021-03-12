@@ -71,7 +71,7 @@ app.all ("/*", function (req, res, next) {
         return res.redirect(['https://', req.get('Host'), ':', config.sslPort, req.url].join(''));
     } else {
         let ua = useragent.parse(req.headers['user-agent']);
-        console.log(JSON.stringify(ua) + " requested: " + req.url);
+        console.log(ua.source + " requested: " + req.url);
         // request was via https or useSSL=false, so do no special handling
         next();
     }

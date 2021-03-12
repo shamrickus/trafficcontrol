@@ -34,7 +34,8 @@ export class LoginPage extends BasePage{
     private lblUserName;
     private randomize;
     
-    public LoginPage() {
+    public constructor() {
+        super();
         console.log("LoginPage ctor beg");
         this.txtUserName = element(by.id("loginUsername"))
         this.txtPassword = element(by.id("loginPass"))
@@ -48,7 +49,6 @@ export class LoginPage extends BasePage{
     
     async Login(login:LoginData){
         let result = false;
-        const basePage = new BasePage();
         if(login.username === 'admin'){
             await this.txtUserName.sendKeys(login.username)
             await this.txtPassword.sendKeys(login.password)
@@ -61,7 +61,7 @@ export class LoginPage extends BasePage{
             await browser.actions().click(this.btnLogin).perform();    
         }
         if(await browser.getCurrentUrl() === browser.params.baseUrl + "#!/login"){
-            result = await basePage.GetOutputMessage().then(value => value === login.validationMessage);
+            result = await super.GetOutputMessage().then(value => value === login.validationMessage);
         }else{
             result = true;
         }

@@ -39,7 +39,6 @@ describe("POC tests", function () {
     it('default dir', async function () {
         browser.waitForAngularEnabled(false);
         browser.get(browser.params.baseUrl);
-        browser.sleep(30 * 1000);
         browser.getCurrentUrl().then(function (d){
             console.log(d);
         });
@@ -55,9 +54,9 @@ using(testData.LoginTest, function(loginData){
             it('can open login page', async function(){
                 browser.get(browser.params.baseUrl);
             })
-            // it(login.description, async function(){
-            //     expect(await loginPage.Login(login)).toBeTruthy();
-            // })
+            it(login.description, async function(){
+                expect(await loginPage.Login(login)).toBeTruthy();
+            })
         })
     })
 })
