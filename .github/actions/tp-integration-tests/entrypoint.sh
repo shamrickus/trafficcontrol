@@ -189,7 +189,7 @@ sudo forever --minUptime 5000 --spinSleepTime 2000 -f -o out.log start server.js
 tail -f out.log 2>&1 | color_and_prefix "${red_bg}" "node Out" &
 
 to_fqdn="https://localhost:6443"
-tp_fqdn="https://127.0.0.1:8443"
+tp_fqdn="https://localhost:8443"
 
 
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
