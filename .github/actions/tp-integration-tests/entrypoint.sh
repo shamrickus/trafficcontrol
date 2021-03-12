@@ -17,9 +17,12 @@
 # under the License.
 #set -o errexit -o nounset -o pipefail
 
-fqdn="http://localhost:4444/wd/hub/status"
-if ! curl -Lvsk "${fqdn}" >/dev/null 2>&1; then
-  echo "Selenium not started on ${fqdn}"
+hub_fqdn="http://localhost:4444/wd/hub/status"
+to_fqdn="https://localhost:6443"
+tp_fqdn="https://localhost:8443"
+
+if ! curl -Lvsk "${hub_fqdn}" >/dev/null 2>&1; then
+  echo "Selenium not started on ${hub_fqdn}"
   exit 1
 fi
 
@@ -189,9 +192,6 @@ sudo forever --minUptime 5000 --spinSleepTime 2000 -e err.log -o out.log start s
 tail -f out.log 2>&1 | color_and_prefix "${gray_bg}" "Node Out" &
 tail -f err.log 2>&1 | color_and_prefix "${red_bg}" "Node Err" &
 
-to_fqdn="https://localhost:6443"
-tp_fqdn="https://localhost:8443"
-
 
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   echo "waiting for TP/TO server to start on '${tp_fqdn}'"
@@ -218,25 +218,18 @@ jq "del(.dependencies.chromedriver)" package.json > package.json.tmp && mv packa
 npm i --save-dev
 
 PATH=$(pwd)/node_modules/.bin/:$PATH
+cat package.json | grep "protractor\|jasmine" | awk 'BEGIN { FS = ": " } ; {print $1}' | xargs sudo npm i -g
+sudo npm i -g webdriver-manager
 
-webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
-
-#chromedriver_bin=$(./node_modules/.bin/chromedriver -v | awk '{print $2}')
-#
-#./node_modules/.bin/webdriver-manager update --gecko false --version $chromedriver_bin
-#./node_modules/.bin/webdriver-manager start --detach
-#while ! curl -Lvsk "${fqdn}/api/4.0/ping" >/dev/null 2>&1; do
-#  echo "Selenium not started on ${fqdn}"
-#  sleep 10
-#done 
+sudo webdriver-manager update --gecko false --versions.chrome "LATEST_RELEASE_$CHROME_VER"
 
 #remove
 cp ${resources}/config.json .
 
-    #\"--disable-gpu\",
 jq " .capabilities.chromeOptions.args = [
     \"--headless\",
     \"--no-sandbox\",
+    \"--disable-gpu\",
     \"--ignore-certificate-errors\"
   ] | del(.capabilities.chromeOptions.prefs.download)" \
   config.json > config.json.tmp && mv config.json.tmp config.json
@@ -252,7 +245,7 @@ onFail() {
 netstat -lntup
 
 tsc
-protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
+sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
 
 echo "Chrome logs"
@@ -272,6 +265,6 @@ cat ../../access.log
 sudo forever list
 
 
-docker exec "$CHROME_CONTAINER" "wget --no-check-certificate https://localhost/8443"
+docker exec -it "$CHROME_CONTAINER" "wget --no-check-certificate https://localhost/8443"
 exit $c
 
