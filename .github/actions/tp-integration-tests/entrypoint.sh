@@ -267,5 +267,7 @@ sudo forever list
 
 
 docker exec "$CHROME_CONTAINER" bash -c "wget --no-check-certificate $tp_fqdn"
+
+ifconfig
 exit $c
 
