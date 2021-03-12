@@ -266,6 +266,6 @@ cat ../../access.log
 sudo forever list
 
 
-docker exec "$CHROME_CONTAINER" "wget --no-check-certificate $tp_fqdn"
+docker exec "$CHROME_CONTAINER" bash -c "wget --no-check-certificate $tp_fqdn"
 exit $c
 
