@@ -232,21 +232,20 @@ onFail() {
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
   cat out.log | color_and_prefix "${grey_bg}" "Node Out" &
 
-  echo "Chrome logs"
-  docker logs $CHROME_CONTAINER
-
-  echo "Hub logs"
-  docker logs $HUB_CONTAINER
-
   echo "access Log"
   cat ../../access.log
   exit 1
 }
 
-netstat -lntup
-
 tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
+
+echo "Chrome logs"
+docker logs $CHROME_CONTAINER
+
+echo "Hub logs"
+docker logs $HUB_CONTAINER
+
 exit $c
 
