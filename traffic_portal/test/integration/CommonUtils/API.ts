@@ -18,10 +18,8 @@
  */
 
 // API Utility
-import { AxiosResponse, default as axios } from 'axios';
+import axios from 'axios';
 import { config } from '../config';
-import {log} from "util";
-import {Log} from "../log";
 
 const https = require('https');
 
@@ -40,9 +38,9 @@ export class API {
         axios.defaults.httpsAgent = new https.Agent({ rejectUnauthorized: false })
     }
 
-    Login = async function (): Promise<AxiosResponse | Error> {
+    Login = async function () {
         try {
-            const response: AxiosResponse = await axios({
+            const response = await axios({
                 method: 'post',
                 url: config.params.apiUrl + '/user/login',
                 data: {
@@ -195,11 +193,9 @@ export class API {
     UseAPI = async function(data) {
         try {
             let response = await this.Login();
-            Log.Log().debug("API: "+ response.status);
-            Log.Log().debug("API: "+ JSON.stringify(response.data));
             if (response.status == 200) {
-                for (var i = 0; i < data.Prerequisites.length; i++) {
-                    for (var j = 0; j < data.Prerequisites[i].Data.length; j++) {
+                for(var i = 0; i < data.Prerequisites.length; i++){
+                    for(var j = 0; j < data.Prerequisites[i].Data.length; j++){
                         let output = await this.SendRequest(data.Prerequisites[i].Route, data.Prerequisites[i].Method, data.Prerequisites[i].Data[j]);
                         if (output != null) {
                             throw new Error(output)
@@ -207,10 +203,8 @@ export class API {
                     }
                 }
                 return null
-            } else if (response.status == undefined) {
-                throw new Error(`Error requesting ${config.params.apiUrl}: ${response}`); 
             } else {
-                throw new Error(`Login failed: \nResponse Status: ${response.statusText} \nResponse Data: ${response.data}`);
+                throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + response.data)
             }
         } catch (error) {
             return error;
