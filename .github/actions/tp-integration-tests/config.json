@@ -18,6 +18,9 @@
       }
     }
   },
+  "goog:chromeOptions": {
+    "w3c": false
+  },
   "plugins": [
     {
       "package": "protractor-console",
