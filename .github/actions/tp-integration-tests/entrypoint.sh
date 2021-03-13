@@ -189,8 +189,7 @@ grunt dist > /dev/null
 cp "${resources}/config.js" ./conf/
 touch tp.log access.log out.log err.log
 sudo forever --minUptime 5000 --spinSleepTime 2000 -f -o out.log start server.js &
-tail -f out.log 2>&1 | color_and_prefix "${red_bg}" "Node Out" &
-#tail -f err.log 2>&1 | color_and_prefix "${red_bg}" "Node Err" &
+tail -f err.log 2>&1 | color_and_prefix "${red_bg}" "Node Err" &
 
 
 while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
@@ -198,15 +197,6 @@ while ! curl -Lvsk "${tp_fqdn}/api/4.0/ping" >/dev/null 2>&1; do
   sleep 10
 done 
 
-#timeout 30s bash <<WAIT
-#  while ! curl -Lvsk "${tp_fqdn}" >/dev/null 2>&1; do
-#    echo "waiting for TP/TO server to start on '${tp_fqdn}'"
-#    sleep 10
-#  done 
-#WAIT
-#if [ $? -ne 0 ]; then
-#  exit 1
-#fi
 cd "test/integration"
 
 
@@ -240,6 +230,16 @@ onFail() {
 		color_and_prefix "$gray_bg" 'Traffic Vault';
   cat tp.log | color_and_prefix "${gray_bg}" 'Forever'
   cat access.log | color_and_prefix "${gray_bg}" 'Traffic Portal'
+  cat out.log | color_and_prefix "${grey_bg}" "Node Out" &
+
+  echo "Chrome logs"
+  docker logs $CHROME_CONTAINER
+
+  echo "Hub logs"
+  docker logs $HUB_CONTAINER
+
+  echo "access Log"
+  cat ../../access.log
   exit 1
 }
 
@@ -248,26 +248,5 @@ netstat -lntup
 tsc
 sudo protractor ./GeneratedCode/config.js --params.baseUrl="${tp_fqdn}" --params.apiUrl="${to_fqdn}/api/4.0" #|| onFail
 c=$?
-
-echo "Chrome logs"
-docker logs $CHROME_CONTAINER
-
-echo "Hub logs"
-docker logs $HUB_CONTAINER
-
-echo "TP site"
-wget --no-check-certificate $tp_fqdn
-
-echo "TP Log"
-cat ../../tp.log 
-echo "access Log"
-cat ../../access.log
-
-sudo forever list
-
-
-docker exec "$CHROME_CONTAINER" bash -c "wget --no-check-certificate $tp_fqdn"
-
-ifconfig
 exit $c
 

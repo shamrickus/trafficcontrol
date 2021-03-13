@@ -66,27 +66,3 @@ config.onPrepare = async function () {
     }
 }
 
-config.onComplete = function () {
-    console.log("onComplete");
-    try {
-       browser.manage().logs().get("browser").then(function (bl){
-            console.log("browser log: " + inspect(bl));  
-            bl.forEach(function (log) {
-                console.log(log.type + ": " + log.message);  
-            });
-       });
-    }
-    catch (e) {
-       console.log("unable to get browser logs"); 
-    }
-    try {
-        browser.executeScript("window.angular").then(function (v){
-            console.log("angular version: " + v);
-        });
-    }
-    catch (e) {
-        console.log("unable to get angualr version");
-    }
-    console.log('finish onComplete');
-
-}

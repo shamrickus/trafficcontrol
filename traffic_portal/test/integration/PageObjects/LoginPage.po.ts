@@ -27,28 +27,16 @@ interface LoginData {
 }
 
 export class LoginPage extends BasePage{
-    private txtUserName;
-    private txtPassword;
-    private btnLogin;
-    private lnkResetPassword;
-    private lblUserName;
-    private randomize;
-    
-    public constructor() {
-        super();
-        console.log("LoginPage ctor beg");
-        this.txtUserName = element(by.id("loginUsername"))
-        this.txtPassword = element(by.id("loginPass"))
-        this.btnLogin = element(by.name("loginSubmit"))
-        this.lnkResetPassword= element (by.xpath("//button[text()='Reset Password']"))
-        this.lblUserName = element(by.xpath("//span[@id='headerUsername']"))
-        this.randomize = config.randomize;
-        console.log("LoginPage ctor end");
-    }
-    
+    private txtUserName = element(by.id("loginUsername"));
+    private txtPassword = element(by.id("loginPass"));
+    private btnLogin = element(by.name("loginSubmit"));
+    private lnkResetPassword= element (by.xpath("//button[text()='Reset Password']"));
+    private lblUserName = element(by.xpath("//span[@id='headerUsername']"));
+    private randomize = config.randomize;
     
     async Login(login:LoginData){
         let result = false;
+        const basePage = new BasePage();
         if(login.username === 'admin'){
             await this.txtUserName.sendKeys(login.username)
             await this.txtPassword.sendKeys(login.password)
@@ -61,7 +49,7 @@ export class LoginPage extends BasePage{
             await browser.actions().click(this.btnLogin).perform();    
         }
         if(await browser.getCurrentUrl() === browser.params.baseUrl + "#!/login"){
-            result = await super.GetOutputMessage().then(value => value === login.validationMessage);
+            result = await basePage.GetOutputMessage().then(value => value === login.validationMessage);
         }else{
             result = true;
         }

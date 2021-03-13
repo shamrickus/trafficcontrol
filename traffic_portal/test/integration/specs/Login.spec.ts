@@ -25,29 +25,6 @@ const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
 const loginPage = new LoginPage();
 
-describe("POC tests", function () {
-    it("functionBind angular on deployed page", async function () {
-        browser.get("https://shamrickus.github.io/d2runewords/");  
-    });
-
-    it('should ping', async function () {
-        browser.waitForAngularEnabled(false);
-        browser.get(browser.params.baseUrl + "/api/4.0/ping") ;
-        browser.waitForAngularEnabled(true);
-    });
-
-    it('default dir', async function () {
-        browser.waitForAngularEnabled(false);
-        browser.get(browser.params.baseUrl);
-        browser.getCurrentUrl().then(function (d){
-            console.log(d);
-        });
-        
-        browser.waitForAngularEnabled(true);
-        browser.get(browser.params.baseUrl);
-    });
-})
-
 using(testData.LoginTest, function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){

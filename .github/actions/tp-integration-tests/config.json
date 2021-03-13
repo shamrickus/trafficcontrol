@@ -24,7 +24,7 @@
     }
   ],
   "specs": [
-    "specs/Login.spec.js"
+    "specs/*.spec.js"
   ],
   "framework": "jasmine",
   "getPageTimeout": 60000,
