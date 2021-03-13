@@ -3,13 +3,13 @@
   "allScriptsTimeout": 200000,
   "capabilities": {
     "browserName": "chrome",
-    "shardTestFiles": true,
-    "maxInstances": 8,
+    "shardTestFiles": false,
+    "maxInstances": 1,
     "marionette": true,
     "acceptInsecureCerts": true,
     "acceptSslCerts": true,
     "chromeOptions": {
-      "w3x": false,
+      "w3c": false,
       "args": ["--headless", "--no-sandbox", "--window-size=1920,1080"],
       "prefs": {
         "download": {
