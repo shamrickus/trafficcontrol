@@ -21,7 +21,6 @@ import { LoginPage } from '../PageObjects/LoginPage.po';
 import { TopNavigationPage } from '../PageObjects/TopNavigationPage.po';
 import { API } from '../CommonUtils/API';
 import { ASNsPage } from '../PageObjects/ASNs.po';
-import {Log} from "../log";
 
 let fs = require('fs')
 let using = require('jasmine-data-provider');
@@ -43,60 +42,43 @@ describe('Setup API for ASNs Test', function(){
         expect(output).toBeNull();
     })
 })
-let tests = [
-    "6443", "8443"
-]
 
 using(testData.ASNs, async function(asnsData){
     using(asnsData.Login, function(login){
-        // using(tests,  function (port) {
-        //     describe("test", function () {
-        //         it('dont wait for angular ' + port, function () {
-        //             browser.waitForAngularEnabled(false);
-        //             browser.get("https://localhost:" + port);
-        //             browser.waitForAngularEnabled(true);
-        //         });
-        //
-        //         it('do wait for angular ' + port, function () {
-        //             browser.get("https://localhost:" + port);
-        //         });
-        //     })
-        // });
         describe('Traffic Portal - ASNs - ' + login.description, function(){
             it('can login', async function(){
                 browser.get(browser.params.baseUrl);
-                Log.Debug("title: ", browser.getTitle());
                 await loginPage.Login(login);
-                expect(await loginPage.CheckUserName(login.username)).toBeTruthy();
+                expect(await loginPage.CheckUserName(login)).toBeTruthy();
             })
-            // it('can open asns page', async function(){
-            //     await asnsPage.OpenTopologyMenu();
-            //     await asnsPage.OpenASNsPage();
-            // })
-            //
-            // using(asnsData.Add, function (add) {
-            //     it(add.description, async function () {
-            //         expect(await asnsPage.CreateASNs(add)).toBeTruthy();
-            //         await asnsPage.OpenASNsPage();
-            //     })
-            // })
-            // using(asnsData.Update, function (update) {
-            //     it(update.description, async function () {
-            //         await asnsPage.SearchASNs(update.ASNs);
-            //         expect(await asnsPage.UpdateASNs(update)).toBeTruthy();
-            //         await asnsPage.OpenASNsPage();
-            //     })
-            // })
-            // using(asnsData.Remove, function (remove) {
-            //     it(remove.description, async function () {
-            //         await asnsPage.SearchASNs(remove.ASNs);
-            //         expect(await asnsPage.DeleteASNs(remove)).toBeTruthy();
-            //         await asnsPage.OpenASNsPage();
-            //     })
-            // })
-            // it('can logout', async function () {
-            //     expect(await topNavigation.Logout()).toBeTruthy();
-            // })
+            it('can open asns page', async function(){
+                await asnsPage.OpenTopologyMenu();
+                await asnsPage.OpenASNsPage();
+            })
+
+            using(asnsData.Add, function (add) {
+                it(add.description, async function () {
+                    expect(await asnsPage.CreateASNs(add)).toBeTruthy();
+                    await asnsPage.OpenASNsPage();
+                })
+            })
+            using(asnsData.Update, function (update) {
+                it(update.description, async function () {
+                    await asnsPage.SearchASNs(update.ASNs);
+                    expect(await asnsPage.UpdateASNs(update)).toBeTruthy();
+                    await asnsPage.OpenASNsPage();
+                })
+            })
+            using(asnsData.Remove, function (remove) {
+                it(remove.description, async function () {
+                    await asnsPage.SearchASNs(remove.ASNs);
+                    expect(await asnsPage.DeleteASNs(remove)).toBeTruthy();
+                    await asnsPage.OpenASNsPage();
+                })
+            })
+            it('can logout', async function () {
+                expect(await topNavigation.Logout()).toBeTruthy();
+            })
         })
     })
 })

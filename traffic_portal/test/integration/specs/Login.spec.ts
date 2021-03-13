@@ -25,7 +25,7 @@ const filename = 'Data/Login/TestCases.json';
 const testData = JSON.parse(readFileSync(filename,'utf-8'));
 const loginPage = new LoginPage();
 
-using(testData.LoginTest, function(loginData){
+using(testData.LoginTest, async function(loginData){
     using(loginData.Login, function(login){
         describe('Traffic Portal - Login - '+ login.description, function(){
             it('can open login page', async function(){
