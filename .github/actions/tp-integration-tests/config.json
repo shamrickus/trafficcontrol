@@ -9,6 +9,7 @@
     "acceptInsecureCerts": true,
     "acceptSslCerts": true,
     "chromeOptions": {
+      "w3x": false,
       "args": ["--headless", "--no-sandbox", "--window-size=1920,1080"],
       "prefs": {
         "download": {
