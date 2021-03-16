@@ -16,10 +16,10 @@
           "prompt_for_download": false
         }
       }
+    },
+    "goog:chromeOptions": {
+      "w3c": false
     }
-  },
-  "goog:chromeOptions": {
-    "w3c": false
   },
   "plugins": [
     {
