@@ -21,6 +21,7 @@ import { Config, browser } from 'protractor'
 import { inspect  } from "util";
 import * as conf from "./config.json"
 import {Log} from "./log";
+import * as fs  from "fs"
 
 let path = require('path');
 let downloadsPath = path.resolve('Downloads');
@@ -40,18 +41,39 @@ config.onPrepare = async function () {
     fs.emptyDir('./Reports/', function (err) {
       console.log(err);
     });
-
-    jasmine.getEnv().addReporter(new HtmlReporter({
-      baseDirectory: './Reports/',
-      clientDefaults: {
-        showTotalDurationIn: "header",
-        totalDurationFormat: "hms"
-      },
-      jsonsSubfolder: 'jsons',
-      screenshotsSubfolder: 'images',
-      takeScreenShotsOnlyForFailedSpecs: true,
-      docTitle: 'Traffic Portal Test Cases'
-    }).getJasmine2Reporter());
+    
+    await browser.getCapabilities().then(function (value) {
+        let reportName = value.get('webdriver.remote.sessionid') + '_' + value.get('browserName') + '_' + Math.floor(Math.random()*1E16);
+        jasmine.getEnv().addReporter(
+            new HtmlReporter({
+                clientDefaults: {
+                    showTotalDurationIn: "header",
+                    totalDurationFormat: "hms"
+                },
+                savePath: './Reports/',
+                consolidate: true,
+                consolidateAll: true,
+                fileNamePrefix: reportName + ".html",
+                fileName: "report.html",
+                jsonsSubfolder: 'jsons',
+                screenshotsSubfolder: 'images',
+                takeScreenShotsOnlyForFailedSpecs: true,
+                docTitle: 'Traffic Portal Test Cases'
+            })
+        );
+    });
+    //
+    // jasmine.getEnv().addReporter(new HtmlReporter({
+    //   baseDirectory: './Reports/',
+    //   clientDefaults: {
+    //     showTotalDurationIn: "header",
+    //     totalDurationFormat: "hms"
+    //   },
+    //   jsonsSubfolder: 'jsons',
+    //   screenshotsSubfolder: 'images',
+    //   takeScreenShotsOnlyForFailedSpecs: true,
+    //   docTitle: 'Traffic Portal Test Cases'
+    // }).getJasmine2Reporter());
 
     try {
       let api = new API();
@@ -64,5 +86,14 @@ config.onPrepare = async function () {
     } catch (error) {
       throw error
     }
+}
+
+config.afterLaunch = async function () {
+    var output = '';
+    fs.readdirSync('./Reports/').forEach(function(file){
+        if(!(fs.lstatSync('./Reports/' + file).isDirectory()))
+            output = output + fs.readFileSync('./Reports/' + file);
+    });
+    fs.writeFileSync('./Reports/ConsolidatedReport.html', output, 'utf8'); 
 }
 
