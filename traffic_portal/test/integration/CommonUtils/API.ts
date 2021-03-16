@@ -198,11 +198,14 @@ export class API {
                     for(var j = 0; j < data.Prerequisites[i].Data.length; j++){
                         let output = await this.SendRequest(data.Prerequisites[i].Route, data.Prerequisites[i].Method, data.Prerequisites[i].Data[j]);
                         if (output != null) {
+                            console.log(`UseAPI failed on Action ${data.Prerequisites[i].Action} with index ${i}`);
                             throw new Error(output)
                         }
                     }
                 }
                 return null
+            } else if (response.status == undefined) {
+                throw new Error(`Error requesting ${config.params.apiUrl}: ${response}`); 
             } else {
                 throw new Error('Login failed:\nResponse Status: ' + response.statusText + '\nResponse Data: ' + response.data)
             }

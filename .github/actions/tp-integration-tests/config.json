@@ -28,7 +28,7 @@
     }
   ],
   "specs": [
-    "specs/*.spec.js"
+    "specs/PhysLocations.spec.js"
   ],
   "framework": "jasmine",
   "getPageTimeout": 60000,
