@@ -174,11 +174,12 @@ cp "${resources}/database.json" database.conf
 export $(<"${ciab_dir}/variables.env" sed '/^#/d') # defines TV_ADMIN_USER/PASSWORD
 envsubst <"${resources}/riak.json" >riak.conf
 
-truncate --size=0 warning.log error.log event.log # Removes output from previous API versions and makes sure files exist
+truncate --size=0 warning.log error.log event.log info.log 
 ./traffic_ops_golang --cfg ./cdn.conf --dbcfg ./database.conf -riakcfg riak.conf &
 tail -f warning.log 2>&1 | color_and_prefix "${yellow_bg}" 'Traffic Ops' &
 tail -f error.log 2>&1 | color_and_prefix "${red_bg}" 'Traffic Ops' &
-tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops' &
+tail -f event.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops EVT' &
+tail -f info.log 2>&1 | color_and_prefix "${gray_bg}" 'Traffic Ops INFO' &
 
 cd "../../traffic_portal"
 npm ci > /dev/null
