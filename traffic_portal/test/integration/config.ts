@@ -50,6 +50,7 @@ config.onPrepare = async function () {
                     showTotalDurationIn: "header",
                     totalDurationFormat: "hms"
                 },
+                baseDirectory: "./Reports/",
                 savePath: './Reports/',
                 consolidate: true,
                 consolidateAll: true,

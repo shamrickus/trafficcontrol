@@ -15,7 +15,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-#set -o errexit -o nounset -o pipefail
+set -o errexit -o nounset -o pipefail
 
 hub_fqdn="http://localhost:4444/wd/hub/status"
 to_fqdn="https://localhost:6443"
