@@ -48,8 +48,7 @@ INSERT INTO region(name, division) VALUES('${REGION}', 1);
 INSERT INTO phys_location(name, short_name, region, address, city, state, zip)
   VALUES('${PHYS}', '${PHYS}', 1, 'some place idk', 'Denver', 'CO', '88888');
 INSERT INTO coordinate(name) VALUES('${COORD}');
-INSERT INTO cdn(name, domain_name) VALUES('${CDN}', 'infra.ciab.test');
-
+INSERT INTO cdn(id, name, domain_name) VALUES(2, '${CDN}', 'infra.ciab.test');
 WITH TYPE AS (SELECT id FROM type WHERE name = 'TC_LOC')
 INSERT INTO cachegroup(name, short_name, type, coordinate)
 SELECT '${CG}', '${CG}', TYPE.id, 1
