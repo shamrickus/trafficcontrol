@@ -42,7 +42,7 @@ config.onPrepare = async function () {
       console.log(err);
     });
     
-    await browser.getCapabilities().then(function (value) {
+    browser.getCapabilities().then(function (value) {
         let reportName = value.get('webdriver.remote.sessionid') + '_' + value.get('browserName') + '_' + Math.floor(Math.random()*1E16);
         jasmine.getEnv().addReporter(
             new HtmlReporter({
