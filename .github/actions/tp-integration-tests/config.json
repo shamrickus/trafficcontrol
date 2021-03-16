@@ -3,8 +3,8 @@
   "allScriptsTimeout": 200000,
   "capabilities": {
     "browserName": "chrome",
-    "shardTestFiles": true,
-    "maxInstances": 2,
+    "shardTestFiles": false,
+    "maxInstances": 1,
     "marionette": true,
     "acceptInsecureCerts": true,
     "acceptSslCerts": true,
