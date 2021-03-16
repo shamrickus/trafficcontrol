@@ -4,7 +4,7 @@
   "capabilities": {
     "browserName": "chrome",
     "shardTestFiles": true,
-    "maxInstances": 8,
+    "maxInstances": 2,
     "marionette": true,
     "acceptInsecureCerts": true,
     "acceptSslCerts": true,
