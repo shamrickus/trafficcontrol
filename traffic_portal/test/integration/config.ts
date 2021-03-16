@@ -42,39 +42,39 @@ config.onPrepare = async function () {
       console.log(err);
     });
     
-    browser.getCapabilities().then(function (value) {
-        let reportName = value.get('webdriver.remote.sessionid') + '_' + value.get('browserName') + '_' + Math.floor(Math.random()*1E16);
-        jasmine.getEnv().addReporter(
-            new HtmlReporter({
-                clientDefaults: {
-                    showTotalDurationIn: "header",
-                    totalDurationFormat: "hms"
-                },
-                baseDirectory: "./Reports/",
-                savePath: './Reports/',
-                consolidate: true,
-                consolidateAll: true,
-                fileNamePrefix: reportName + ".html",
-                fileName: "report.html",
-                jsonsSubfolder: 'jsons',
-                screenshotsSubfolder: 'images',
-                takeScreenShotsOnlyForFailedSpecs: true,
-                docTitle: 'Traffic Portal Test Cases'
-            })
-        );
-    });
+    // browser.getCapabilities().then(function (value) {
+    //     let reportName = value.get('webdriver.remote.sessionid') + '_' + value.get('browserName') + '_' + Math.floor(Math.random()*1E16);
+    //     jasmine.getEnv().addReporter(
+    //         new HtmlReporter({
+    //             clientDefaults: {
+    //                 showTotalDurationIn: "header",
+    //                 totalDurationFormat: "hms"
+    //             },
+    //             baseDirectory: "./Reports/",
+    //             savePath: './Reports/',
+    //             consolidate: true,
+    //             consolidateAll: true,
+    //             fileNamePrefix: reportName + ".html",
+    //             fileName: "report.html",
+    //             jsonsSubfolder: 'jsons',
+    //             screenshotsSubfolder: 'images',
+    //             takeScreenShotsOnlyForFailedSpecs: true,
+    //             docTitle: 'Traffic Portal Test Cases'
+    //         })
+    //     );
+    // });
     //
-    // jasmine.getEnv().addReporter(new HtmlReporter({
-    //   baseDirectory: './Reports/',
-    //   clientDefaults: {
-    //     showTotalDurationIn: "header",
-    //     totalDurationFormat: "hms"
-    //   },
-    //   jsonsSubfolder: 'jsons',
-    //   screenshotsSubfolder: 'images',
-    //   takeScreenShotsOnlyForFailedSpecs: true,
-    //   docTitle: 'Traffic Portal Test Cases'
-    // }).getJasmine2Reporter());
+    jasmine.getEnv().addReporter(new HtmlReporter({
+      baseDirectory: './Reports/',
+      clientDefaults: {
+        showTotalDurationIn: "header",
+        totalDurationFormat: "hms"
+      },
+      jsonsSubfolder: 'jsons',
+      screenshotsSubfolder: 'images',
+      takeScreenShotsOnlyForFailedSpecs: true,
+      docTitle: 'Traffic Portal Test Cases'
+    }).getJasmine2Reporter());
 
     try {
       let api = new API();
@@ -89,12 +89,12 @@ config.onPrepare = async function () {
     }
 }
 
-config.afterLaunch = async function () {
-    var output = '';
-    fs.readdirSync('./Reports/').forEach(function(file){
-        if(!(fs.lstatSync('./Reports/' + file).isDirectory()))
-            output = output + fs.readFileSync('./Reports/' + file);
-    });
-    fs.writeFileSync('./Reports/ConsolidatedReport.html', output, 'utf8'); 
-}
+// config.afterLaunch = async function () {
+//     var output = '';
+//     fs.readdirSync('./Reports/').forEach(function(file){
+//         if(!(fs.lstatSync('./Reports/' + file).isDirectory()))
+//             output = output + fs.readFileSync('./Reports/' + file);
+//     });
+//     fs.writeFileSync('./Reports/ConsolidatedReport.html', output, 'utf8'); 
+// }
 
